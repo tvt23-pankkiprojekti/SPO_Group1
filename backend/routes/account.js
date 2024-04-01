@@ -7,8 +7,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:usern',function(request,response){
-  account.getAccount(request.params.usern, function(err,result){
+router.get('/:account',function(request,response){
+  account.getAccount(request.params.account, function(err,result){
       if(err){
           response.send(err);
       }
@@ -19,8 +19,8 @@ router.get('/:usern',function(request,response){
   })
 });
 
-router.get('/:usern',function(request,response){
-  account.selectAccount(request.params.usern, function(err,result){
+router.get('/:account',function(request,response){
+  account.selectAccount(request.params.account, function(err,result){
       if(err){
           response.send(err);
       }
@@ -31,8 +31,8 @@ router.get('/:usern',function(request,response){
   })
 });
 
-router.get('/:usern',function(request,response){
-  account.getBalance(request.params.usern, function(err,result){
+router.get('/:account',function(request,response){
+  account.getBalance(request.params.account, function(err,result){
       if(err){
           response.send(err);
       }
@@ -43,8 +43,8 @@ router.get('/:usern',function(request,response){
   })
 });
 
-router.get('/:usern',function(request,response){
-  account.getLimit(request.params.usern, function(err,result){
+router.get('/:account',function(request,response){
+  account.getLimit(request.params.account, function(err,result){
       if(err){
           response.send(err);
       }
@@ -55,8 +55,8 @@ router.get('/:usern',function(request,response){
   })
 });
 
-router.delete('/:usern',function(request, response){
-  account.deleteAccount(request.params.usern, function(err, result){
+router.delete('/:account',function(request, response){
+  account.deleteAccount(request.params.account, function(err, result){
       if(err){
           response.send(err);
       }

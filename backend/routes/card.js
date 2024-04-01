@@ -7,6 +7,30 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/:card',function(request,response){
+    card.getCard(request.params.card, function(err,result){
+        if(err){
+            response.send(err);
+        }
+        else{
+            console.log(result);
+            response.json(result[0]);
+        }
+    })
+  });
+  
+  router.get('/:card',function(request,response){
+    card.cardVerify(request.params.card, function(err,result){
+        if(err){
+            response.send(err);
+        }
+        else{
+            console.log(result);
+            response.json(result[0]);
+        }
+    })
+  });
+
 router.post('/',function(request, response){
   if(request.body.username && request.body.password){
       card.login(request.body.username, function(err,result){
@@ -45,5 +69,29 @@ router.post('/',function(request, response){
 function genToken(value){
   return jwt.sign(value, process.env.MY_TOKEN, {expiresIn: '200s'});
 }
+router.delete('/:card',function(request, response){
+    card.deleteCard(request.params.card, function(err, result){
+        if(err){
+            response.send(err);
+        }
+        else{
+            //response.json(result);
+            console.log(result.affectedRows);
+            response.json(result.affectedRows);
+        }
+    });
+  });
+  
+  router.post('/',function(request, response){
+    card.addCard(request.body, function(err, result){
+        if(err){
+            response.send(err);
+        }
+        else{
+            response.json(result);
+            //response.send(result[0].affectedRows)
+        }
+    });
+  });
 
 module.exports = router;
