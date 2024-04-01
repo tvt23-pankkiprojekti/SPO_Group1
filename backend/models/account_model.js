@@ -2,8 +2,8 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const account={
-    getAccount(acc, callback) {
-    return db.query("SELECT * FROM account WHERE owner = ?", [acc], callback);
+    getAccount(ow, callback) {
+    return db.query("SELECT * FROM account WHERE owner = ?", [ow], callback);
     }, //for admins
 
     selectAccount(sa, callback) {
@@ -23,6 +23,6 @@ const account={
     }, //delete account
 
     addAccount(acc, t, s, b, o, cl, callback) {
-        return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?)", [acc, t, s, b, o, cl,], callback);
+        return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?)", [acc, t, s, b, o, cl], callback);
     }, //add new account
 }
