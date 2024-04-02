@@ -15,5 +15,8 @@ const card={
         return db.query("SELECT pincode FROM card WHERE id_card = ?", [lg], callback);
     } //verify correct pincode
 
-
+    addCard(newCard, callback){
+        bcrypt.hash(newCard.pincode,10,function(err,hashedPincode){
+            return db.query("INSERT INTO card VALUES(?,?,?,?,?)",[newCard.id_card,newCard.fname,newCard.lname, newCard.state, hashedPincode],callback);
+        });
 }
