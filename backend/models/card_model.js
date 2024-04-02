@@ -19,9 +19,11 @@ const card={
         return db.query("DELETE FROM card WHERE id_card = ?", [dc], callback);
     }, //delete selected card from database
 
-    addCard(c, s, o, e, t, callback) {
-        return db.query("INSERT INTO card (id_card, state, owner, expiration, temp_restriction) VALUES (?, ?, ?, ?, ?)", [c, s, o, e, t], callback);
-    }, //add new card
+    addCard(newCard, callback){
+        bcrypt.hash(newCard.pincode,10,function(err,hashedPincode){
+            return db.query("INSERT INTO card VALUES(?,?,?,?,?)",[newCard.id_card,newCard.fname,newCard.lname, newCard.state, hashedPincode],callback);
+        }); //add new card
+    },
 }
 
 module.exports=card;
