@@ -3,19 +3,19 @@ const bcrypt=require('bcryptjs');
 
 const account={
     getAccount(ow, callback) {
-    return db.query("SELECT * FROM account WHERE owner = ?", [ow], callback);
+    return db.query("SELECT * FROM account WHERE id_account = ?", [ow], callback);
     }, //for admins
 
     selectAccount(sa, callback) {
-        return db.query("SELECT type FROM account WHERE owner = ?", [sa], callback);
+        return db.query("SELECT type FROM account WHERE id_account = ?", [sa], callback);
     }, //select account at ATM
 
     getBalance(ba, callback) {
-        return db.query("SELECT balance FROM account WHERE owner = ?", [ba], callback);
+        return db.query("SELECT balance FROM account WHERE id_account = ?", [ba], callback);
     }, //shows the balance of selected account
 
     getLimit(lim, callback) {
-        return db.query("SELECT credit_limit FROM account WHERE owner = ?", [lim], callback);
+        return db.query("SELECT credit_limit FROM account WHERE id_account = ?", [lim], callback);
     }, //shows the credit limit of selected account
 
     deleteAccount(acc, callback) {

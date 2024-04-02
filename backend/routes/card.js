@@ -69,6 +69,7 @@ router.post('/',function(request, response){
 function genToken(value){
   return jwt.sign(value, process.env.MY_TOKEN, {expiresIn: '200s'});
 }
+
 router.delete('/:card',function(request, response){
     card.deleteCard(request.params.card, function(err, result){
         if(err){
