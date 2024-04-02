@@ -10,13 +10,19 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainmenu.cpp \
+    mainwindow.cpp \
+    tilinvalinta.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainmenu.h \
+    mainwindow.h \
+    tilinvalinta.h
 
 FORMS += \
-    mainwindow.ui
+    mainmenu.ui \
+    mainwindow.ui \
+    tilinvalinta.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
