@@ -1,7 +1,5 @@
 const db=require('../database');
 const bcrypt=require('bcryptjs');
-
-
 const card={
     getCard(c, callback) {
         return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?",[c], callback);
