@@ -12,12 +12,9 @@ const account={
     },
 
     getBalance(ba, callback){
-        retrun db.query("SELECT balance FROM account WHERE owner = ?", [ba], callback);//shows the balance of selected account
+        return db.query("SELECT balance FROM account WHERE owner = ?", [ba], callback);//shows the balance of selected account
     },
 
     getLimit(lim, callback){
-        retrun db.query("SELECT credit_limit FROM account WHERE owner = ?", [lim], callback);//shows the credit limit of selected account
+        return db.query("SELECT credit_limit FROM account WHERE owner = ?", [lim], callback);//shows the credit limit of selected account
     }
-
-
-

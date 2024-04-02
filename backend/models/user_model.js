@@ -6,6 +6,11 @@ const user={
         return db.query("SELECT fname, lname, state, temp_restriction FROM user WHERE id_user = ?",[u], callback);
     }, // for admins
 
+    addUser(newUser, callback){
+        bcrypt.hash(newUser.password,10,function(err,hashedPassword){
+            return db.query("INSERT INTO user VALUES(?,?,?,?,?)",[newUser.id_user,newUser.fname,newUser.lname, newUser.state, hashedPassword],callback);
+        });
+
     updateUser(up,updateData, callback){
         bcrypt.hash(updateData.password, 10,function(err,hashedPassword){
             return db.query("UPDATE user SET fname=?, lname=?, state=?, temp_restriction=?, password=? WHERE id_user=?",
@@ -15,6 +20,6 @@ const user={
     deleteUser(de, callback){
         return db.query("DELETE FROM user WHERE id_user=?",[de],callback); //for admins
         } 
-        
+
 
 
