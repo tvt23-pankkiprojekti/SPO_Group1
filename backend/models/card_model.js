@@ -23,3 +23,5 @@ const card={
         return db.query("INSERT INTO card (id_card, state, owner, expiration, temp_restriction) VALUES (?, ?, ?, ?, ?)", [c, s, o, e, t], callback);
     }, //add new card
 }
+
+module.exports=card;

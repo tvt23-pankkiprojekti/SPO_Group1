@@ -26,3 +26,5 @@ const account={
         return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?)", [acc, t, s, b, o, cl], callback);
     }, //add new account
 }
+
+module.exports=account;

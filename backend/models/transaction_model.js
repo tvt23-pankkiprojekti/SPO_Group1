@@ -13,3 +13,5 @@ const transaction={
     /* getAccountBalance: "SELECT SUM(amount) AS balance FROM transaction WHERE id_account = ?"
         This would calculate and return the current balance of an account based on its transaction history */
 }
+
+module.exports=transaction;

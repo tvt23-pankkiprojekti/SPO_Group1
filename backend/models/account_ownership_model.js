@@ -4,3 +4,5 @@ const bcrypt=require('bcryptjs');
 const accountOwnership={
     //??
 }
+
+module.exports=accountOwnership;

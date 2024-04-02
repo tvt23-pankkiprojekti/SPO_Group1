@@ -14,3 +14,5 @@ const cardAttachedAccount={
         return db.query("DELETE FROM card_attached_account WHERE id_card = ?", [cardId], callback);
     }, //remove association between a card and an account
 }
+
+module.exports=cardAttachedAccount;
