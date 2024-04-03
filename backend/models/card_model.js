@@ -1,6 +1,6 @@
-
 const db=require('../database');
 const bcrypt=require('bcryptjs');
+
 
 const card={
     getCard(c, callback) {
