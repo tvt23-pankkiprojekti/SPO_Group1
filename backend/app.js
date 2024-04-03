@@ -19,10 +19,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/login', loginRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
-app.use(authenticatetoken);
+//app.use(authenticatetoken);
 
 module.exports = app;
