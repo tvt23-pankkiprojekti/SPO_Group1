@@ -33,7 +33,7 @@ router.get('/:card',function(request,response){
 
 router.post('/',function(request, response){
   if(request.body.card && request.body.pincode){
-      card.login(request.body.id_card, function(err,result){
+      card.login(request.body.card, function(err,result){
           if(err){
               console.log(err.errno);
               response.json(err.errno);
