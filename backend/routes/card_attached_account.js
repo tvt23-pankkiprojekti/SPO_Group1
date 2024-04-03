@@ -6,8 +6,8 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
   });
 
-router.get('/:cardattached',function(request,response){
-    card.associateCardWithAccount(request.params.cardattached, function(err,result){
+router.get('/associate/:cardattached',function(request,response){
+    cardAttachedAccount.associateCardWithAccount(request.params.cardattached, function(err,result){
         if(err){
             response.send(err);
         }
@@ -18,8 +18,8 @@ router.get('/:cardattached',function(request,response){
     })
 });
 
-router.get('/:cardattached',function(request,response){
-    card.getCardAssociatedAccount(request.params.cardattached, function(err,result){
+router.get('/card/:cardattached',function(request,response){
+    cardAttachedAccount.getCardAssociatedAccount(request.params.cardattached, function(err,result){
         if(err){
             response.send(err);
         }
@@ -31,7 +31,7 @@ router.get('/:cardattached',function(request,response){
 });
 
 router.delete('/:cardattached',function(request, response){
-    card.removeAssociationCard(request.params.cardattached, function(err, result){
+    cardAttachedAccount.removeAssociationCard(request.params.cardattached, function(err, result){
         if(err){
             response.send(err);
         }

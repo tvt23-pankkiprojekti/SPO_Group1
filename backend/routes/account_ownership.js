@@ -6,8 +6,8 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
   });
 
-router.get('/:accountowner',function(request,response){
-    card.associateUserWithAccount(request.params.accountowner, function(err,result){
+router.get('/associate/:accountowner',function(request,response){
+    accountOwnership.associateUserWithAccount(request.params.accountowner, function(err,result){
         if(err){
             response.send(err);
         }
@@ -18,8 +18,8 @@ router.get('/:accountowner',function(request,response){
     })
 });
 
-router.get('/:accountowner',function(request,response){
-    card.getUserAssociatedAccount(request.params.accountowner, function(err,result){
+router.get('/user/:accountowner',function(request,response){
+    accountOwnership.getUserAssociatedAccount(request.params.accountowner, function(err,result){
         if(err){
             response.send(err);
         }
@@ -31,7 +31,7 @@ router.get('/:accountowner',function(request,response){
 });
 
 router.delete('/:accountowner',function(request, response){
-    card.removeAssociationUser(request.params.accountowner, function(err, result){
+    accountOwnership.removeAssociationUser(request.params.accountowner, function(err, result){
         if(err){
             response.send(err);
         }
