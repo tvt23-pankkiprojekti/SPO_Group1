@@ -19,7 +19,7 @@ router.get('/:card',function(request,response){
     })
   });
   
-  router.get('/:card',function(request,response){
+router.get('/:card',function(request,response){
     card.cardVerify(request.params.card, function(err,result){
         if(err){
             response.send(err);
@@ -32,18 +32,18 @@ router.get('/:card',function(request,response){
   });
 
 router.post('/',function(request, response){
-  if(request.body.username && request.body.password){
-      card.login(request.body.username, function(err,result){
+  if(request.body.card && request.body.pincode){
+      card.login(request.body.card, function(err,result){
           if(err){
               console.log(err.errno);
               response.json(err.errno);
           }
           else{
               if(result.length >0){
-                  bcrypt.compare(request.body.password, result[0].password, function(err, compareResult){
+                  bcrypt.compare(request.body.pincode, result[0].pincode, function(err, compareResult){
                       if(compareResult){
                           console.log('Kirjautuminen ok');
-                          const token=genToken({username: request.body.username});
+                          const token=genToken({pincode: request.body.pincode});
                           response.send(token);
                       }
                       else {
@@ -81,9 +81,9 @@ router.delete('/:card',function(request, response){
             response.json(result.affectedRows);
         }
     });
-  });
+});
   
-  router.post('/',function(request, response){
+router.post('/',function(request, response){
     card.addCard(request.body, function(err, result){
         if(err){
             response.send(err);
@@ -93,6 +93,6 @@ router.delete('/:card',function(request, response){
             //response.send(result[0].affectedRows)
         }
     });
-  });
+});
 
 module.exports = router;
