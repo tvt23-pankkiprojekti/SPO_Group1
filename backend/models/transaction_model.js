@@ -2,12 +2,12 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const transaction={
-    getTransHistory(acc, callback) {
-        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ?", [acc], callback);
+    getTransHistory(history, callback) {
+        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ?", [history], callback);
     }, //transaction history
 
-    addTransaction(acc, am, des, callback) {
-        return db.query("INSERT INTO transaction (id_account, amount, time, description) VALUES (?, ?, NOW(), ?)", [acc, am, des], callback);
+    addTransaction(account, amount, description, callback) {
+        return db.query("INSERT INTO transaction (id_account, amount, time, description) VALUES (?, ?, NOW(), ?)", [account, amount, description], callback);
     }, //add transaction to history    
     
     /* getAccountBalance: "SELECT SUM(amount) AS balance FROM transaction WHERE id_account = ?"

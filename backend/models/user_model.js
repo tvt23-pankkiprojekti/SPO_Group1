@@ -2,8 +2,8 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const user={
-    getUser(u, callback){
-        return db.query("SELECT fname, lname, state, temp_restriction FROM user WHERE id_user = ?",[u], callback);
+    getUser(user, callback){
+        return db.query("SELECT fname, lname, state, temp_restriction FROM user WHERE id_user = ?",[user], callback);
     }, // for admins
 
     addUser(newUser, callback){
@@ -19,8 +19,8 @@ const user={
         });
     },//for admins
 
-    deleteUser(de, callback){
-        return db.query("DELETE FROM user WHERE id_user=?",[de],callback); //for admins
+    deleteUser(uDelete, callback){
+        return db.query("DELETE FROM user WHERE id_user=?",[uDelete],callback); //for admins
         },
 
     }
