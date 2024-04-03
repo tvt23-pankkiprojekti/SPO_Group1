@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var user = require("../models/user_model");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:usern',function(request,response){
-  student.getOneUser(request.params.usern, function(err,result){
+router.get('/:userno',function(request,response){
+  user.getUser(request.params.userno, function(err,result){
       if(err){
           response.send(err);
       }
