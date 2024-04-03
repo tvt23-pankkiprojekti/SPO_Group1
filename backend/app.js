@@ -11,10 +11,6 @@ var transactionRouter = require('./routes/transaction');
 
 var app = express();
 
-app.listen(process.env.PORT, function(){
-    console.log("Sovellus pyörii")
-});
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
