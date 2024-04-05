@@ -8,6 +8,10 @@ var usersRouter = require('./routes/users');
 var cardRouter = require('./routes/card');
 var accountRouter = require('./routes/account');
 var transactionRouter = require('./routes/transaction');
+var adminRouter = require('./routes/admin');
+var cardAttachedAccountRouter = require('./routes/card_attached_account');
+var userRouter = require('./routes/user');
+var accountOwnershipRouter = require('./routes/account_ownership');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -27,6 +31,10 @@ app.use('/users', usersRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
+app.use('/admin', adminRouter);
+app.use('/cardattached', cardAttachedAccountRouter);
+app.use('/user', userRouter);
+app.use('/accountowner', accountOwnershipRouter);
 //app.use(authenticatetoken);
 
 module.exports = app;
