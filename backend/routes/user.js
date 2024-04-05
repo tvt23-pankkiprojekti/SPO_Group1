@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var user = require("../models/user_model");
+var user=require('../models/user_model');
 
-/* GET users listing. */
+
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:userno',function(request,response){
-  user.getUser(request.params.userno, function(err,result){
+router.get('/:user',function(request,response){
+  user.getUser(request.params.user, function(err,result){
       if(err){
           response.send(err);
       }
@@ -31,8 +31,8 @@ router.post('/',function(request, response){
   });
 });
 
-router.put('/:usern', function(request, response){
-  student.updateUser(request.params.usern, request.body, function(err, result){
+router.put('/:user', function(request, response){
+  student.updateUser(request.params.user, request.body, function(err, result){
       if(err){
           response.send(err);
       }
@@ -44,8 +44,8 @@ router.put('/:usern', function(request, response){
   });
 });
 
-router.delete('/:usern',function(request, response){
-  student.deleteUser(request.params.usern, function(err, result){
+router.delete('/:user',function(request, response){
+  student.deleteUser(request.params.user, function(err, result){
       if(err){
           response.send(err);
       }
@@ -56,6 +56,5 @@ router.delete('/:usern',function(request, response){
       }
   });
 });
-
 
 module.exports = router;
