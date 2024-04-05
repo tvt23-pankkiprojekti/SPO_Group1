@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   });
 
 router.get('/:transaction',function(request,response){
-  transaction.getTransHistory(request.params.transaction, function(err,result){
+  transaction.getTransactionHistory(request.params.transaction, function(err,result){
       if(err){
           response.send(err);
       }
