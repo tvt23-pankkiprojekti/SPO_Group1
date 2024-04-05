@@ -3,9 +3,11 @@ var router = express.Router();
 var transaction=require('../models/transaction_model');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', function(request, response) {
   res.send('respond with a resource');
 });
+
+
 
 router.get('/:transac',function(request,response){
   transaction.getTransHistory(request.params.transac, function(err,result){
