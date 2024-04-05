@@ -7,8 +7,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:transac',function(request,response){
-  transaction.getTransHistory(request.params.transac, function(err,result){
+router.get('/:transaction',function(request,response){
+  transaction.getTransHistory(request.params.transaction, function(err,result){
       if(err){
           response.send(err);
       }
