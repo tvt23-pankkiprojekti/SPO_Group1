@@ -18,18 +18,30 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pinDial1_valueChanged(int pin1);
-    void on_pinDial2_valueChanged(int pin2);
-    void on_pinDial3_valueChanged(int pin3);
-    void on_pinDial4_valueChanged(int pin4);
 
-    void on_pushButton_2_clicked();
 
 
     void on_actionDEMO_triggered();
 
+    void on_btnEnterPin_clicked();
 
+    void on_btnValitseCredit_clicked();
 
+    void on_btnValitseDebit_clicked();
+
+    void on_btnKirjauduUlos_clicked();
+
+    void on_btnNostaRahaa_clicked();
+
+    void on_btnTilitapahtumat_clicked();
+
+    void on_btnTakaisin_clicked();
+
+    void on_btnTakaisin2_clicked();
+
+    void on_btnTakaisin3_clicked();
+
+    void on_btnKatsoTiedot_clicked();
 
 private:
     Ui::MainWindow *ui;
