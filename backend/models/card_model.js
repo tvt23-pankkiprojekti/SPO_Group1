@@ -3,20 +3,20 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const card={
-    getCard(c, callback) {
-        return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?",[c], callback);
+    getCard(card, callback) {
+        return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?",[card], callback);
     }, //for admins
     
-    cardVerify(cv,  callback) {
-        return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cv], callback);
+    cardVerify(cVerify,  callback) {
+        return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);
     }, //card verifying
 
-    login(lg, callback) {
-        return db.query("SELECT pincode FROM card WHERE id_card = ?", [lg], callback);
+    login(uLogin, callback) {
+        return db.query("SELECT pincode FROM card WHERE id_card = ?", [uLogin], callback);
     }, //verify correct pincode
 
-    deleteCard(dc, callback) {
-        return db.query("DELETE FROM card WHERE id_card = ?", [dc], callback);
+    deleteCard(cDelete, callback) {
+        return db.query("DELETE FROM card WHERE id_card = ?", [cDelete], callback);
     }, //delete selected card from database
 
     addCard(newCard, callback){

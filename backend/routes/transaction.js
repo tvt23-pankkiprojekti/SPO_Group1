@@ -19,8 +19,11 @@ router.get('/:transac',function(request,response){
   })
 });
 
-router.post('/',function(request,response){
-  transaction.addTransaction(request.body, function(err,result){
+router.post('/withdraw',function(request,response){
+  
+  let message = "NOSTO "+ request.body.amount + "€";
+
+  transaction.addTransaction(request.body.account, request.body.amount, message, function(err,result){
       if(err){
           response.send(err);
       }
@@ -30,5 +33,21 @@ router.post('/',function(request,response){
       }
   })
 });
+
+router.post('/insert',function(request,response){
+  
+  let message = "PANO"+ request.body.amount + "€";
+
+  transaction.addTransaction(request.body.account, request.body.amount, message, function(err,result){
+      if(err){
+          response.send(err);
+      }
+      else{
+          console.log(result);
+          response.json(result[0]);
+      }
+  })
+});
+
 
 module.exports = router;
