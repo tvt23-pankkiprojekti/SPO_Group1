@@ -17,12 +17,12 @@ const user={
             return db.query("UPDATE user SET fname=?, lname=?, state=?, temp_restriction=?, password=? WHERE id_user=?",
             [updateData.fname, updateData.lname, updateData.state, updateData.temp_restriction, hashedPassword, up],callback);
         });
-    },//for admins
+    }, //for admins
 
     deleteUser(uDelete, callback){
         return db.query("DELETE FROM user WHERE id_user=?",[uDelete],callback); //for admins
         },
-
     }
-    module.exports=user;
+    
+module.exports=user;
 

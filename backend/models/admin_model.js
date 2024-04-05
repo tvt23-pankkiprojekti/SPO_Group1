@@ -16,4 +16,5 @@ const admin={
     }, // check admins rights
 
 }
+
 module.exports=admin;

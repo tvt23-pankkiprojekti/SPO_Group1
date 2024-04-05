@@ -10,7 +10,7 @@ const account={
         return db.query("SELECT type FROM account WHERE id_account = ?", [selectAcc], callback);
     }, //select account at ATM
 
-    getBalance(balance), callback) {
+    getBalance(balance, callback) {
         return db.query("SELECT balance FROM account WHERE id_account = ?", [balance], callback);
     }, //shows the balance of selected account
 
