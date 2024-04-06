@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <tilinvalinta.h>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,32 +16,8 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pinDial1_valueChanged(int pin1)
-{
-    ui->pinValue1->display(pin1);
 
-}
-void MainWindow::on_pinDial2_valueChanged(int pin2)
-{
-    ui->pinValue2->display(pin2);
 
-}
-void MainWindow::on_pinDial3_valueChanged(int pin3)
-{
-    ui->pinValue3->display(pin3);
-
-}
-void MainWindow::on_pinDial4_valueChanged(int pin4)
-{
-    ui->pinValue4->display(pin4);
-
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    TilinValinta *objectTilinValinta=new TilinValinta();
-    objectTilinValinta->open();
-}
 
 void MainWindow::on_actionDEMO_triggered()
 {
@@ -52,4 +28,67 @@ void MainWindow::on_actionDEMO_triggered()
 
 
 
+
+
+void MainWindow::on_btnEnterPin_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_btnValitseCredit_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_btnValitseDebit_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_btnKirjauduUlos_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+
+}
+
+void MainWindow::on_btnNostaRahaa_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+
+}
+
+
+void MainWindow::on_btnTilitapahtumat_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+
+}
+
+void MainWindow::on_btnTakaisin_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+void MainWindow::on_btnTakaisin2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+
+void MainWindow::on_btnTakaisin3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+
+void MainWindow::on_btnKatsoTiedot_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+
+}
 

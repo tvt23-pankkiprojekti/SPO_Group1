@@ -3,14 +3,12 @@ var router = express.Router();
 var transaction=require('../models/transaction_model');
 
 
-router.get('/', function(request, response) {
-  res.send('respond with a resource');
-});
+router.get('/', function(req, res, next) {
+    res.send('respond with a resource');
+  });
 
-
-
-router.get('/:transac',function(request,response){
-  transaction.getTransHistory(request.params.transac, function(err,result){
+router.get('/:transaction',function(request,response){
+  transaction.getTransactionHistory(request.params.transaction, function(err,result){
       if(err){
           response.send(err);
       }
@@ -21,7 +19,7 @@ router.get('/:transac',function(request,response){
   })
 });
 
-router.post('/withdraw',function(request,response){
+router.post('/withdraw',function(request, response){
   
   let message = "NOSTO "+ request.body.amount + "€";
 
@@ -36,7 +34,7 @@ router.post('/withdraw',function(request,response){
   })
 });
 
-router.post('/insert',function(request,response){
+router.post('/deposit',function(request, response){
   
   let message = "PANO"+ request.body.amount + "€";
 
@@ -49,6 +47,50 @@ router.post('/insert',function(request,response){
           response.json(result[0]);
       }
   })
+});
+
+router.post('/addtobalance/:transaction', function(request, response) {
+    transaction.addTransaction(request.body.account, request.body.amount,function(err, result) {
+        if (err) {
+            response.send(err);
+        }
+        else{
+            console.log(result);
+            response.json(result[0]);
+        }
+
+        transaction.depositToAccount(request.body.account, request.body.amount, function(err, result) {
+            if (err) {
+                response.send(err);
+            }
+            else{
+                console.log(result);
+                response.json(result[0]);
+            }
+        });
+    });
+});
+
+router.post('/withdrawfrombalance/:transaction', function(request, response) {
+    transaction.addTransaction(request.body.account, request.body.amount, function(err, result) {
+        if (err) {
+            response.send(err);
+        }
+        else{
+            console.log(result);
+            response.json(result[0]);
+        }
+
+        transaction.withdrawFromAccount(request.body.account, request.body.amount, function(err, result) {
+            if (err) {
+                response.send(err);
+            }
+            else{
+                console.log(result);
+                response.json(result[0]);
+            }
+        });
+    });
 });
 
 
