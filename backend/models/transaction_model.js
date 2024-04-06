@@ -10,8 +10,8 @@ const transaction={
         return db.query("INSERT INTO transaction (id_account, amount, time, description) VALUES (?, ?, NOW(), ?)", [acc, am, des], callback);
     }, //add transaction to history
 
-    getTransactionHistoryInRange(accountId, start, end, callback) {
-        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? AND id_transaction BETWEEN ? AND ?", [accountId, start, end], callback);
+    getTransactionHistoryInRange(acc, start, end, callback) {
+        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? AND time BETWEEN ? AND ?", [acc, start, end], callback);
     }, //gets transaction history within requested range
 
     depositToAccount(acc, am, callback) {

@@ -19,7 +19,7 @@ router.get('/:transaction',function(request,response){
   })
 });
 
-router.post('/withdraw/:transaction',function(request, response){
+router.post('/withdraw',function(request, response){
   
   let message = "NOSTO "+ request.body.amount + "€";
 
@@ -34,7 +34,7 @@ router.post('/withdraw/:transaction',function(request, response){
   })
 });
 
-router.post('/deposit/:transaction',function(request, response){
+router.post('/deposit',function(request, response){
   
   let message = "PANO"+ request.body.amount + "€";
 
