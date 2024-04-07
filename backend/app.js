@@ -3,8 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var cardVerificationRouter = require('./routes/verifycard');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
 var cardRouter = require('./routes/card');
 var accountRouter = require('./routes/account');
 var transactionRouter = require('./routes/transaction');
@@ -26,8 +27,9 @@ app.listen(port, function(request, response) {
     console.log("Sovellus pyörii");
 });
 
+app.use('/bankomat/verifycard', cardVerificationRouter);
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', userRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
