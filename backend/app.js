@@ -3,6 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var netbankRouter = require('./routes/netbank');
 var cardVerificationRouter = require('./routes/verifycard');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
@@ -27,6 +28,7 @@ app.listen(port, function(request, response) {
     console.log("Sovellus pyörii");
 });
 
+app.use('/netbank', netbankRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
 app.use('/', indexRouter);
 app.use('/users', userRouter);
