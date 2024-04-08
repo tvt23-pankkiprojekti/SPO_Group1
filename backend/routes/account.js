@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var account=require('../models/account_model');
+var account = require('../models/account_model');
 
 
 router.get('/', function(req, res, next) {

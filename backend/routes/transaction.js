@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var transaction=require('../models/transaction_model');
+var transaction = require('../models/transaction_model');
 
 
 router.get('/', function(req, res, next) {
