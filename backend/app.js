@@ -13,7 +13,6 @@ var transactionRouter = require('./routes/transaction');
 var viewtransactionsRouter = require('./routes/view_transactions');
 var adminRouter = require('./routes/admin');
 var cardAttachedAccountRouter = require('./routes/card_attached_account');
-var userRouter = require('./routes/user');
 var accountOwnershipRouter = require('./routes/account_ownership');
 
 const port = process.env.PORT || 3000;
@@ -32,14 +31,13 @@ app.listen(port, function(request, response) {
 app.use('/netbank', netbankRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
 app.use('/', indexRouter);
-app.use('/users', userRouter);
+app.use('/user', userRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
 app.use('/view_transactions', viewtransactionsRouter);
 app.use('/admin', adminRouter);
 app.use('/cardattached', cardAttachedAccountRouter);
-app.use('/user', userRouter);
 app.use('/accountowner', accountOwnershipRouter);
 //app.use(authenticatetoken);
 

@@ -15,9 +15,11 @@ router.post('/', function(request, response) {
     verifyCard(request, response);
 });
 
+// Takes a card no in the request (name 'cardno'), performs a check in the database to verify whether the 
+// card is usable
 function verifyCard(request, response) {
     // Whether the card is accepted
-    var cardStatus = true;
+    var cardStatus = false;
     var cause = ": ";
 
     // Tarkistetaan, onko kortti olemassa tietokannassa
@@ -26,19 +28,19 @@ function verifyCard(request, response) {
         
         // If database check leads to an error
         if (err) {
-            cardStatus = false;
             console.log(err);
             cause = cause + "database error";
         }
         // If nothing is returned from the database
         else if ((res[0] == null) || (res[0] === undefined)) {
-            cardStatus = false;
             cause = cause + "not in database";
         }
         // If the card's state or temp restriction brings up something (null = nothing of note)
         else if (res[0]['state'] != null || res[0]['temp_restriction'] != null) {
-            cardStatus = false;
             cause = cause + "card restricted";
+        }
+        else {
+            cardStatus = true;
         }
 
         // Compare the current date to the card's expiration date
