@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var user=require('../models/user_model');
+var user = require('../models/user_model');
 
 
 router.get('/', function(req, res, next) {
@@ -20,7 +20,7 @@ router.get('/:user',function(request,response){
 });
 
 router.post('/',function(request, response){
-  student.addUser(request.body, function(err, result){
+  user.addUser(request.body, function(err, result){
       if(err){
           response.send(err);
       }
@@ -32,7 +32,7 @@ router.post('/',function(request, response){
 });
 
 router.put('/:user', function(request, response){
-  student.updateUser(request.params.user, request.body, function(err, result){
+  user.updateUser(request.params.user, request.body, function(err, result){
       if(err){
           response.send(err);
       }
@@ -45,7 +45,7 @@ router.put('/:user', function(request, response){
 });
 
 router.delete('/:user',function(request, response){
-  student.deleteUser(request.params.user, function(err, result){
+  user.deleteUser(request.params.user, function(err, result){
       if(err){
           response.send(err);
       }
