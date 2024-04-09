@@ -5,42 +5,41 @@ var account=require('../models/account_model');
 
 
 router.get('/', function(request, response) {
+  let answer = [];
 
-let answer = []
-
-    user.getUser(request.body.user, function(err,result){
+  user.getUser(request.body.user, function(err,result){
+  if(err){
+    response.send(err);
+    return;
+  }
+  else{
+    answer.push(result);
+    console.log(result);
+  } 
+  
+  account.allAccountsByUser(request.body.user, function(err,result){
     if(err){
-       response.send(err);
-
-       return
+      response.send(err);
+      return;
     }
+    else{
+      answer.push(result);
+      console.log(result);
+    }  
+    response.send(answer);
+
+    /* transaction.getTransHistory(request.body.user, function(err,result){
+      if(err){
+        answer.push(err);
+      }
       else{
         answer.push(result);
         console.log(result);
       } 
-    
-      account.allAccountsByUser(request.body.user, function(err,result){
-        if(err){
-            response.send(err);
-
-            return
-        }
-          else{
-            answer.push(result);
-            console.log(result);
-          }  response.send(answer);
-
-       /* transaction.getTransHistory(request.body.user, function(err,result){
-            if(err){
-                answer.push(err);
-            }
-              else{
-                answer.push(result);
-                console.log(result);
-              } response.send(answer);
-          })*/
-      })
-  })
+      response.send(answer);
+      })*/
+    });
+  });
 });
 
 module.exports=router;
