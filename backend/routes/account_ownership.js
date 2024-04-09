@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var accountOwnership=require('../models/account_ownership_model');
+var accountOwnership = require('../models/account_ownership_model');
 
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');
