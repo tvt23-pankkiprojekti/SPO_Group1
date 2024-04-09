@@ -49,7 +49,7 @@ router.post('/deposit',function(request, response){
   })
 });
 
-router.post('/addtobalance/:transaction', function(request, response) {
+router.post('/addtobalance', function(request, response) {
     transaction.addTransaction(request.body.account, request.body.amount,function(err, result) {
         if (err) {
             response.send(err);
@@ -71,7 +71,7 @@ router.post('/addtobalance/:transaction', function(request, response) {
     });
 });
 
-router.post('/withdrawfrombalance/:transaction', function(request, response) {
+router.post('/withdrawfrombalance', function(request, response) {
     transaction.addTransaction(request.body.account, request.body.amount, function(err, result) {
         if (err) {
             response.send(err);
