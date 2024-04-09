@@ -44,7 +44,7 @@ function checkUser(request, response) {
     let cause = "";
 
     // Check whether the user id exists
-    user.getUser(request.body['user'], function(err, result) {
+    user.getUser(request.body.user, function(err, result) {
         let res = JSON.parse(JSON.stringify(result));
         
         // If database check leads to an error
@@ -79,10 +79,10 @@ function checkUser(request, response) {
 function addUser(request, response) {
     // Trims the request down for the addUser() request
     var userObject = {
-        'fname' : request.body['fname'],
-        'lname' : request.body['lname'],
+        'fname' : request.body.fname,
+        'lname' : request.body.fname,
         'state' : null,
-        'password' : request.body['password']
+        'password' : request.body.password
     };
     let url = request.headers['origin'];
 
@@ -93,7 +93,7 @@ function addUser(request, response) {
         else {
             console.log("New user added to database");
             // 
-            user.getUserByName(request.body['fname'], request.body['lname'], function(err, result) {
+            user.getUserByName(request.body.fname, request.body.laname, function(err, result) {
                 let res = JSON.parse(JSON.stringify(result));
                 let id_addon;
                 if (err) {

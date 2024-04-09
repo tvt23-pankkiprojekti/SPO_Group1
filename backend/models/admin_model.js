@@ -3,16 +3,16 @@ const bcrypt=require('bcryptjs');
 
 const admin={
 
-    adminLogin(adminLog, callback){
-        return db.query("SELECT admin_password FROM admin WHERE id_admin = ?", [adminLog], callback);
+    adminLogin(id, callback){
+        return db.query("SELECT admin_password FROM admin WHERE id_admin = ?", [id], callback);
     }, //verify correct password for admin
 
-    adminVerify(aVerify,  callback){
-        return db.query("SELECT temp_restriction FROM admin WHERE id_admin = ?", [aVerify], callback);
+    adminVerify(id,  callback){
+        return db.query("SELECT temp_restriction FROM admin WHERE id_admin = ?", [id], callback);
     }, //admin login verify
 
-    checkRights(aRights, callback){
-        return db.query("SELECT admin_rights FROM admin WHERE id_admin = ?", [aRights], callback);
+    checkRights(id, callback){
+        return db.query("SELECT admin_rights FROM admin WHERE id_admin = ?", [id], callback);
     }, // check admins rights
 
 }

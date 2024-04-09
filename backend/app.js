@@ -4,10 +4,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var netbankRouter = require('./routes/netbank');
-var cardVerificationRouter = require('./routes/verifycard');
 var adminRouter = require('./routes/admin');
-var viewprofileRouter = require('./routes/viewprofile');
+var cardVerificationRouter = require('./routes/verifycard');
 var loginRouter = require('./routes/login');
+var viewprofileRouter = require('./routes/viewprofile');
+var transactionRouter = require('./routes/transaction');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -25,8 +26,9 @@ app.listen(port, function(request, response) {
 app.use('/netbank', netbankRouter);
 app.use('/admin', adminRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
-app.use('/bankomat/viewprofile',viewprofileRouter);
 app.use('/bankomat/login', loginRouter);
+app.use('/bankomat/viewprofile',viewprofileRouter);
+app.use('/bankomat/transaction', transactionRouter);
 //app.use(authenticatetoken);
 
 module.exports = app;
