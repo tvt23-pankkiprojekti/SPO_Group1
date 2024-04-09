@@ -11,7 +11,7 @@ router.get('/', function(request, response) {
 
       transaction.getTransactionHistoryInRange(request.body.idaccount, request.body.start, request.body.end, function(err, result) {
           if (err) {
-              callback(err);
+            response.send(err);
           } else {
               console.log(result);
 
