@@ -12,6 +12,8 @@ var adminRouter = require('./routes/admin');
 var cardAttachedAccountRouter = require('./routes/card_attached_account');
 var userRouter = require('./routes/user');
 var accountOwnershipRouter = require('./routes/account_ownership');
+var viewprofileRouter = require('./routes/viewprofile');
+var loginRouter = require('./routes/login');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -35,6 +37,8 @@ app.use('/admin', adminRouter);
 app.use('/cardattached', cardAttachedAccountRouter);
 app.use('/user', userRouter);
 app.use('/accountowner', accountOwnershipRouter);
+app.use('/bankomat/viewprofile',viewprofileRouter);
+app.use('/bankomat/login', loginRouter);
 //app.use(authenticatetoken);
 
 module.exports = app;
