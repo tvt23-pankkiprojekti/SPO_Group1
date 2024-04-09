@@ -1,3 +1,7 @@
+// Ehkä tässä olisikin pitänyt olla 
+
+
+
 var express = require('express');
 var router = express.Router();
 var user=require('../models/user_model');
