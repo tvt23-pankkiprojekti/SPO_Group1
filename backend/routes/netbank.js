@@ -80,7 +80,7 @@ function addUser(request, response) {
     // Trims the request down for the addUser() request
     var userObject = {
         'fname' : request.body.fname,
-        'lname' : request.body.fname,
+        'lname' : request.body.lname,
         'state' : null,
         'password' : request.body.password
     };
@@ -93,7 +93,7 @@ function addUser(request, response) {
         else {
             console.log("New user added to database");
             // 
-            user.getUserByName(request.body.fname, request.body.laname, function(err, result) {
+            user.getUserByName(request.body.fname, request.body.lname, function(err, result) {
                 let res = JSON.parse(JSON.stringify(result));
                 let id_addon;
                 if (err) {

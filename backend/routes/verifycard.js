@@ -7,7 +7,7 @@ pankin listoilla & käytettävissä, mukaan laitetaan kortin numero
 */
 router.post('/', function(request, response) {
     // Before proceeding, check that a card no was sent
-    if (!request.body['cardno']) {
+    if (!request.body.cardno) {
         response.send("Ei kortin numeroa");
         return;
     } 
@@ -23,7 +23,7 @@ function verifyCard(request, response) {
     var cause = ": ";
 
     // Tarkistetaan, onko kortti olemassa tietokannassa
-    card.getCard(request.body['cardno'], function(err, result) {
+    card.getCard(request.body.cardno, function(err, result) {
         let res = JSON.parse(JSON.stringify(result));
         
         // If database check leads to an error
