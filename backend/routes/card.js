@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var card=require('../models/card_model');
+const bcrypt = require('bcrypt');
 
 
 router.get('/', function(req, res, next) {
@@ -11,22 +12,12 @@ router.get('/:card',function(request,response){
     card.getCard(request.params.card, function(err,result){
         if(err){
             response.send(err);
+            return;
         }
+        
         else{
             console.log(result);
-            response.json(result[0]);
-        }
-    })
-  });
-  
-router.get('/:card',function(request,response){
-    card.cardVerify(request.params.card, function(err,result){
-        if(err){
-            response.send(err);
-        }
-        else{
-            console.log(result);
-            response.json(result[0]);
+            response.json(result);
         }
     })
   });

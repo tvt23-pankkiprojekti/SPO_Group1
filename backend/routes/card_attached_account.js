@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var cardAttachedAccount=require('../models/card_attached_account_model');
+var cardAttachedAccount = require('../models/card_attached_account_model');
 
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');

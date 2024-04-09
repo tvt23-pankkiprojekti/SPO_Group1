@@ -3,12 +3,16 @@ const bcrypt=require('bcryptjs');
 
 const card={
     getCard(card, callback) {
-        return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?",[card], callback);
+        return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?", [card], callback);
     }, //for admins
     
     cardVerify(cVerify,  callback) {
         return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);
     }, //card verifying
+
+    updateExpiration(card) {
+        return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
+    }, // inserts an expiration notice onto a card's data
 
     login(uLogin, callback) {
         return db.query("SELECT pincode FROM card WHERE id_card = ?", [uLogin], callback);

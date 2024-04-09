@@ -1,0 +1,21 @@
+<html>
+
+<head>
+  <title>SimulBank</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>Login</h1>
+  <form method="post" id="form">
+    <label for="user">User ID: </label>
+    <input type="number" name="user" min="0" max="2,147,483,647" required/><br><br>
+    <label for="password">Password: </label>
+    <input type="password" name="password" required/><br><br>
+    <input type="submit" id="submit"/>
+  </form>
+  <br><br>
+  <button type="button" onclick='window.location.href=window.location.origin + "/netbank"'>Back</button>
+</body>
+
+</html>
