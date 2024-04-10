@@ -3,10 +3,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var netbankRouter = require('./routes/netbank');
+var netbankRouter = require('./routes/netbank/router');
 var cardVerificationRouter = require('./routes/verifycard');
 var adminRouter = require('./routes/admin');
-var viewprofileRouter = require('./routes/viewprofile');
+var viewCardRouter = require('./routes/viewcard');
 var loginRouter = require('./routes/login');
 
 const port = process.env.PORT || 3000;
@@ -25,7 +25,7 @@ app.listen(port, function(request, response) {
 app.use('/netbank', netbankRouter);
 app.use('/admin', adminRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
-app.use('/bankomat/viewprofile',viewprofileRouter);
+app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/login', loginRouter);
 //app.use(authenticatetoken);
 

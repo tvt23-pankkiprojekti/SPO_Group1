@@ -8,7 +8,6 @@ const user={
 
     addUser(newUser, callback){
         bcrypt.hash(newUser.password, 10, function(err, hashedPassword){
-            console.log(newUser);
             return db.query("INSERT INTO user(fname, lname, state, password) VALUES(?,?,?,?)", [newUser.fname, newUser.lname, newUser.state, hashedPassword], callback);
         });
     },
