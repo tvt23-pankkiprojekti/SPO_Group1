@@ -6,7 +6,7 @@ const account={
     return db.query("SELECT * FROM account WHERE id_account = ?", [getAcc], callback);
     }, //for admins
 
-    selectAccount(selectAcc, callback) {
+    selectAccountType(selectAcc, callback) {
         return db.query("SELECT type FROM account WHERE id_account = ?", [selectAcc], callback);
     }, //select account at ATM
 
@@ -24,7 +24,11 @@ const account={
 
     addAccount(add, callback) {
         return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?)", [acc, t, s, b, o, cl], callback);
-    }, //add new account
+    }, //add new account(
+
+    allAccountsByUser(userid, callback){
+        return db.query("SELECT id_account, balance FROM account WHERE owner=?", [userid], callback);
+    },
 }
 
 module.exports=account;
