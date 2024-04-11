@@ -18,7 +18,8 @@ public:
     ~transaction();
     void setWebtoken(const QByteArray &newWebtoken);
 private slots:
-    void deposit();
+    void action();
+    //void deposit();
     //void withdraw();
     //void balance();
     void actionSlot(QNetworkReply *reply);

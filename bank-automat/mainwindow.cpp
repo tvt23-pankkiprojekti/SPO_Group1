@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(1);
+    accountInfo->attachWindow(ui->stackedWidget->widget(5));
+    qDebug() << "Setup valmis";
 }
 
 MainWindow::~MainWindow()
@@ -16,7 +19,10 @@ MainWindow::~MainWindow()
 }
 
 
-
+void MainWindow::profileDataSlot()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
 
 
 void MainWindow::on_actionDEMO_triggered()
@@ -26,21 +32,15 @@ void MainWindow::on_actionDEMO_triggered()
     ui->labelKortinNumero->setText("987654321");
 }
 
-
-
-
-
 void MainWindow::on_btnEnterPin_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-
 void MainWindow::on_btnValitseCredit_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
-
 
 void MainWindow::on_btnValitseDebit_clicked()
 {
@@ -88,7 +88,17 @@ void MainWindow::on_btnTakaisin3_clicked()
 
 void MainWindow::on_btnKatsoTiedot_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(5);
+    QString cardNo = "0600006F235";
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
 
+    QString url = env::getUrl() + "/viewprofile";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    transferManager = new QNetworkAccessManager(this);
+    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+
+    reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
 
