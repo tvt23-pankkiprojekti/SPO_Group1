@@ -1,4 +1,7 @@
-QT       += core gui
+QT -= gui
+QT += gui
+QT += widgets
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
@@ -17,7 +20,6 @@ SOURCES += \
 HEADERS += \
     mainwindow.h
     env.h \
-    mainwindow.h \
     profilewindow.h 
 
 FORMS += \
