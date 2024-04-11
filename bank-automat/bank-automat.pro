@@ -10,16 +10,20 @@ CONFIG += c++17
 
 SOURCES += \
     env.cpp \
+    dialog.cpp \
     main.cpp \
     mainwindow.cpp \
     profilewindow.cpp
 
 HEADERS += \
     env.h \
+    dialog.h \
     mainwindow.h \
-    profilewindow.h
+    profilewindow.h 
+   
 
 FORMS += \
+    dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

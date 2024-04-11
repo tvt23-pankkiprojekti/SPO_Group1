@@ -4,7 +4,7 @@ const bcrypt=require('bcryptjs');
 const card={
     getCard(card, callback) {
         return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?", [card], callback);
-    }, //for admins
+    }, //for admin
     
     cardVerify(cVerify,  callback) {
         return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);
