@@ -9,24 +9,18 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-<<<<<<< HEAD
     env.cpp \
-=======
     dialog.cpp \
->>>>>>> 0bb986ebe8cae1c1ae2d58446b042298546514ca
     main.cpp \
     mainwindow.cpp \
     profilewindow.cpp
 
 HEADERS += \
-<<<<<<< HEAD
     env.h \
-    mainwindow.h \
-    profilewindow.h
-=======
     dialog.h \
-    mainwindow.h
->>>>>>> 0bb986ebe8cae1c1ae2d58446b042298546514ca
+    mainwindow.h \
+    profilewindow.h 
+   
 
 FORMS += \
     dialog.ui \
