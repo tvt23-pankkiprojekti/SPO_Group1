@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
     ui->stackedWidget->setCurrentIndex(1);
-    accountInfo->attachWindow(ui->stackedWidget->widget(5));
-    qDebug() << "Setup valmis";
+    accountInfo = new ProfileWindow;
+    accountInfo->attachWindow(ui->stackedWidget);
 }
 
 MainWindow::~MainWindow()
@@ -33,10 +33,31 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::profileDataSlot()
+void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
+    data = reply->readAll();
+
+    if (data.length() == 0 || data == "-4078") {
+        qDebug() << "Tietoliikenneyhteysvika";
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
+    if (data == "false") {
+        qDebug() << "Tietoa ei saatu";
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
     ui->stackedWidget->setCurrentIndex(5);
+    accountInfo->updateUserData(&data);
+
+    reply->deleteLater();
+    transferManager->deleteLater();
 }
+
 
 void MainWindow::onActionDEMOTriggered()
 {
@@ -108,7 +129,7 @@ void MainWindow::handleClick()
 
 void MainWindow::onBtnKatsoTiedotClicked()
 {
-    QString cardNo = "0600006F235";
+    QString cardNo = "060006F235";
     QJsonObject sentData;
     sentData.insert("card", cardNo);
 

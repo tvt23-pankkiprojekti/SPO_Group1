@@ -727,7 +727,7 @@
         <height>161</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QGridLayout" name="cardGrid">
        <item row="3" column="1">
         <widget class="QLabel" name="displayCardID">
          <property name="font">
@@ -753,7 +753,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="labelCardID_2">
+        <widget class="QLabel" name="labelCardOwnerID">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
@@ -789,7 +789,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="displayCardID_2">
+        <widget class="QLabel" name="displayCardOwnerID">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
@@ -811,7 +811,7 @@
         <height>161</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_4">
+      <layout class="QGridLayout" name="accountGrid">
        <item row="0" column="0">
         <widget class="QLabel" name="labelAccountOwner">
          <property name="font">
@@ -861,7 +861,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLabel" name="displayAccountOwner_2">
+        <widget class="QLabel" name="displayAccountOwnerID">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
@@ -873,7 +873,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="labelAccountOwner_2">
+        <widget class="QLabel" name="labelAccountOwnerID">
          <property name="font">
           <font>
            <pointsize>16</pointsize>

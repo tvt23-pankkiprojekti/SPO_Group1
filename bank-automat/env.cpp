@@ -4,5 +4,5 @@ env::env() {}
 
 QString env::getUrl()
 {
-    return "localhost:3000/bankomat";
+    return "http://localhost:3000/bankomat";
 }

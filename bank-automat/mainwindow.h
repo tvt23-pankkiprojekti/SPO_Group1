@@ -28,7 +28,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void profileDataSlot();
+    void profileDataSlot(QNetworkReply *reply);
 
 private slots:
     void onActionDEMOTriggered();
@@ -62,5 +62,6 @@ private:
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
     QNetworkReply *reply;
+    QByteArray data;
 };
 #endif // MAINWINDOW_H
