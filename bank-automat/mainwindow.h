@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDialog>
+#include <QFile>
+#include <QDir>
+#include "dialog.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtNetwork>
@@ -27,6 +31,23 @@ public slots:
     void profileDataSlot(QNetworkReply *reply);
 
 private slots:
+    void onActionDEMOTriggered();
+    void onBtnEnterPinClicked();
+    void onBtnValitseCreditClicked();
+    void onBtnValitseDebitClicked();
+    void onBtnKirjauduUlosClicked();
+    void onBtnNostaRahaaClicked();
+    void onBtnTilitapahtumatClicked();
+    void onBtnTakaisinClicked();
+    void onBtnTakaisin2Clicked();
+    void onBtnTakaisin3Clicked();
+    void onBtnKatsoTiedotClicked();
+    void handleDLLSignal(QString);
+    void handleClick();
+
+private:
+    Ui::MainWindow *ui;
+    Dialog * ptr_dll;
     void on_actionDEMO_triggered();
     void on_btnEnterPin_clicked();
     void on_btnValitseCredit_clicked();
@@ -38,9 +59,6 @@ private slots:
     void on_btnTakaisin2_clicked();
     void on_btnTakaisin3_clicked();
     void on_btnKatsoTiedot_clicked();
-
-private:
-    Ui::MainWindow *ui;
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
     QNetworkReply *reply;
