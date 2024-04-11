@@ -1,6 +1,9 @@
 #include "transaction.h"
 #include <QDialog>
 #include <qstring.h>
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+
 
 transaction::~transaction(){
 }
@@ -18,8 +21,10 @@ void transaction::deposit(){
     request.setRawHeader(QByteArray("Authorization"),(depositToken));
     //webToken loppu
     getManager = new QNetworkAccessManager(this);
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(depositSlot(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(actionSlot(QNetworkReply*)));
+    reply = getManager->get(request);
 }
+/*
 void transaction::withdraw(){
     //otetaan yhteys serveriin
     QString site_url="https://simulation-bank.onrender.com/transaction/withdraw";
@@ -29,7 +34,8 @@ void transaction::withdraw(){
     request.setRawHeader(QByteArray("Authorization"),(withdrawToken));
     //webToken loppu
     getManager = new QNetworkAccessManager(this);
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(withdrawSlot(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(actionSlot(QNetworkReply*)));
+    reply = getManager->get(request);
 }
 void transaction::balance(){
     //yhteys serveriin
@@ -40,5 +46,7 @@ void transaction::balance(){
     request.setRawHeader(QByteArray("Authorization"),(balanceToken));
     //webToken loppu
     getManager = new QNetworkAccessManager(this);
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(actionSlot(QNetworkReply*)));
+    reply = getManager->get(request);
 }
+*/

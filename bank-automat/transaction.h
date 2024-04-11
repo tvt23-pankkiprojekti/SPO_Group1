@@ -17,13 +17,13 @@ public:
     explicit transaction(QWidget *parent = nullptr);
     ~transaction();
     void setWebtoken(const QByteArray &newWebtoken);
-    void withdraw();
-    void deposit();
-    void balance();
 private slots:
-    void depositSlot(QNetworkReply *reply);
-    void withdrawSlot(QNetworkReply *reply);
-    void balanceSlot(QNetworkReply *reply);
+    void deposit();
+    //void withdraw();
+    //void balance();
+    void actionSlot(QNetworkReply *reply);
+    //void withdrawSlot(QNetworkReply *reply);
+    //void balanceSlot(QNetworkReply *reply);
 private:
     QString id_account;
     QByteArray webtoken;
