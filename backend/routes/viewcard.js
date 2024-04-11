@@ -56,11 +56,11 @@ router.get('/', function(request, response) {
               }
 
               let answer =[ {
-                "id_card": cardData.id_account,
+                "id_card": cardData.id_card,
                 "id_card_owner": cardData.owner,
                 "card_owner": cardOwnerData.fname+" "+cardOwnerData.lname,
                 "id_account": accountData.id_account,
-                "id_account_owner": userData.id_user,
+                "id_account_owner": accountData.owner,
                 "account_owner": userData.fname+" "+userData.lname 
               },
                 result[0], 

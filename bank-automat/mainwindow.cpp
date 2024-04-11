@@ -23,11 +23,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
+    ui->stackedWidget->setCurrentIndex(1);
+    accountInfo->attachWindow(ui->stackedWidget->widget(5));
+    qDebug() << "Setup valmis";
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::profileDataSlot()
+{
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::onActionDEMOTriggered()
@@ -96,4 +104,20 @@ void MainWindow::handleDLLSignal(QString s)
 void MainWindow::handleClick()
 {
     ptr_dll->show();
+}
+
+void MainWindow::onBtnKatsoTiedotClicked()
+{
+    QString cardNo = "0600006F235";
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/viewprofile";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    transferManager = new QNetworkAccessManager(this);
+    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+
+    reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }

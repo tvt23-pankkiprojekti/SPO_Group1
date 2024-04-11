@@ -2,9 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDialog>
 #include <QFile>
 #include <QDir>
 #include "dialog.h"
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
+#include <QNetworkRequest>
+#include "profilewindow.h"
+#include "env.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +26,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+public slots:
+    void profileDataSlot();
 
 private slots:
     void onActionDEMOTriggered();
@@ -38,5 +48,19 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Dialog * ptr_dll;
+    void on_actionDEMO_triggered();
+    void on_btnEnterPin_clicked();
+    void on_btnValitseCredit_clicked();
+    void on_btnValitseDebit_clicked();
+    void on_btnKirjauduUlos_clicked();
+    void on_btnNostaRahaa_clicked();
+    void on_btnTilitapahtumat_clicked();
+    void on_btnTakaisin_clicked();
+    void on_btnTakaisin2_clicked();
+    void on_btnTakaisin3_clicked();
+    void on_btnKatsoTiedot_clicked();
+    ProfileWindow *accountInfo;
+    QNetworkAccessManager *transferManager;
+    QNetworkReply *reply;
 };
 #endif // MAINWINDOW_H
