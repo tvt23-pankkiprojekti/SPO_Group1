@@ -67,7 +67,8 @@ router.post('/', function(request, response) {
 
             transaction.getTransactionHistory(accountData.id_account, function(err,result){
               if(err){
-                answer.push(err);
+                response.send(false);
+                return;
               }
 
               let answer =[ {
@@ -84,7 +85,7 @@ router.post('/', function(request, response) {
                 result[3], 
                 result[4]
               ];
-              console.log(answer);
+              //console.log(answer);
               response.send(answer);
             });
           });
