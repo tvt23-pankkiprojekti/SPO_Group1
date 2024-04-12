@@ -3,7 +3,7 @@ const bcrypt=require('bcryptjs');
 
 const transaction={
     getTransactionHistory(history, callback) {
-        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ?", [history], callback);
+        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? ORDER BY time DESC", [history], callback);
     }, //transaction history
 
     addTransaction(acc, am, des, callback) {
@@ -11,7 +11,7 @@ const transaction={
     }, //add transaction to history
 
     getTransactionHistoryInRange(acc, start, end, callback) {
-        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? AND time BETWEEN ? AND ?", [acc, start, end], callback);
+        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? AND time BETWEEN ? AND ?  ORDER BY time DESC", [acc, start, end], callback);
     }, //gets transaction history within requested range
 
     depositToAccount(acc, am, callback) {

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -450,8 +450,8 @@
      <widget class="QPushButton" name="btnTakaisin3">
       <property name="geometry">
        <rect>
-        <x>550</x>
-        <y>510</y>
+        <x>540</x>
+        <y>520</y>
         <width>181</width>
         <height>51</height>
        </rect>
@@ -482,7 +482,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>220</y>
+        <y>240</y>
         <width>511</width>
         <height>31</height>
        </rect>
@@ -500,7 +500,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>260</y>
+        <y>280</y>
         <width>701</width>
         <height>221</height>
        </rect>
@@ -721,9 +721,9 @@
      <widget class="QWidget" name="gridLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>400</x>
         <y>60</y>
-        <width>361</width>
+        <width>351</width>
         <height>161</height>
        </rect>
       </property>
@@ -732,7 +732,7 @@
         <widget class="QLabel" name="displayCardID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -744,7 +744,7 @@
         <widget class="QLabel" name="displayCardOwner">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -756,7 +756,7 @@
         <widget class="QLabel" name="labelCardOwnerID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -768,7 +768,7 @@
         <widget class="QLabel" name="labelCardOwner">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -780,7 +780,7 @@
         <widget class="QLabel" name="labelCardID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -792,7 +792,7 @@
         <widget class="QLabel" name="displayCardOwnerID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -807,7 +807,7 @@
        <rect>
         <x>21</x>
         <y>59</y>
-        <width>361</width>
+        <width>371</width>
         <height>161</height>
        </rect>
       </property>
@@ -816,7 +816,7 @@
         <widget class="QLabel" name="labelAccountOwner">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -828,7 +828,7 @@
         <widget class="QLabel" name="displayAccountID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -840,7 +840,7 @@
         <widget class="QLabel" name="displayAccountOwner">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -852,7 +852,7 @@
         <widget class="QLabel" name="labelAccountID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -864,7 +864,7 @@
         <widget class="QLabel" name="displayAccountOwnerID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -876,7 +876,7 @@
         <widget class="QLabel" name="labelAccountOwnerID">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -896,7 +896,7 @@
      <x>0</x>
      <y>0</y>
      <width>805</width>
-     <height>25</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuStartWindow">

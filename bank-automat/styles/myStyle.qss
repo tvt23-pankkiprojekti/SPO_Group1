@@ -6,7 +6,7 @@ QLabel {
 background-color: gray;
 min-height: 20px;
 min-width: 40px;
-font-size:20px;
+font-size:16px;
 }
 
 QLineEdit {
