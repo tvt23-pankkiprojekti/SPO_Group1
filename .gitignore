@@ -1,6 +1,7 @@
 backend/node_modules/
 bank-automat/build/
 pincodeDLL/build/
+pincodeDLL/.pro.user
+pincodeDLL/.pro.user.*
 bank-automat/*.user
-bank-automat/*.user.*
 backend/.env
