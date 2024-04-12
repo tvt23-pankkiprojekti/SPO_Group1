@@ -1,0 +1,49 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "SimulBank swagger admin interface",
+      "description": "For when you want to edit users' data",
+      "version": "0.0.1"
+    },
+    "paths": {
+        "/admin/adduser": {
+            "post": {
+                "description": "Adds a user to the database",
+                "produces": "application/json",
+                "consumes": "application/json",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "fname": {
+                                        "type": "string"
+                                    },
+                                    "lname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succesfully added a user to the database"
+                    },
+                    "400": {
+                        "description": "Not all required data was received with the request"
+                    },
+                    "500": {
+                        "description": "An error occurred while trying to enter user into database"
+                    }
+                }
+            }
+        }
+    }
+
+}
