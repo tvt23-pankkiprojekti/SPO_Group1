@@ -1,22 +1,27 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var netbankRouter = require('./routes/netbank/router');
-var cardVerificationRouter = require('./routes/verifycard');
-var adminRouter = require('./routes/admin');
-var viewCardRouter = require('./routes/viewcard');
-var loginRouter = require('./routes/login');
+const netbankRouter = require('./routes/netbank/router');
+const cardVerificationRouter = require('./routes/verifycard');
+const adminRouter = require('./routes/admin/router');
+const viewCardRouter = require('./routes/viewcard');
+const loginRouter = require('./routes/login');
+const transactionRouter = require('./routes/transaction');
+
+const swagger = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
 
 const port = process.env.PORT || 3000;
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/swagger', swagger.serve, swagger.setup(swaggerDoc));
 
 app.listen(port, function(request, response) {
     console.log("Server online");
@@ -27,6 +32,7 @@ app.use('/admin', adminRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
 app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/login', loginRouter);
+app.use('/bankomat/transaction', transactionRouter);
 //app.use(authenticatetoken);
 
 module.exports = app;
