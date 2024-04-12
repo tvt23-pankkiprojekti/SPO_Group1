@@ -17,17 +17,12 @@ MainWindow::~MainWindow()
 
 
 
-
-
 void MainWindow::on_actionDEMO_triggered()
 {
     qDebug()<<"DEMO1 kortti valittu valikosta";
     ui->labelKortinTila->setText("DEMO1 kortti luettu");
     ui->labelKortinNumero->setText("987654321");
 }
-
-
-
 
 
 void MainWindow::on_btnEnterPin_clicked()
