@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const pug = require('pug');
 
 const netbankRouter = require('./routes/netbank/router');
 const cardVerificationRouter = require('./routes/verifycard');
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/swagger', swagger.serve, swagger.setup(swaggerDoc));
+app.set('view engine', 'pug');
 
 app.listen(port, function(request, response) {
     console.log("Server online");
