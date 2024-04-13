@@ -60,6 +60,15 @@ const login = {
                 });
             }
         });
+    },
+    logOut(request, response, next) {
+        if (request.cookies['simulbankuserid']) {
+            response.cookie('simulbankuserid', null, {expires: new Date(1)});
+        }
+        if (request.cookies['simulbanktoken']) {
+            response.cookie('simulbanktoken', null, {expires: new Date(1)});
+        }
+        next(request, response);
     }
 }
 
