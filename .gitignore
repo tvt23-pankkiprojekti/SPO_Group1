@@ -1,6 +1,8 @@
 backend/node_modules/
 bank-automat/build/
 pincodeDLL/build/
+pincodeDLL/pincodeDLL.pro.user
+pincodeDLL/pincodeDLL.pro.user.*
 bank-automat/*.user
 backend/.env
 build-bank-automat-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/

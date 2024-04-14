@@ -22,7 +22,7 @@ SOURCES += \
     profilewindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
     env.h \
     profilewindow.h 
 

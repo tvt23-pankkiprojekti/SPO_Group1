@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    cardNo = "060006E2E7";
+
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
     connect(ptr_dll,SIGNAL(sendString(QString)),
@@ -121,11 +123,6 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::onBtnKatsoTiedotClicked()
-{
-    ui->stackedWidget->setCurrentIndex(5);
-}
-
 void MainWindow::handleDLLSignal(QString s)
 {
     ui->line->setText(s);
@@ -139,7 +136,6 @@ void MainWindow::handleClick()
 
 void MainWindow::onBtnKatsoTiedotClicked()
 {
-    QString cardNo = "060006F235";
     QJsonObject sentData;
     sentData.insert("card", cardNo);
 

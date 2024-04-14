@@ -53,17 +53,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Dialog * ptr_dll;
-    void on_actionDEMO_triggered();
-    void on_btnEnterPin_clicked();
-    void on_btnValitseCredit_clicked();
-    void on_btnValitseDebit_clicked();
-    void on_btnKirjauduUlos_clicked();
-    void on_btnNostaRahaa_clicked();
-    void on_btnTilitapahtumat_clicked();
-    void on_btnTakaisin_clicked();
-    void on_btnTakaisin2_clicked();
-    void on_btnTakaisin3_clicked();
-    void on_btnKatsoTiedot_clicked();
+
+    QString cardNo;
+
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
     QNetworkReply *reply;
