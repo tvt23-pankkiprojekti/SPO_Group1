@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -727,34 +727,6 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>805</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuStartWindow">
-    <property name="title">
-     <string>DEMO</string>
-    </property>
-    <addaction name="actionDEMO"/>
-    <addaction name="actionDEMO_KORTTI_1_PIN_KOODI"/>
-   </widget>
-   <addaction name="menuStartWindow"/>
-  </widget>
-  <action name="actionDEMO">
-   <property name="text">
-    <string>DEMO KORTTI 1</string>
-   </property>
-  </action>
-  <action name="actionDEMO_KORTTI_1_PIN_KOODI">
-   <property name="text">
-    <string>[PH]DEMO KORTTI 1 PIN KOODI</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>
