@@ -30,10 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     accountInfo->attachWindow(ui->stackedWidget);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+
+
+
 
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
@@ -61,12 +60,8 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 }
 
 
-void MainWindow::onActionDEMOTriggered()
-{
-    //qDebug()<<"DEMO1 kortti valittu valikosta";
-    //ui->labelKortinTila->setText("DEMO1 kortti luettu");
-    //ui->labelKortinNumero->setText("987654321");
-}
+
+
 
 void MainWindow::onBtnEnterPinClicked()
 {
