@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <QtNetwork>
 #include <QNetworkRequest>
+#include <QMessageBox>
 #include "profilewindow.h"
 #include "env.h"
 

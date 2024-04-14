@@ -1,5 +1,6 @@
 QT -= gui
-QT += gui
+QT += gui \
+    quick
 QT += widgets
 QT += core
 
@@ -15,11 +16,13 @@ SOURCES += \
     env.cpp \
     main.cpp \
     mainwindow.cpp \
+    pincodeverify.cpp \
     profilewindow.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
+    pincodeverify.h \
     profilewindow.h 
 
 FORMS += \
