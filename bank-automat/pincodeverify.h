@@ -8,7 +8,7 @@ class PincodeVerify : public QObject
     Q_OBJECT
 public:
     explicit PincodeVerify(QObject *parent = nullptr);
-    bool verifyPin(const QString &pin); // Function to verify pin code
+    bool verifyPin(const QString &pin);
 signals:
 
 public slots:
