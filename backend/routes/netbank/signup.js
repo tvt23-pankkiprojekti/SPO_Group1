@@ -14,11 +14,12 @@ const signup = {
 
         user.addUser(userObject, function(err, result) {
             if (err) {
-                response.redirect(url + "/netbank/failed_signup");
+                response.render('signup', {error: "Database error"});
             }
             else {
                 console.log("New user added to database");
-                response.cookie('simulbankuserid', result['insertid'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+                response.cookie('simulbankuserid', result['insertId'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+                response.cookie('simulbankusername', userObject['fname'] + " " + userObject['lname'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
                 response.redirect(url + "/netbank/home");
             }
         });

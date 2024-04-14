@@ -27,7 +27,7 @@ const account={
     }, //add new account(
 
     allAccountsByUser(id_account, callback){
-        return db.query("SELECT id_account, balance, type, credit_limit FROM account WHERE owner=?", [id_account], callback);
+        return db.query("SELECT id_account, balance, type, state, credit_limit FROM account WHERE owner=?", [id_account], callback);
     },
 }
 
