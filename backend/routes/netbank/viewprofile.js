@@ -25,21 +25,20 @@ const profile = {
           return;
         }
         let accountData = result[0];
-        let answer = [
-          {
-            'username': userData['fname'] + " " + userData['lname'],
-            'id_user': userid
-          }
-        ];
+        let data = {
+          'username': userData['fname'] + " " + userData['lname'],
+          'id_user': userid
+        };
+
+        let accounts = [];
 
         let i = 0;
         while (result[i] != null && result[i] != undefined) {
           console.log(result[i]);
-          answer.push(result[i]);
+          accounts.push(result[i]);
           i++;
         }
-
-        response.send(answer);
+        response.render('profile', {name: data['username'], id: data['id_user'], accounts: accounts});
       });
     });
   }

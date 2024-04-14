@@ -1,0 +1,41 @@
+doctype html
+html
+    head
+        title Your information 
+    body 
+        button(type='button', onclick='window.location.href=window.location.origin + "/netbank/home"') Back
+        br
+        h1 Your information
+        if name
+            p Name: #{name}
+        else 
+            p Name: error with getting data
+        if id
+            p User ID: #{id}
+        else 
+            p User ID: error with getting data
+        p List of accounts: 
+        table(style='width:30%', border='1')
+            tr 
+                th Account ID
+                th Balance
+                th Account type 
+                th Credit limit
+            each id_account, index in accounts
+                tr
+                    if accounts[index].type == 0
+                        th #{accounts[index].id_account}
+                        th #{accounts[index].balance} €
+                        th Credit
+                        th #{accounts[index].credit_limit}
+                    else
+                        th #{accounts[index].id_account}
+                        th #{accounts[index].balance} €
+                        th Debit
+                        th -                    
+            else 
+                tr 
+                    th You have no accounts
+                    th -
+                    th -
+                    th -

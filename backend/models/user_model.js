@@ -20,10 +20,10 @@ const user={
         return db.query("SELECT id_user FROM user WHERE fname = ? AND lname = ?", [fname, lname], callback);
     }, // 
 
-    updateUser(up, updateData, callback){
+    updateUser(id, updateData, callback){
         bcrypt.hash(updateData.password, 10,function(err,hashedPassword){
             return db.query("UPDATE user SET fname=?, lname=?, state=?, temp_restriction=?, password=? WHERE id_user=?",
-            [updateData.fname, updateData.lname, updateData.state, updateData.temp_restriction, hashedPassword, up], callback);
+            [updateData.fname, updateData.lname, updateData.state, updateData.temp_restriction, hashedPassword, id], callback);
         });
     }, //for admins
 
