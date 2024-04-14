@@ -1,8 +1,10 @@
+
 QT -= gui
 QT += gui \
     quick
 QT += widgets
 QT += core
+QT += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
