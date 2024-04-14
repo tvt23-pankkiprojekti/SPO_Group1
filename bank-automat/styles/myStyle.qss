@@ -1,0 +1,28 @@
+MainWindow {
+    background-image: url(":/backG.jpg");
+}
+
+QLabel {
+background-color: gray;
+min-height: 20px;
+min-width: 40px;
+font-size:20px;
+}
+
+QLineEdit {
+background-color: gray;
+min-height: 20px;
+min-width: 30px;
+font-size:11px;
+}
+
+QPushButton {
+background-color: gray;
+border-style: outset;
+border-width: 2px;
+border-color: black;
+min-height: 20px;
+min-width: 20px;
+border-radius: 6px;
+font-size:11px;
+}

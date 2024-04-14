@@ -2,12 +2,30 @@
 #include "ui_mainwindow.h"
 
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ptr_dll = new Dialog(this);
+    connect(ptr_dll,SIGNAL(sendString(QString)),
+            this,SLOT(handleDLLSignal(QString)));
+
+    connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
+    connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
+    connect(ui->btnKirjauduUlos, SIGNAL(clicked()), this, SLOT(onBtnKirjauduUlosClicked()));
+    connect(ui->btnNostaRahaa, SIGNAL(clicked()), this, SLOT(onBtnNostaRahaaClicked()));
+    connect(ui->btnTilitapahtumat, SIGNAL(clicked()), this, SLOT(onBtnTilitapahtumatClicked()));
+    connect(ui->btnTakaisin, SIGNAL(clicked()), this, SLOT(onBtnTakaisinClicked()));
+    connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
+    connect(ui->btnTakaisin3, SIGNAL(clicked()), this, SLOT(onBtnTakaisin3Clicked()));
+    connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
+
+    connect(ui->btn,SIGNAL(clicked(bool)),
+            this,SLOT(handleClick()));
+    ui->stackedWidget->setCurrentIndex(1);
+    accountInfo = new ProfileWindow;
+    accountInfo->attachWindow(ui->stackedWidget);
 }
 
 MainWindow::~MainWindow()
@@ -15,75 +33,122 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+<<<<<<< HEAD
 
 
 void MainWindow::on_actionDEMO_triggered()
+=======
+void MainWindow::profileDataSlot(QNetworkReply *reply)
+>>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
 {
-    qDebug()<<"DEMO1 kortti valittu valikosta";
-    ui->labelKortinTila->setText("DEMO1 kortti luettu");
-    ui->labelKortinNumero->setText("987654321");
+    data = reply->readAll();
+
+    if (data.length() == 0 || data == "-4078") {
+        qDebug() << "Tietoliikenneyhteysvika";
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
+    if (data == "false") {
+        qDebug() << "Tietoa ei saatu";
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
+    ui->stackedWidget->setCurrentIndex(5);
+    accountInfo->updateUserData(&data);
+
+    reply->deleteLater();
+    transferManager->deleteLater();
 }
 
 
+<<<<<<< HEAD
 void MainWindow::on_btnEnterPin_clicked()
+=======
+void MainWindow::onActionDEMOTriggered()
+>>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
 {
+    //qDebug()<<"DEMO1 kortti valittu valikosta";
+    //ui->labelKortinTila->setText("DEMO1 kortti luettu");
+    //ui->labelKortinNumero->setText("987654321");
+}
+
+void MainWindow::onBtnEnterPinClicked()
+{
+    //ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::onBtnValitseCreditClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnValitseDebitClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnKirjauduUlosClicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::onBtnNostaRahaaClicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::onBtnTilitapahtumatClicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::onBtnTakaisinClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnTakaisin2Clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnTakaisin3Clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnKatsoTiedotClicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::handleDLLSignal(QString s)
+{
+    ui->line->setText(s);
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-
-void MainWindow::on_btnValitseCredit_clicked()
+void MainWindow::handleClick()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ptr_dll->show();
 }
 
-
-void MainWindow::on_btnValitseDebit_clicked()
+void MainWindow::onBtnKatsoTiedotClicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    QString cardNo = "060006F235";
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/viewprofile";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    transferManager = new QNetworkAccessManager(this);
+    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+
+    reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
-
-void MainWindow::on_btnKirjauduUlos_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-
-}
-
-void MainWindow::on_btnNostaRahaa_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(3);
-
-}
-
-
-void MainWindow::on_btnTilitapahtumat_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(4);
-
-}
-
-void MainWindow::on_btnTakaisin_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-
-}
-
-void MainWindow::on_btnTakaisin2_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-
-}
-
-
-void MainWindow::on_btnTakaisin3_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-
-}
-
-
-void MainWindow::on_btnKatsoTiedot_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(5);
-
-}
-
