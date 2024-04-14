@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QGridLayout>
+#include <QTableWidgetItem>
+#include <QSize>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtNetwork>
@@ -18,10 +20,8 @@ public:
 
 private:
     QLabel *descriptionLabels[6];
-    QLabel *transactionAmounts[5];
-    QLabel *transactionDates[5];
-    QLabel *transactionDescriptions[5];
-    QLabel **allLabels[4][6] = {{ descriptionLabels, transactionAmounts, transactionDates, transactionDescriptions }};
+    QTableWidgetItem *transactions[3][5];
+    QTableWidget *table;
     QByteArray data;
 };
 

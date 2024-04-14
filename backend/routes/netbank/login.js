@@ -18,15 +18,11 @@ const login = {
             // If database check leads to an error
             if (err) {
                 console.log(err);
-                cause = cause + "Database error";
+                response.render('login', {error: "Database error"});
             }
             // If nothing is returned from the database
             else if ((res[0] == null) || (res[0] === undefined)) {
-                cause = cause + "ID not in database";
-            }
-            // If the card's state or temp restriction brings up something (null = nothing of note)
-            else if (res[0]['state'] != null || res[0]['temp_restriction'] != null) {
-                cause = cause + "Account restricted";
+                response.render('login', {error: "Wrong ID or password"});
             }
             else {
                 // Gets the user's password from the database
@@ -38,16 +34,21 @@ const login = {
                         // Compares it to the sent one, bear in mind that the non-hashed passwords in the database return a false result
                         bcrypt.compare(request.body['password'], result[0].password, function(err, compareResult){
                             if(err) {
-                                response.redirect(url + "/netbank/failed_login");
+                                response.render('login', {error: "Verification error"});
                             }
                             // compareResult = true or false, answers whether the comparison went ok
                             else if(compareResult == false) {
-                                response.redirect(url + "/netbank/failed_login");
+                                response.render('login', {error: "Wrong ID or password"});
+                            }
+                            // Only give out the knowledge that an account is restricted if the logger-in can provide the correct password
+                            else if (res[0]['state'] != null || res[0]['temp_restriction'] != null) {
+                                response.render('login', {error: "Account restricted"});
                             }
                             else {
-                                console.log(compareResult);
+                                //console.log(compareResult);
                                 // Adds cookies for the user id and login token to the response
                                 response.cookie('simulbankuserid', request.body['user'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+                                response.cookie('simulbankusername', res[0]['fname'] + " " + res[0]['lname'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
                                 let token = generateToken({userid: request.body['user']});
                                 response.cookie('simulbanktoken', token, { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
                                 response.redirect(url + "/netbank/home");
@@ -55,7 +56,7 @@ const login = {
                         });
                     }
                     else {
-                        response.redirect(url + "/netbank/failed_login");
+                        response.render('login', {error: "Undefined error"});
                     }
                 });
             }

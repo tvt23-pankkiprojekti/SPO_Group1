@@ -9,6 +9,8 @@ const path = require('path');
 const login = require('./login');
 const signup = require('./signup');
 const profilelookup  = require('./viewprofile');
+const newservices = require('./newservices');
+
 const user = require('../../models/user_model') // this is here for the /updateuser bandaid, can be removed later
 
 const base_path = __dirname; // location of this file, used for path.join() commands
@@ -16,8 +18,9 @@ const base_path = __dirname; // location of this file, used for path.join() comm
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
-        // Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
-        // actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
+
+// Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
+// actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
         router.post('/updateuser', function(request, response) {
             let data = {
                 'fname': request.body['fname'],
@@ -35,7 +38,8 @@ router.use(express.urlencoded({ extended: false }));
                 } 
             });
         });
-        // remove later
+// remove later
+
 
 // Unauthenticated routes
 router.get('/', function(request, response) {
@@ -43,7 +47,7 @@ router.get('/', function(request, response) {
 });
 
 router.get('/login', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/login.html"));
+    response.render('login');
 });
 
 router.post('/login', function(request, response) {
@@ -58,25 +62,19 @@ router.get('/logout', function(request, response) {
 });
 
 router.get('/signup', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/signup.html"));
+    response.render('signup');
 });
 
 router.post('/signup', function(request, response) {
     signup.addUser(request, response);
 });
 
-router.get('/failed_signup', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/failed_signup.html"));
-});
-
-router.get('/failed_login', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/failed_login.html"));
-});
-
 
 //Authenticated routes
 router.get('/home', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/home.html"));
+    authenticateToken(request, response, function(request, response) {
+        response.render('home', {name: request.cookies['simulbankusername']});
+    });
 });
 
 router.get('/profile', function(request, response) {
@@ -85,15 +83,39 @@ router.get('/profile', function(request, response) {
     });
 });
 
+router.get('/newservices', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        newservices.newServicesWindow(request, response);
+    });
+});
+
+router.get('/newservices/openaccount', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        response.render('openaccount');
+    });
+});
+
+router.get('/newservices/getcard', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        response.render('getcard');
+    });
+});
+
+router.get('/newservices/authorizecard', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        response.render('authorizecard');
+    });
+});
+
 function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
-        console.log("Verifying token");
+        //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
             next(request, response);
         } 
         else {
             console.log("failed verification, user id " + request.cookies['simulbankuserid']);
-            response.send(false);
+            response.render('unauthorized');
         }
     });
 }

@@ -8,7 +8,7 @@ const user={
 
     addUser(newUser, callback){
         bcrypt.hash(newUser.password, 10, function(err, hashedPassword){
-            return db.query("INSERT INTO user(fname, lname, state, password) VALUES(?,?,?,?)", [newUser.fname, newUser.lname, newUser.state, hashedPassword], callback);
+            return db.query("INSERT INTO user(fname, lname, state, password) VALUES(?,?,null,?)", [newUser.fname, newUser.lname, hashedPassword], callback);
         });
     },
 
@@ -29,6 +29,10 @@ const user={
 
     deleteUser(id_user, callback){
         return db.query("DELETE FROM user WHERE id_user=?", [id_user], callback); //for admins
+    },
+
+    getAccountAndCardData(id, callback) {
+        return db.query("SELECT id_account AS 'data', 'accounts' AS 'description' FROM account_ownership WHERE id_user = ? UNION SELECT id_card, 'cards' FROM card WHERE owner = ?", [id, id], callback);
     }
 }
     
