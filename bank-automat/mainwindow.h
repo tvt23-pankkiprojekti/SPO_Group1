@@ -2,10 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-<<<<<<< HEAD
 #include <QSerialPort>
 #include <QSerialPortInfo>
-=======
+
 #include <QDialog>
 #include <QFile>
 #include <QDir>
@@ -16,7 +15,6 @@
 #include <QNetworkRequest>
 #include "profilewindow.h"
 #include "env.h"
->>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

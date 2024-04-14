@@ -31,13 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 
-<<<<<<< HEAD
 
 
-void MainWindow::on_actionDEMO_triggered()
-=======
+
 void MainWindow::profileDataSlot(QNetworkReply *reply)
->>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
 {
     data = reply->readAll();
 
@@ -63,16 +60,8 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 }
 
 
-<<<<<<< HEAD
-void MainWindow::on_btnEnterPin_clicked()
-=======
-void MainWindow::onActionDEMOTriggered()
->>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
-{
-    //qDebug()<<"DEMO1 kortti valittu valikosta";
-    //ui->labelKortinTila->setText("DEMO1 kortti luettu");
-    //ui->labelKortinNumero->setText("987654321");
-}
+
+
 
 void MainWindow::onBtnEnterPinClicked()
 {

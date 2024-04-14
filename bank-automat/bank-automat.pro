@@ -1,11 +1,9 @@
-<<<<<<< HEAD
-QT       += core gui serialport
-=======
+
 QT -= gui
 QT += gui
 QT += widgets
 QT += core
->>>>>>> dcc5b237bc52011f8b7f0d43756056f036b4c8aa
+QT += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
