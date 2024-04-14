@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-
 #include <QDialog>
 #include <QFile>
 #include <QDir>
@@ -13,7 +12,6 @@
 #include <QJsonDocument>
 #include <QtNetwork>
 #include <QNetworkRequest>
-#include <QMessageBox>
 #include "profilewindow.h"
 #include "env.h"
 
@@ -35,7 +33,6 @@ public slots:
     void profileDataSlot(QNetworkReply *reply);
 
 private slots:
-    void onActionDEMOTriggered();
     void onBtnEnterPinClicked();
     void onBtnValitseCreditClicked();
     void onBtnValitseDebitClicked();
