@@ -61,19 +61,9 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 
 
 
-
-
 void MainWindow::onBtnEnterPinClicked()
 {
-    QString pin = ui->line->text();
-    PincodeVerify verifier;
-    if(verifier.verifyPin(pin)) {
-        // Pin code is valid, proceed with your application logic
-        ui->stackedWidget->setCurrentIndex(1);
-    } else {
-        // Pin code is invalid, display error message
-        QMessageBox::warning(this, "Invalid Pin", "Please enter a valid pin :))");
-    }
+    //ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::onBtnValitseCreditClicked()

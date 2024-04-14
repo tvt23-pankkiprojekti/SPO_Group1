@@ -18,13 +18,11 @@ SOURCES += \
     env.cpp \
     main.cpp \
     mainwindow.cpp \
-    pincodeverify.cpp \
     profilewindow.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
-    pincodeverify.h \
     profilewindow.h 
 
 FORMS += \
