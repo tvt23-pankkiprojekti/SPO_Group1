@@ -509,7 +509,7 @@ public:
         MainWindow->setStatusBar(statusbar);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1291, 22));
+        menubar->setGeometry(QRect(0, 0, 1291, 26));
         menuStartWindow = new QMenu(menubar);
         menuStartWindow->setObjectName("menuStartWindow");
         MainWindow->setMenuBar(menubar);

@@ -30,10 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     accountInfo->attachWindow(ui->stackedWidget);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 
 <<<<<<< HEAD
 
