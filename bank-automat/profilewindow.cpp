@@ -10,17 +10,14 @@ void ProfileWindow::attachWindow(QWidget *window)
     descriptionLabels[3] = window->findChild<QLabel*>("displayCardID");
     descriptionLabels[4] = window->findChild<QLabel*>("displayCardOwner");
     descriptionLabels[5] = window->findChild<QLabel*>("displayCardOwnerID");
-    for (int i = 0; i < 5; i++) {
-        QString amountName = "transactionAmount" + QString::number(i + 1);
-        QString dateName = "transactionDate" + QString::number(i + 1);
-        QString descriptionName = "transactionDescription" + QString::number(i + 1);
-        transactionAmounts[i] = window->findChild<QLabel*>(amountName);
-        transactionDates[i] = window->findChild<QLabel*>(dateName);
-        transactionDescriptions[i] = window->findChild<QLabel*>(descriptionName);
-        transactionAmounts[i]->setText("-");
-        transactionDates[i]->setText("-");
-        transactionDescriptions[i]->setText("-");
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            transactions[i][j] = new QTableWidgetItem;
+        }
     }
+
+    table = window->findChild<QTableWidget*>("transactionTable");
 }
 
 void ProfileWindow::updateUserData(QByteArray *data)
@@ -37,8 +34,11 @@ void ProfileWindow::updateUserData(QByteArray *data)
 
     for (int i = 0; i < 5; i++) {
         QJsonObject transaction = array[i + 1].toObject();
-        transactionAmounts[i]->setText(transaction["amount"].toString());
-        transactionDates[i]->setText(transaction["time"].toString());
-        transactionDescriptions[i]->setText(transaction["description"].toString());
+        transactions[0][i]->setText(transaction["amount"].toString());
+        transactions[1][i]->setText(transaction["time"].toString());
+        transactions[2][i]->setText(transaction["description"].toString());
+        table->setItem(i, 0, transactions[0][i]);
+        table->setItem(i, 1, transactions[1][i]);
+        table->setItem(i, 2, transactions[2][i]);
     }
 }
