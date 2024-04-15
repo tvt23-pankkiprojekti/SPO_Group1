@@ -1,8 +1,39 @@
+
+script.
+    function checkAcceptanceBox() {    
+        var box = document.getElementById("accept");
+        var errorLabel = document.getElementById("error");
+        var submitButton = document.getElementById("submit");
+        if (box.checked) {
+            errorLabel.innerText = "";
+            submitButton.disabled = false;
+        }
+        else {
+            errorLabel.innerText = "You must accept the terms and conditions to open an account";
+            submitButton.disabled = true;
+        }
+    }
+
 html 
     head 
         title Open an account
     body 
-        button(type='button', onclick='window.location.href=window.location.origin + "/netbank/newservices"') Back
+        button(type="button", onclick='window.location.href=window.location.origin + "/netbank/newservices"') Back
         br
-        br        
-        h1 Open an account: 
+        br
+        h1 Open a new account: 
+        if newaccount 
+            p #{newaccount}
+        else if error 
+            p #{error}
+        else 
+            p By opening this account I consent to SimulBank Ltd collecting any number of 
+            p infants borne from my blood.
+            form(method="post")
+                p 
+                input(type="checkbox", id="accept", name="accept", onchange="checkAcceptanceBox()")
+                label(for="accept") Accept
+                br
+                br
+                button(type="submit", id="submit", disabled=true) Open an account
+                label(for="submit", id="error", innerText="You must accept the terms and conditions to open an account")

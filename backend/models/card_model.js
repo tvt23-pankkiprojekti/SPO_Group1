@@ -28,7 +28,7 @@ const card={
 
     addCard(newCard, callback){
         bcrypt.hash(newCard.pincode,10,function(err,hashedPincode){
-            return db.query("INSERT INTO card VALUES(?,?,?,?)",[newCard.id_card, newCard.id_owner, newCard.state, hashedPincode],callback);
+            return db.query("INSERT INTO card VALUES(?,?,?,?,DATE_ADD(NOW(), INTERVAL 3 YEAR), null)",[newCard.id_card, newCard.state, newCard.id_owner, hashedPincode],callback);
         }); //add new card
     },
 }
