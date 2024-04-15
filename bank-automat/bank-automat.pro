@@ -21,7 +21,7 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     env.h \
-    profilewindow.h 
+    profilewindow.h
 
 FORMS += \
     mainwindow.ui

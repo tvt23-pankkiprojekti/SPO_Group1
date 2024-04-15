@@ -61,6 +61,8 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 
 
 
+
+
 void MainWindow::onBtnEnterPinClicked()
 {
     //ui->stackedWidget->setCurrentIndex(1);

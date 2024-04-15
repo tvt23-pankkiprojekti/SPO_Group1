@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:user',function(request,response){
+router.get('/user',function(request,response){
   user.getUser(request.params.user, function(err,result){
       if(err){
           response.send(err);
