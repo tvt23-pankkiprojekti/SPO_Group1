@@ -1,10 +1,6 @@
-QT -= gui
-QT += gui
-QT += widgets
-QT += core
-QT += serialport
+QT += gui core serialport widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
+greaterThan(QT_MAJOR_VERSION, 4): QT += network
 
 CONFIG += c++17
 
