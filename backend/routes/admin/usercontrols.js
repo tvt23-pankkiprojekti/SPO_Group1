@@ -1,8 +1,12 @@
+/* Admin user management routes
+*/
+
 const user = require('../../models/user_model');
 
-const signup = {
+const usercontrols = {
     // Adds given user data to the database, 
     addUser(request, response) {
+        console.log(request.body);
         // Trims the request down for the addUser() request
         var userObject = {
             'fname' : request.body['fname'],
@@ -10,20 +14,23 @@ const signup = {
             'state' : null,
             'password' : request.body['password']
         };
-        let url = request.headers['origin'];
+        // If insufficient data was sent, better catch that now instead of blaming the database
+        if (userObject['fname'] == null || userObject['lname'] == null || userObject['password'] == null) {
+            response.send("400");
+            return;
+        }
 
         user.addUser(userObject, function(err, result) {
             if (err) {
-                response.render('signup', {error: "Database error"});
+                console.log(err);
+                response.send("500");
             }
             else {
                 console.log("New user added to database");
-                response.cookie('simulbankuserid', result['insertId'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
-                response.cookie('simulbankusername', userObject['fname'] + " " + userObject['lname'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
-                response.redirect(url + "/netbank/home");
+                response.send("200");
             }
         });
     }
 }
 
-module.exports = signup;
+module.exports = usercontrols;

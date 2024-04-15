@@ -5,6 +5,10 @@ const card={
     getCard(card, callback) {
         return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?", [card], callback);
     }, //for admin
+
+    getCardsByOwner(id_owner, callback) {
+        return db.query("SELECT card.id_card, type, card.state AS state, expiration, temp_restriction FROM card INNER JOIN card_attached_account ON card.id_card = card_attached_account.id_card INNER JOIN account ON card_attached_account.id_account = account.id_account WHERE card.owner = ?", [id_owner], callback);
+    },
     
     cardVerify(cVerify,  callback) {
         return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);

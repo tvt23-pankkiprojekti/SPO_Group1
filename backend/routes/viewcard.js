@@ -1,7 +1,3 @@
-// Ehkä tässä olisikin pitänyt olla 
-
-
-
 var express = require('express');
 var router = express.Router();
 var user=require('../models/user_model');
@@ -10,21 +6,28 @@ var card=require('../models/card_model');
 var account=require('../models/account_model');
 var transaction=require('../models/transaction_model');
 
-router.get('/', function(request, response) {
+router.post('/', function(request, response) {
   let answer = [];
-  console.log(request.body.card)
+  console.log("Bankomat profile request, card " + request.body.card)
 
   card.getCard(request.body.card, function(err,result){
-  if(err){
-    response.send(err);
-    return;
-  }
-  let cardData = result[0];
-  console.log(cardData);
+    if(err){
+      response.send(err);
+      return;
+    }
+    else if ((result[0] == null) || (result[0] === undefined)) {
+      response.send(false);
+      return;
+    }
+    let cardData = result[0];
 
     user.getUser(cardData.owner, function(err,result){
       if(err){
         response.send(err);
+        return;
+      }
+      else if ((result[0] == null) || (result[0] === undefined)) {
+        response.send(false);
         return;
       }
       let cardOwnerData = result[0];
@@ -34,11 +37,19 @@ router.get('/', function(request, response) {
           response.send(err);
           return;
         }
+        else if ((result[0] == null) || (result[0] === undefined)) {
+          response.send(false);
+          return;
+        }
         let accountId = result[0];
 
         account.getAccount(accountId.id_account, function(err,result){
           if(err){
             response.send(err);
+            return;
+          }
+          else if ((result[0] == null) || (result[0] === undefined)) {
+            response.send(false);
             return;
           }
           let accountData = result[0];
@@ -48,11 +59,16 @@ router.get('/', function(request, response) {
               response.send(err);
               return;
             }
+            else if ((result[0] == null) || (result[0] === undefined)) {
+              response.send(false);
+              return;
+            }
             let userData = result[0];
 
             transaction.getTransactionHistory(accountData.id_account, function(err,result){
               if(err){
-                answer.push(err);
+                response.send(false);
+                return;
               }
 
               let answer =[ {
@@ -69,6 +85,7 @@ router.get('/', function(request, response) {
                 result[3], 
                 result[4]
               ];
+              //console.log(answer);
               response.send(answer);
             });
           });

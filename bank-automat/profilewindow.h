@@ -3,20 +3,26 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QGridLayout>
+#include <QTableWidgetItem>
+#include <QSize>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
+#include <QNetworkRequest>
 
 class ProfileWindow : public QWidget
 {
 public:
     ProfileWindow();
     void attachWindow(QWidget *window);
-    void updateUserData(QJsonObject *data);
+    void updateUserData(QByteArray *data);
 
 private:
-    QLabel *descriptionLabels[4];
-    QLabel *transactionAmounts[5];
-    QLabel *transactionDates[5];
-    QLabel *transactionDescriptions[5];
-    QLabel **allLabels[4] = { descriptionLabels, transactionAmounts, transactionDates, transactionDescriptions };
+    QLabel *descriptionLabels[6];
+    QTableWidgetItem *transactions[3][5];
+    QTableWidget *table;
+    QByteArray data;
 };
 
 #endif // PROFILEWINDOW_H

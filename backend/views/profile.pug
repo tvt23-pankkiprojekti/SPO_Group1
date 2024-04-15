@@ -1,0 +1,85 @@
+doctype html
+html
+    head
+        title Your information 
+    body 
+        button(type='button', onclick='window.location.href=window.location.origin + "/netbank/home"') Back
+        br
+        h1 Your information
+        if error 
+            p Error with getting data
+        else
+            if name
+                p Name: #{name}
+            else 
+                p Name: error with getting data
+            if id
+                p User ID: #{id}
+            else 
+                p User ID: error with getting data
+            p List of accounts: 
+            table(style='width:50%', border='1')
+                tr 
+                    th Account ID
+                    th Balance
+                    th Account type 
+                    th Credit limit
+                    th State
+                each id_account, index in accounts
+                    tr
+                        if accounts[index].type == 0
+                            th #{accounts[index].id_account}
+                            th #{accounts[index].balance} €
+                            th Credit
+                            th #{accounts[index].credit_limit}
+                            if accounts[index].state == null 
+                                th OK 
+                            else 
+                                th Restricted
+                        else
+                            th #{accounts[index].id_account}
+                            th #{accounts[index].balance} €
+                            th Debit
+                            th -   
+                            if accounts[index].state == null 
+                                th OK 
+                            else 
+                                th Restricted                                             
+                else 
+                    tr 
+                        th You have no accounts
+                        th -
+                        th -
+                        th -
+            br
+            p List of cards: 
+            table(style='width:50%', border='1')
+                tr 
+                    th Card ID
+                    th Type of attached account 
+                    th Expiration
+                    th State
+                each id_card, index in cards
+                    tr
+                        if cards[index].type == 0
+                            th #{cards[index].id_card}
+                            th Credit
+                            th #{cards[index].expiration}
+                            if cards[index].state == null && cards[index].temp_restriction == null
+                                th OK 
+                            else 
+                                th Restricted
+                        else
+                            th #{cards[index].id_card}
+                            th Debit
+                            th #{cards[index].expiration}    
+                            if cards[index].state == null && cards[index].temp_restriction == null 
+                                th OK 
+                            else 
+                                th Restricted            
+                else 
+                    tr 
+                        th You have no cards
+                        th -
+                        th -
+                        th -
