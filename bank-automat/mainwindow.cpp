@@ -59,6 +59,11 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     transferManager->deleteLater();
 }
 
+void MainWindow::onActionDEMOTriggered()
+{
+
+}
+
 
 
 
