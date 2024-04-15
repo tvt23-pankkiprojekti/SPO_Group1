@@ -19,16 +19,17 @@ public:
     void setWebtoken(const QByteArray &newWebtoken);
 private slots:
     void action();
-    //void deposit();
-    //void withdraw();
-    //void balance();
+    void deposit();
+    void withdraw();
+    void balance();
+    void history();
     void actionSlot(QNetworkReply *reply);
-    //void withdrawSlot(QNetworkReply *reply);
-    //void balanceSlot(QNetworkReply *reply);
 private:
     QString id_account;
+    QString amount;
     QByteArray webtoken;
     QNetworkAccessManager *getManager;
+    QNetworkAccessManager *postManager;
     QNetworkReply *reply;
     QByteArray response_data;
 };
