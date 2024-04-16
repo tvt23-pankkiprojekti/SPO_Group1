@@ -86,7 +86,7 @@ function bindCard(request, response, cardID, accountID, next) {
 
 function openAccount(request, response, accountType, next) {
     findFreeAccountID(request, response, 0, function(idString) {
-        account.addAccount(idString, accountType, null, 0.00, request.cookies['simulbankuserid'], 0.00, function(err, result) {
+        account.addAccount(idString, accountType, null, 0.00, request.cookies['simulbankuserid'], (accountType == 1) ? 0.00 : 5000.00, function(err, result) {
             if (err) {
                 response.render('openaccount', {error: "Something went wrong with the database"});
             }
