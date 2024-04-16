@@ -32,9 +32,9 @@ Dialog::~Dialog()
 void Dialog::numberClickedHandler()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
-    QString name = button->text();
+    QString pin = button->text();
     QString currentText = ui->line->text();
-    ui->line->setText(currentText + name);
+    ui->line->setText(currentText + pin);
 }
 
 void Dialog::undoClickHandler()

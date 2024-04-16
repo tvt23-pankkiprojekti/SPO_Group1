@@ -10,4 +10,8 @@ router.post('/', function(request, response) {
   response.json("Vastaus");
 });
 
+router.delete('/', function(request, response) {
+  response.json(":))");
+});
+
 module.exports = router;

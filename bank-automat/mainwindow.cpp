@@ -59,12 +59,48 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     transferManager->deleteLater();
 }
 
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    data=reply->readAll();
+    QMessageBox msgBox;
+    qDebug()<<"response_data";
+    if(data=="-4078" || data.length()==0){
 
-
+        msgBox.setText("Virhe tietoyhteydessä");
+        msgBox.exec();
+    }
+    else{
+        if(data!="false"){
+            //kirjautuminen onnistui
+            /*mainMenu *objectStudentMenu=new StudentMenu(this);
+            objectStudentMenu->setUsername(ui->lineEdit->text());
+            objectStudentMenu->setWebToken(data);*/
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+        else{
+            msgBox.setText("Tunnus ei täsmää");
+            msgBox.exec();
+            //ui->textUsername->clear();
+            ui->lineEdit->clear();
+        }
+    }
+    reply->deleteLater();
+    loginManager->deleteLater();
+}
 
 void MainWindow::onBtnEnterPinClicked()
 {
     //ui->stackedWidget->setCurrentIndex(1);
+    QString pin=ui->lineEdit->text();
+    QJsonObject jsonObj;
+    jsonObj.insert("pincode", pin);
+
+    QString url = env::getUrl() + "/login";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    loginManager = new QNetworkAccessManager(this);
+    connect(loginManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
 }
 
 void MainWindow::onBtnValitseCreditClicked()
@@ -109,7 +145,7 @@ void MainWindow::onBtnTakaisin3Clicked()
 
 void MainWindow::handleDLLSignal(QString s)
 {
-    ui->line->setText(s);
+    ui->lineEdit->setText(s);
     ui->stackedWidget->setCurrentIndex(1);
 }
 

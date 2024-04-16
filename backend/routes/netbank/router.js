@@ -8,6 +8,7 @@ const token = require('jsonwebtoken');
 const path = require('path');
 const login = require('./login');
 const signup = require('./signup');
+const deleteaccount = require('./deleteaccount');
 const profilelookup  = require('./viewprofile');
 const newservices = require('./newservices');
 
@@ -67,6 +68,14 @@ router.get('/signup', function(request, response) {
 
 router.post('/signup', function(request, response) {
     signup.addUser(request, response);
+});
+
+router.get('/deleteaccount', function(request, response) {
+    response.render('deleteaccount');
+});
+
+router.delete('/deleteaccount', function(request, response) {
+    deleteaccount.deleteUser(request, response);
 });
 
 

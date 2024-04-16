@@ -6,7 +6,6 @@
 #include <QGridLayout>
 #include <QRegularExpression>
 
-
 namespace Ui {
 class Dialog;
 }

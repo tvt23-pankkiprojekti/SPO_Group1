@@ -30,6 +30,25 @@ const usercontrols = {
                 response.send("200");
             }
         });
+    },
+
+    deleteUser(request, response) {
+        var userObject = {
+            'fname' : request.body['fname'],
+            'lname' : request.body['lname'],
+            'password' : request.body['password']
+        };
+
+        user.deleteUser(userObject, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.send("500");
+            }
+            else {
+                console.log("User deleted from database");
+                response.send("200");
+            }
+        });
     }
 }
 
