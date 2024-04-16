@@ -138,3 +138,6 @@ void MainWindow::onBtnKatsoTiedotClicked()
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
+
+
+

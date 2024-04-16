@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -435,14 +435,53 @@
      <widget class="QPushButton" name="btnTakaisin2">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>440</y>
+        <x>230</x>
+        <y>370</y>
         <width>231</width>
         <height>81</height>
        </rect>
       </property>
       <property name="text">
        <string>TAKAISIN</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableTransactions">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>130</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonTapaht">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>100</y>
+        <width>75</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Näytä</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelValittu">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>330</y>
+        <width>49</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </widget>
@@ -896,7 +935,7 @@
      <x>0</x>
      <y>0</y>
      <width>805</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuStartWindow">
