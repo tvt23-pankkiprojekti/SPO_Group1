@@ -57,6 +57,7 @@ void Dialog::clickHandler()
     emit sendString(s);
     pincode = s;
     emit pincodeReady();
+    ui->line->clear();
     this->close();
 }
 

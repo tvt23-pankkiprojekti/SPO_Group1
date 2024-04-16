@@ -10,10 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
-    /*connect(ptr_dll,SIGNAL(sendString(QString)),
-            this,SLOT(handleDLLSignal(QString)));*/
-    connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
 
+    connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
     connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
     connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
     connect(ui->btnKirjauduUlos, SIGNAL(clicked()), this, SLOT(onBtnKirjauduUlosClicked()));
@@ -169,7 +167,7 @@ void MainWindow::onBtnKatsoTiedotClicked()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     transferManager = new QNetworkAccessManager(this);
-    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+    connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
