@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/user',function(request,response){
-  user.getUser(request.params.user, function(err,result){
+  user.getUser(request.body, function(err,result){
       if(err){
           response.send(err);
       }
@@ -50,10 +50,10 @@ router.delete('/',function(request, response){
           response.send(err);
       }
       else{
-            response.json(result);
           /*response.json(result);
-          console.log(result.affectedRows);
-          response.json(result.affectedRows);*/
+          response.json(result);
+          console.log(result.affectedRows);*/
+          response.json(result.affectedRows);
       }
   });
 });
