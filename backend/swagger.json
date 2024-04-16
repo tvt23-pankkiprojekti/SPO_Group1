@@ -47,7 +47,7 @@
         
         "/admin/deleteaccount": {
             "delete": {
-                "description": "Deletes a user account from the database",
+                "description": "Deletes a user from the database",
                 "produces": "application/json",
                 "consumes": "application/json",
                 "requestBody": {
@@ -56,13 +56,7 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "fname": {
-                                        "type": "string"
-                                    },
-                                    "lname": {
-                                        "type": "string"
-                                    },
-                                    "password": {
+                                    "id_user": {
                                         "type": "string"
                                     }
                                 }

@@ -34,9 +34,7 @@ const usercontrols = {
 
     deleteUser(request, response) {
         var userObject = {
-            'fname' : request.body['fname'],
-            'lname' : request.body['lname'],
-            'password' : request.body['password']
+            'id_user' : request.body['id_user'],
         };
 
         user.deleteUser(userObject, function(err, result) {
