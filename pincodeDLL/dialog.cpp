@@ -55,7 +55,9 @@ void Dialog::clickHandler()
 {
     QString s = ui->line->text();
     emit sendString(s);
-    delete ui;
+    pincode = s;
+    emit pincodeReady();
+    this->close();
 }
 
 void Dialog::onN1Clicked()
@@ -106,4 +108,9 @@ void Dialog::onN9Clicked()
 void Dialog::onN0Clicked()
 {
     numberClickedHandler();
+}
+
+QString Dialog::getPincode() const
+{
+    return pincode;
 }

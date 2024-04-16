@@ -18,6 +18,8 @@ public:
     explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
+    QString getPincode() const;
+
 private slots:
     void clickHandler();
     void numberClickedHandler();
@@ -37,9 +39,11 @@ private slots:
 
 signals:
     void sendString(QString);
+    void pincodeReady();
 
 private:
     Ui::Dialog *ui;
+    QString pincode;
 };
 
 #endif // DIALOG_H

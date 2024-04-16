@@ -10,8 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
-    connect(ptr_dll,SIGNAL(sendString(QString)),
-            this,SLOT(handleDLLSignal(QString)));
+    /*connect(ptr_dll,SIGNAL(sendString(QString)),
+            this,SLOT(handleDLLSignal(QString)));*/
+    connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
 
     connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
     connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
@@ -62,6 +63,7 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
     data=reply->readAll();
+    qDebug()<<data;
     QMessageBox msgBox;
     qDebug()<<"response_data";
     if(data=="-4078" || data.length()==0){
@@ -90,17 +92,20 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 
 void MainWindow::onBtnEnterPinClicked()
 {
+    qDebug()<<"enter clicked";
     //ui->stackedWidget->setCurrentIndex(1);
-    QString pin=ui->lineEdit->text();
+    QString pin=ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("pincode", pin);
+    jsonObj.insert("card", cardNo);
 
     QString url = env::getUrl() + "/login";
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     loginManager = new QNetworkAccessManager(this);
-    connect(loginManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+    connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void MainWindow::onBtnValitseCreditClicked()
