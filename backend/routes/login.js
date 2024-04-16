@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const card=require('../models/card_model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.post('/',function(request, response){
     if(request.body.card && request.body.pincode){
