@@ -11,6 +11,7 @@ const signup = require('./signup');
 const deleteaccount = require('./deleteaccount');
 const profilelookup  = require('./viewprofile');
 const newservices = require('./newservices');
+const userdata = require('./userdata');
 
 const user = require('../../models/user_model') // this is here for the /updateuser bandaid, can be removed later
 
@@ -51,24 +52,15 @@ router.get('/login', function(request, response) {
     response.render('login');
 });
 
-router.post('/login', function(request, response) {
-    login.checkUser(request, response);
-});
+router.post('/login', login.checkUser);
 
-router.get('/logout', function(request, response) {
-    login.logOut(request, response, function(request, response) {
-        let url = request.headers['referer'];
-        response.redirect(url + "/../");
-    });
-});
+router.get('/logout', login.logOut);
 
 router.get('/signup', function(request, response) {
     response.render('signup');
 });
 
-router.post('/signup', function(request, response) {
-    signup.addUser(request, response);
-});
+router.post('/signup', signup.addUser);
 
 router.get('/deleteaccount', function(request, response) {
     response.render('deleteaccount');
@@ -82,32 +74,52 @@ router.delete('/deleteaccount', function(request, response) {
 //Authenticated routes
 router.get('/home', function(request, response) {
     authenticateToken(request, response, function(request, response) {
+        //console.log("Accessing home page");
         response.render('home', {name: request.cookies['simulbankusername']});
     });
 });
 
 router.get('/profile', function(request, response) {
-    authenticateToken(request, response, function(request, response) {
-        profilelookup.getData(request, response);
-    });
+    authenticateToken(request, response, profilelookup.getData);
 });
 
 router.get('/newservices', function(request, response) {
-    authenticateToken(request, response, function(request, response) {
-        newservices.newServicesWindow(request, response);
-    });
+    authenticateToken(request, response, newservices.newServicesWindow);
 });
 
 router.get('/newservices/openaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        response.render('openaccount');
+        response.render('openaccount')
+    });
+});
+
+router.post('/newservices/openaccount', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        newservices.openAccount(request, response, 1)
     });
 });
 
 router.get('/newservices/getcard', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        response.render('getcard');
+        userdata.getUserData(request, response, function(err, user, cards, accounts) {
+            if (err == true) {
+                response.render('getcard', {error: "Something went wrong with getting your data"});
+            }
+            else {
+                response.render('getcard', {accounts: accounts});
+            }
+        });
     });
+});
+
+router.post('/newservices/getcard', function(request, response) {
+    if (request.body['account'] == 'credit') {
+        console.log("Looking for credit card");
+        newservices.openCreditCard(request, response);
+    }
+    else {
+        console.log("looking for debit, account " + request.body['account']);
+    }
 });
 
 router.get('/newservices/authorizecard', function(request, response) {
@@ -120,10 +132,11 @@ function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
         //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
+            //console.log("Authentication successful, id " + request.cookies['simulbankuserid']);
             next(request, response);
         } 
         else {
-            console.log("failed verification, user id " + request.cookies['simulbankuserid']);
+            //console.log("failed verification, user id " + request.cookies['simulbankuserid']);
             response.render('unauthorized');
         }
     });

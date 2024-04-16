@@ -6,3 +6,44 @@ html
         br
         br        
         h1 Get a card: 
+        if newcard 
+            p #{newcard}
+        else if error 
+            p #{error}
+        else 
+            h2 Choose a product:
+            form(method="post", id="form")
+                if accounts
+                    if accounts.length > 1
+                        h3 Debit card for one of your accounts 
+                    else 
+                        h3 Debit card for your account
+                    table(style='width:50%', border='1')
+                        tr 
+                            th Account ID
+                            th Account balance
+                            th State
+                            th 
+                        each id_account, index in accounts 
+                            if accounts[index].type == 1
+                                tr
+                                    td #{accounts[index].id_account}
+                                    td #{accounts[index].balance}
+                                    if accounts[index].state == null 
+                                        td OK
+                                    else 
+                                        td Restricted
+                                    td
+                                        input(type="radio", value=accounts[index].id_account, name="account")
+                    br
+                else 
+                    h3 No accounts for debit cards 
+                    br
+                h3 A credit card 
+                input(type="radio", id="credit", value="credit", name="account")
+                br
+                br
+                br
+                button(type="submit") Submit
+
+

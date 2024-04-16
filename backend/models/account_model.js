@@ -23,7 +23,7 @@ const account={
     }, //delete account
 
     addAccount(acc, type, state, balance, owner, credit, callback) {
-        return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?)", [acc, type, state, balance, owner, credit], callback);
+        return db.query("INSERT INTO account (id_account, type, state, balance, owner, credit_limit) VALUES (?, ?, ?, ?, ?, ?)", [acc, type, state, balance, owner, credit], callback);
     }, //add new account(
 
     allAccountsByUser(id_account, callback){
