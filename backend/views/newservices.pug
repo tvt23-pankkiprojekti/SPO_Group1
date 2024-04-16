@@ -1,0 +1,19 @@
+html 
+    head 
+        title New services
+    body 
+        button(type='button', onclick='window.location.href=window.location.origin + "/netbank/home"') Back
+        br
+        br
+        h1 Available services: 
+        br
+        button(type='button' onclick='window.location.href = window.location.href + "/openaccount"') Open a new account
+        br
+        br
+        button(type='button' onclick='window.location.href = window.location.href + "/getcard"') Get a card
+        br
+        br
+        if accounts.length > 0
+            button(type='button' onclick='window.location.href = window.location.href + "/authorizecard"') Authorize a card for another user
+            br
+            br

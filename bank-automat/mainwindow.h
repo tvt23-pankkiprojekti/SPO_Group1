@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSerialPort>
+#include <QSerialPortInfo>
+
 #include <QDialog>
 #include <QFile>
 #include <QDir>
@@ -26,7 +29,6 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
 
 
 public slots:
