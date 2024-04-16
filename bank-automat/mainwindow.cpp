@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(0);
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 }
