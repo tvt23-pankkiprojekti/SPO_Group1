@@ -21,8 +21,8 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
 
-// Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
-// actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
+        // Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
+        // actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
         router.post('/updateuser', function(request, response) {
             let data = {
                 'fname': request.body['fname'],
@@ -40,26 +40,26 @@ router.use(express.urlencoded({ extended: false }));
                 } 
             });
         });
-// remove later
-// Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
-// actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
-router.get('/addcard', function(request, response) {
-    let data = {
-        'id_card': "060006E2E7",
-        'state': null,
-        'id_owner': 3,
-        'pincode': '888'
-    };
-    card.addCard(data, function(err, result) {
-        if (err) {
-            response.send(err);
-        }
-        else {
-            response.send(result);
-        } 
-    });
-});
-// remove later
+        // remove later
+        // Purely here for turning all plaintext passwords in the database to encrypted ones so that you can
+        // actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
+        router.get('/addcard', function(request, response) {
+            let data = {
+                'id_card': "060006E2E7",
+                'state': null,
+                'id_owner': 3,
+                'pincode': '888'
+            };
+            card.addCard(data, function(err, result) {
+                if (err) {
+                    response.send(err);
+                }
+                else {
+                    response.send(result);
+                } 
+            });
+        });
+        // remove later
 
 
 // Unauthenticated routes
@@ -125,11 +125,10 @@ router.get('/newservices/getcard', function(request, response) {
 
 router.post('/newservices/getcard', function(request, response) {
     if (request.body['account'] == 'credit') {
-        console.log("Looking for credit card");
         newservices.openCreditCard(request, response);
     }
     else {
-        console.log("looking for debit, account " + request.body['account']);
+        newservices.openDebitCard(request, response);
     }
 });
 

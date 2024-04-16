@@ -1,9 +1,7 @@
-const user = require('../../models/user_model');
 const account = require('../../models/account_model');
-const accountOwnership = require('../../models/account_ownership_model');
 const card = require('../../models/card_model');
-const cardOwnership = require('../../models/card_attached_account_model');
 const userdata = require('./userdata');
+const procedure = require('../../models/procedure_model');
 
 function newServicesWindow(request, response) {
     userdata.getUserData(request, response, function(user, cards, accounts) {
@@ -12,38 +10,69 @@ function newServicesWindow(request, response) {
 }
 
 function openDebitCard(request, response) {
+    findFreeCardID(request, response, 0, function(cardID) {
+        let pin = randomizePin();
+        let data = {
+            'id_user': request.cookies['simulbankuserid'],
+            'id_card': cardID,
+            'id_account': request.body['account'],
+            'pincode': pin
+        };
 
-}
-
-function openCreditCard(request, response) {
-    openAccount(request, response, 0, function(request, response, accountID) {
-        findFreeCardID(request, response, 0, function(cardID) {
-            if (cardID == false) {
-                response.render('getcard', {error: "Database error with finding ID"});
-                return;
+        procedure.addDebitCard(data, function(err, result) {
+            if (err) {
+                response.render('getcard', {error: "Something went wrong"});
+                console.log(err);
             }
             else {
-                let pin = randomizePin();
-                createCard(request, response, cardID, pin, function(result) {
-                    if (result == false) {
-                        response.render('getcard', {error: "Database error with creating card"});
-                        return;
-                    }
-                    else {
-                        bindCard(request, response, cardID, accountID, function(result) {
-                            if (result == false) {
-                                response.render('getcard', {error: "Database error with binding card to account"});
-                                return;
-                            }
-                            else {
-                                cardCreated(request, response, cardID, pin);
-                            }
-                        });
-                    }
-                });
+                response.render('getcard', {newcard: "Your debit card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
             }
-        })
+        });
     });
+}
+
+
+function openCreditCard(request, response) {    
+    findFreeCardID(request, response, 0, function(cardID) {
+        findFreeAccountID(request, response, 0, function(accountID) {
+            let pin = randomizePin();
+            let data = {
+                'id_user': request.cookies['simulbankuserid'],
+                'id_card': cardID,
+                'id_account': accountID,
+                'pincode': pin,
+                'credit_limit': 1000.00
+            };
+
+            procedure.addCreditCardAndAccount(data, function(err, result) {
+                if (err) {
+                    response.render('getcard', {error: "Something went wrong"});
+                    console.log(err);
+                }
+                else {
+                    response.render('getcard', {newcard: "Your credit card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
+                }
+            });
+        });
+    });
+}
+
+function openAccount(request, response, accountType, next) {
+    findFreeAccountID(request, response, 0, function(accountID) {
+        let data = {
+            'id_account': accountID,
+            'id_user': request.cookies['simulbankuserid']
+        };
+        procedure.addDebitAccount(data, function(err, result) {    
+            if (err) {
+                response.render('openaccount', {error: "Something went wrong with the database"});
+                console.log(err);
+            }
+            else {
+                response.render('openaccount', {newaccount: "Account opened succesfully, ID " + accountID + "!"});
+            }
+        });
+    });    
 }
 
 function randomizePin() {
@@ -52,49 +81,6 @@ function randomizePin() {
         pin = pin + Math.floor((Math.random() * 10));
     }
     return pin;
-}
-
-function createCard(request, response, cardID, pin, next) {
-    let newCard = {
-        id_card: cardID,
-        id_owner: request.cookies['simulbankuserid'],
-        state: null,
-        pincode: pin
-    }
-    card.addCard(newCard, function(err, result) {
-        if (err) {
-            console.log(err);
-            next(false);
-        }
-        else {
-            next();
-        }
-    });
-}
-
-function bindCard(request, response, cardID, accountID, next) {
-    cardOwnership.associateCardWithAccount(cardID, accountID, function(err, result) {
-        if (err) {
-            console.log(err);
-            next(false);
-        }
-        else {
-            next();
-        }
-    });
-}
-
-function openAccount(request, response, accountType, next) {
-    findFreeAccountID(request, response, 0, function(idString) {
-        account.addAccount(idString, accountType, null, 0.00, request.cookies['simulbankuserid'], (accountType == 1) ? 0.00 : 5000.00, function(err, result) {
-            if (err) {
-                response.render('openaccount', {error: "Something went wrong with the database"});
-            }
-            else {
-                next(request, response, idString);
-            }
-        });
-    });    
 }
 
 function findFreeAccountID(request, response, no, next) {
@@ -168,14 +154,6 @@ function findFreeCardID(request, response, no, next) {
 function cardIDLoop(request, response, no, next) {
     let id = no + 1;
     findFreeCardID(request, response, id, next);
-}
-
-function debitAccountOpened(request, response, accountID) {
-    response.render('openaccount', {newaccount: "Account opened succesfully, ID " + accountID + "!"});
-}
-
-function cardCreated(request, response, cardID, pin) {
-    response.render('getcard', {newcard: "Your credit card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
 }
 
 module.exports = {
