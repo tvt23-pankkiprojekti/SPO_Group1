@@ -33,11 +33,9 @@ const usercontrols = {
     },
 
     deleteUser(request, response) {
-        var userObject = {
-            'id_user' : request.body['id_user'],
-        };
-
-        user.deleteUser(userObject, function(err, result) {
+        var id_user = request.body['id_user'];
+    
+        user.deleteUser(id_user, function(err, result) {
             if (err) {
                 console.log(err);
                 response.send("500");
@@ -47,7 +45,7 @@ const usercontrols = {
                 response.send("200");
             }
         });
-    }
+    }    
 }
 
 module.exports = usercontrols;
