@@ -43,5 +43,6 @@ function accountToAccountTransaction(data, callback) {
 module.exports = {
     addCreditCardAndAccount,
     addDebitAccount,
-    addDebitCard
+    addDebitCard,
+    accountToAccountTransaction
 }
