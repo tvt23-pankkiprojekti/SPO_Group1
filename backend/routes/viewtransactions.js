@@ -3,7 +3,7 @@ var router = express.Router();
 var transaction = require('../models/transaction_model');
 
 
-router.get('/', function(request, response) {
+router.post('/', function(request, response) {
     /*if (!request.body.idaccount || isNaN(request.body.idaccount)) {
         response.send('Invalid parameters');
         return;
