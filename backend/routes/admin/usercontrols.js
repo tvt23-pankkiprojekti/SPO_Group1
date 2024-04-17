@@ -47,19 +47,18 @@ const usercontrols = {
         });
     },
 
-    getAllUsers(request, response) {
-        console.log(request.body);
-    
-        user.getAllUsers(function(err, result) {
+    listAllUsers(request, response) {
+        
+        user.listAllUsers(function(err, result) {
             if (err) {
                 console.error(err);
-                response.send(500);
+                response.status(500).send("Internal Server Error");
             } else {
                 console.log("Users listed");
-                response.send("200").json(result);
+                response.status(200).json(result);
             }
         });
-    }
+    }    
 }
 
 module.exports = usercontrols;
