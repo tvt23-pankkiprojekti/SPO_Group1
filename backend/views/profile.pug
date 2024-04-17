@@ -27,30 +27,24 @@ html
                     th State
                 each id_account, index in accounts
                     tr
+                        td #{accounts[index].id_account}
+                        td #{accounts[index].balance} €
                         if accounts[index].type == 0
-                            th #{accounts[index].id_account}
-                            th #{accounts[index].balance} €
-                            th Credit
-                            th #{accounts[index].credit_limit}
-                            if accounts[index].state == null 
-                                th OK 
-                            else 
-                                th Restricted
+                            td Credit
+                            td #{accounts[index].credit_limit}
                         else
-                            th #{accounts[index].id_account}
-                            th #{accounts[index].balance} €
-                            th Debit
-                            th -   
-                            if accounts[index].state == null 
-                                th OK 
-                            else 
-                                th Restricted                                             
+                            td Debit
+                            td -   
+                        if accounts[index].state == null 
+                            td OK 
+                        else 
+                            td Restricted                                             
                 else 
                     tr 
-                        th You have no accounts
-                        th -
-                        th -
-                        th -
+                        td You have no accounts
+                        td -
+                        td -
+                        td -
             br
             p List of cards: 
             table(style='width:50%', border='1')
@@ -61,25 +55,19 @@ html
                     th State
                 each id_card, index in cards
                     tr
-                        if cards[index].type == 0
-                            th #{cards[index].id_card}
-                            th Credit
-                            th #{cards[index].expiration}
-                            if cards[index].state == null && cards[index].temp_restriction == null
-                                th OK 
-                            else 
-                                th Restricted
+                        td #{cards[index].id_card}
+                        if cards[index].type == 0   
+                            td Credit
                         else
-                            th #{cards[index].id_card}
-                            th Debit
-                            th #{cards[index].expiration}    
-                            if cards[index].state == null && cards[index].temp_restriction == null 
-                                th OK 
-                            else 
-                                th Restricted            
+                            td Debit
+                        td #{cards[index].expiration}    
+                        if cards[index].state == null && cards[index].temp_restriction == null 
+                            td OK 
+                        else 
+                            td Restricted            
                 else 
                     tr 
-                        th You have no cards
-                        th -
-                        th -
-                        th -
+                        td You have no cards
+                        td -
+                        td -
+                        td -

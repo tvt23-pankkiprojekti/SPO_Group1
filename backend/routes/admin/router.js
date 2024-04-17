@@ -11,4 +11,8 @@ router.post('/adduser', function(request, response) {
     usercontrols.addUser(request, response);
 });
 
+router.delete('/deleteaccount', function(request, response) {
+    usercontrols.deleteUser(request, response);
+});
+
 module.exports = router;
