@@ -11,18 +11,19 @@ void ProfileWindow::attachWindow(QWidget *window)
     descriptionLabels[4] = window->findChild<QLabel*>("displayCardOwner");
     descriptionLabels[5] = window->findChild<QLabel*>("displayCardOwnerID");
 
+    table = window->findChild<QTableWidget*>("transactionTable");
+
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 5; j++) {
             transactions[i][j] = new QTableWidgetItem;
+            table->setItem(j, i, transactions[i][j]);
         }
     }
-
-    table = window->findChild<QTableWidget*>("transactionTable");
 }
 
-void ProfileWindow::updateUserData(QByteArray *data)
+void ProfileWindow::updateUserData(QByteArray data)
 {
-    QJsonDocument dataUnpacked = QJsonDocument::fromJson(*data);
+    QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
     QJsonArray array = dataUnpacked.array();
     QJsonObject info = array[0].toObject();
     descriptionLabels[0]->setText(info["account_owner"].toString());
@@ -35,10 +36,13 @@ void ProfileWindow::updateUserData(QByteArray *data)
     for (int i = 0; i < 5; i++) {
         QJsonObject transaction = array[i + 1].toObject();
         transactions[0][i]->setText(transaction["amount"].toString());
-        transactions[1][i]->setText(transaction["time"].toString());
+        QStringList beautifiedTime = transaction["time"].toString().split(QRegularExpression("T|:\\d{1,2}\\.\\d{1,3}Z"), Qt::SkipEmptyParts);//, Qt::SkipEmptyParts);
+        if (beautifiedTime.length() > 0) {
+            transactions[1][i]->setText(beautifiedTime.at(0) + " klo " + beautifiedTime.at(1)); // + " " + beautifiedTime.at(1));
+        }
+        else {
+            transactions[1][i]->setText(" "); // + " " + beautifiedTime.at(1));
+        }
         transactions[2][i]->setText(transaction["description"].toString());
-        table->setItem(i, 0, transactions[0][i]);
-        table->setItem(i, 1, transactions[1][i]);
-        table->setItem(i, 2, transactions[2][i]);
     }
 }

@@ -29,10 +29,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
-public slots:
-    void profileDataSlot(QNetworkReply *reply);
-
 private slots:
+    void profileDataSlot(QNetworkReply *reply);
+    void attachedAccountCheckSlot(QNetworkReply *reply);
     void loginSlot(QNetworkReply *reply);
     void onBtnEnterPinClicked();
     void onBtnValitseCreditClicked();
@@ -52,11 +51,16 @@ private:
     Dialog * ptr_dll;
 
     QString cardNo;
+    QString accountNo;
 
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *loginManager;
+    QNetworkAccessManager *accountCheckManager;
     QNetworkReply *reply;
+    QNetworkReply *accountCheckReply;
     QByteArray data;
+
+    void checkAttachedAccounts();
 };
 #endif // MAINWINDOW_H
