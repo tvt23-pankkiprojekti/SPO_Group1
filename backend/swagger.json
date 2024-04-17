@@ -54,9 +54,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "array",
+                                "type": "object",
                                 "properties": {
-                                    "user": {
+                                    "id_user": {
                                         "type": "string"
                                     }
                                 }
@@ -86,18 +86,13 @@
         "responseBody": {
             "content": {
                 "application/json": {
-                    "schema":{
+                    "schema": {
                         "type": "object",
                         "properties": {
-                            "fname": {
-                                "type": "string"
-                            },
-                            "lname": {
-                                "type": "string"
-                            },
-                            "password": {
+                            "user": {
                                 "type": "string"
                             }
+                        }
                     }
                 }
             }
@@ -116,4 +111,4 @@
     }
 }
         
-}}}
+}}
