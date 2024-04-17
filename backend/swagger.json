@@ -79,36 +79,25 @@
         },
 
         "/admin/getallusers": {
-        "get": {
-        "description": "Lists all users",
-        "produces": "application/json",
-        "consumes": "application/json",
-        "responseBody": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "properties": {
-                            "user": {
-                                "type": "string"
+            "get": {
+                "description": "Lists all users",
+                "produces": "application/json",
+                        "responses": {
+                        "200": {
+                            "description": "Successfully listed"
+                        },
+                          "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
                             }
                         }
                     }
                 }
             }
-        },
-        "responses": {
-            "200": {
-                "description": "Successfully listed"
-            },
-            "400": {
-                "description": "Not all required data was received with the request"
-            },
-            "500": {
-                "description": "An error occurred while trying to list users"
-            }
         }
     }
 }
-        
-}}

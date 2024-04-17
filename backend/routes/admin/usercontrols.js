@@ -49,25 +49,12 @@ const usercontrols = {
 
     getAllUsers(request, response) {
         console.log(request.body);
-
-        var userObject = {
-            'fname' : request.body['fname'],
-            'lname' : request.body['lname'],
-            'state' : null,
-            'password' : request.body['password']
-        };
-
-        if (!user) {
-            response.status(400).send("Not all required data was received with the request");
-            return;
-        }
-
-        user.getAllUsers(userObject, function(err, result) {
+    
+        user.getAllUsers(function(err, result) {
             if (err) {
-                console.log(err);
-                response.send("500");
-            }
-            else {
+                console.error(err);
+                response.send(500);
+            } else {
                 console.log("Users listed");
                 response.send("200").json(result);
             }
