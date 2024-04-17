@@ -31,6 +31,15 @@ function addDebitCard(data, callback) {
     });
 }
 
+/*  Does:
+    - deduct the amount from account one
+    - add the amount to account two
+    - create a transaction record with account one, amount, current time and a description
+*/
+function accountToAccountTransaction(data, callback) {
+    return db.query("CALL accountToAccountTransaction(?, ?, ?, ?)", [data.account_one, data.account_two, data.amount, data.description], callback);
+}
+
 module.exports = {
     addCreditCardAndAccount,
     addDebitAccount,

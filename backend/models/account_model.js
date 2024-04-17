@@ -29,6 +29,10 @@ const account={
     allAccountsByUser(id_account, callback){
         return db.query("SELECT id_account, balance, type, state, credit_limit FROM account WHERE owner=?", [id_account], callback);
     },
+
+    allAccountsAccessibleByUser(id_user, callback) {
+        return db.query("SELECT account.id_account, type, state, balance, id_user, rights_level FROM account INNER JOIN account_ownership ON account.id_account = account_ownership.id_account WHERE account_ownership.id_user = ?", [id_user], callback);
+    }
 }
 
 module.exports=account;

@@ -6,10 +6,12 @@ const router = express.Router();
 
 const token = require('jsonwebtoken');
 const path = require('path');
+
 const login = require('./login');
 const signup = require('./signup');
 const profilelookup  = require('./viewprofile');
 const newservices = require('./newservices');
+const transaction = require('./transaction');
 const userdata = require('./userdata');
 
 const user = require('../../models/user_model'); // this is here for the /updateuser bandaid, can be removed later
@@ -137,6 +139,14 @@ router.get('/newservices/authorizecard', function(request, response) {
         response.render('authorizecard');
     });
 });
+
+router.get('/transaction', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        transaction.findTransactionCapableAccounts(request, response);
+    });
+});
+
+router.post('/transaction', transaction.accountToAccountTransaction);
 
 function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
