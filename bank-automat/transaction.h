@@ -16,7 +16,6 @@ class transaction;
 class transaction : public QDialog{
     Q_OBJECT
 public:
-    //explicit transaction(QWidget *parent = nullptr);
     ~transaction();
     void setWebtoken(const QByteArray &newWebtoken);
     void deposit();
@@ -24,12 +23,11 @@ public:
     void balance();
     void history();
 private slots:
-    //void action();
-    void depositSlot(QNetworkReply *reply);
+    //void depositSlot(QNetworkReply *reply);
     //void withdrawSlot(QNetworkReply *reply);
     //void balanceSlot(QNetworkReply *reply);
     //void historySlot(QNetworkReply *reply);
-    //void actionSlot(QNetworkReply *reply);
+    void transactionSlot(QNetworkReply *reply);
 private:
 
     QString id_account;
