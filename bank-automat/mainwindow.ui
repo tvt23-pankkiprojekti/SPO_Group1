@@ -17,7 +17,7 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>50</x>
       <y>0</y>
       <width>751</width>
       <height>581</height>
@@ -435,8 +435,8 @@
      <widget class="QPushButton" name="btnTakaisin2">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>370</y>
+        <x>200</x>
+        <y>510</y>
         <width>231</width>
         <height>81</height>
        </rect>
@@ -445,13 +445,13 @@
        <string>TAKAISIN</string>
       </property>
      </widget>
-     <widget class="QTableView" name="tableTransactions">
+     <widget class="QTableView" name="tableEvents">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>160</x>
         <y>130</y>
-        <width>256</width>
-        <height>192</height>
+        <width>351</width>
+        <height>341</height>
        </rect>
       </property>
       <property name="selectionMode">
@@ -461,27 +461,14 @@
      <widget class="QPushButton" name="pushButtonTapaht">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>100</y>
-        <width>75</width>
+        <x>440</x>
+        <y>480</y>
+        <width>91</width>
         <height>24</height>
        </rect>
       </property>
       <property name="text">
-       <string>Näytä</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelValittu">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>330</y>
-        <width>49</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>TextLabel</string>
+       <string>seuraava sivu</string>
       </property>
      </widget>
     </widget>

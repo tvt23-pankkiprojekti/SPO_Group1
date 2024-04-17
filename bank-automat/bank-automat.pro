@@ -1,5 +1,4 @@
 QT += gui core serialport widgets
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += network
 
 CONFIG += c++17
@@ -13,13 +12,13 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     profilewindow.cpp \
-    transactions.cpp
+    transactionHistory.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
-    profilewindow.h  \
-    transactions.h
+    profilewindow.h \
+    transactionHistory.h
 
 FORMS += \
     mainwindow.ui

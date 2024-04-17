@@ -16,6 +16,7 @@
 #include "profilewindow.h"
 #include "env.h"
 #include <QList>
+#include "transactionHistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,6 +34,7 @@ public:
 
 public slots:
     void profileDataSlot(QNetworkReply *reply);
+    void transactionEventsData(QNetworkReply *reply);
 
 private slots:
     void onActionDEMOTriggered();
@@ -55,11 +57,17 @@ private:
     Dialog * ptr_dll;
 
     QString cardNo;
+    QString idAccount;
+    QString token;
 
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
+    QNetworkAccessManager *transferManagerEvents;
     QNetworkReply *reply;
+    QNetworkReply *replyEvents;
     QByteArray data;
+    transactionHistory * eventData;
+
 
 };
 #endif // MAINWINDOW_H
