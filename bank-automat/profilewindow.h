@@ -22,7 +22,7 @@ private:
     QLabel *descriptionLabels[6];
     QTableWidgetItem *transactions[3][5];
     QTableWidget *table;
-    QByteArray data;
+    //QByteArray data;
 };
 
 #endif // PROFILEWINDOW_H
