@@ -54,9 +54,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
+                                "type": "array",
                                 "properties": {
-                                    "id_user": {
+                                    "user": {
                                         "type": "string"
                                     }
                                 }
@@ -76,6 +76,44 @@
                     }
                 }
             }
+        },
+
+        "/admin/getallusers": {
+        "get": {
+        "description": "Lists all users",
+        "produces": "application/json",
+        "consumes": "application/json",
+        "responseBody": {
+            "content": {
+                "application/json": {
+                    "schema":{
+                        "type": "object",
+                        "properties": {
+                            "fname": {
+                                "type": "string"
+                            },
+                            "lname": {
+                                "type": "string"
+                            },
+                            "password": {
+                                "type": "string"
+                            }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successfully listed"
+            },
+            "400": {
+                "description": "Not all required data was received with the request"
+            },
+            "500": {
+                "description": "An error occurred while trying to list users"
+            }
         }
     }
 }
+        
+}}}
