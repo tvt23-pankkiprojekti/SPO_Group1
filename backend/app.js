@@ -10,6 +10,7 @@ const adminRouter = require('./routes/admin/router');
 const viewCardRouter = require('./routes/viewcard');
 const loginRouter = require('./routes/login');
 const transactionRouter = require('./routes/transaction');
+const viewTransactionRouter = require('./routes/viewtransactions');
 
 const swagger = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
@@ -35,6 +36,7 @@ app.use('/bankomat/verifycard', cardVerificationRouter);
 app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/login', loginRouter);
 app.use('/bankomat/transaction', transactionRouter);
+app.use('/bankomat/viewtransactions', viewTransactionRouter);
 //app.use(authenticatetoken);
 
 module.exports = app;
