@@ -17,7 +17,7 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     env.h \
-    profilewindow.h 
+    profilewindow.h
 
 FORMS += \
     mainwindow.ui
@@ -27,11 +27,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32: LIBS += -L$$PWD/../pincodeDLL/build/debug/ -lpincodeDLL
-
-INCLUDEPATH += $$PWD/../pincodeDLL
-DEPENDPATH += $$PWD/../pincodeDLL
-
 DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
@@ -39,3 +34,8 @@ DISTFILES += \
 
 RESOURCES += \
     Retest.qrc
+
+win32: LIBS += -L$$PWD/../pincodeDLL/build/debug/ -lpincodeDLL
+
+INCLUDEPATH += $$PWD/../pincodeDLL
+DEPENDPATH += $$PWD/../pincodeDLL

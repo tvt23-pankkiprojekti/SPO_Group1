@@ -7,8 +7,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:user',function(request,response){
-  user.getUser(request.params.user, function(err,result){
+router.get('/user',function(request,response){
+  user.getUser(request.body, function(err,result){
       if(err){
           response.send(err);
       }
@@ -44,14 +44,15 @@ router.put('/:user', function(request, response){
   });
 });
 
-router.delete('/:user',function(request, response){
-  user.deleteUser(request.params.user, function(err, result){
+router.delete('/',function(request, response){
+  user.deleteUser(request.body, function(err, result){
       if(err){
           response.send(err);
       }
       else{
-          //response.json(result);
-          console.log(result.affectedRows);
+          /*response.json(result);
+          response.json(result);
+          console.log(result.affectedRows);*/
           response.json(result.affectedRows);
       }
   });

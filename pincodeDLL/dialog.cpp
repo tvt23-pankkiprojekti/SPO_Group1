@@ -32,9 +32,9 @@ Dialog::~Dialog()
 void Dialog::numberClickedHandler()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
-    QString name = button->text();
+    QString pin = button->text();
     QString currentText = ui->line->text();
-    ui->line->setText(currentText + name);
+    ui->line->setText(currentText + pin);
 }
 
 void Dialog::undoClickHandler()
@@ -55,7 +55,10 @@ void Dialog::clickHandler()
 {
     QString s = ui->line->text();
     emit sendString(s);
-    delete ui;
+    pincode = s;
+    emit pincodeReady();
+    ui->line->clear();
+    this->close();
 }
 
 void Dialog::onN1Clicked()
@@ -106,4 +109,9 @@ void Dialog::onN9Clicked()
 void Dialog::onN0Clicked()
 {
     numberClickedHandler();
+}
+
+QString Dialog::getPincode() const
+{
+    return pincode;
 }
