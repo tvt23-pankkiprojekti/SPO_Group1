@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
+    <width>856</width>
     <height>633</height>
    </rect>
   </property>
@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>0</y>
-      <width>721</width>
-      <height>581</height>
+      <x>20</x>
+      <y>10</y>
+      <width>831</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
