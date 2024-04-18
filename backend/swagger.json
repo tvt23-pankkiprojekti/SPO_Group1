@@ -11,7 +11,7 @@
                 "description": "Adds a user to the database",
                 "produces": "application/json",
                 "consumes": "application/json",
-                "requestBody":{
+                "requestBody": {
                     "content": {
                         "application/json": {
                             "schema":{
