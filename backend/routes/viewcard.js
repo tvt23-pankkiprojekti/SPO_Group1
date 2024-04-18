@@ -31,8 +31,8 @@ router.post('/', function(request, response) {
         return;
       }
       let cardOwnerData = result[0];
-    
-      accountAttached.getCardAssociatedAccount(cardData.id_card, function(err,result){
+
+      account.getAccount(request.body.account, function(err,result){
         if(err){
           response.send(err);
           return;
@@ -41,9 +41,9 @@ router.post('/', function(request, response) {
           response.send(false);
           return;
         }
-        let accountId = result[0];
+        let accountData = result[0];
 
-        account.getAccount(accountId.id_account, function(err,result){
+        user.getUser(accountData.owner, function(err,result){
           if(err){
             response.send(err);
             return;
@@ -52,42 +52,30 @@ router.post('/', function(request, response) {
             response.send(false);
             return;
           }
-          let accountData = result[0];
+          let userData = result[0];
 
-          user.getUser(accountData.owner, function(err,result){
+          transaction.getTransactionHistory(accountData.id_account, function(err,result){
             if(err){
-              response.send(err);
-              return;
-            }
-            else if ((result[0] == null) || (result[0] === undefined)) {
               response.send(false);
               return;
             }
-            let userData = result[0];
 
-            transaction.getTransactionHistory(accountData.id_account, function(err,result){
-              if(err){
-                response.send(false);
-                return;
-              }
-
-              let answer =[ {
-                "id_card": cardData.id_card,
-                "id_card_owner": cardData.owner,
-                "card_owner": cardOwnerData.fname+" "+cardOwnerData.lname,
-                "id_account": accountData.id_account,
-                "id_account_owner": accountData.owner,
-                "account_owner": userData.fname+" "+userData.lname 
-              },
-                result[0], 
-                result[1], 
-                result[2], 
-                result[3], 
-                result[4]
-              ];
-              //console.log(answer);
-              response.send(answer);
-            });
+            let answer =[ {
+              "id_card": cardData.id_card,
+              "id_card_owner": cardData.owner,
+              "card_owner": cardOwnerData.fname+" "+cardOwnerData.lname,
+              "id_account": accountData.id_account,
+              "id_account_owner": accountData.owner,
+              "account_owner": userData.fname+" "+userData.lname 
+            },
+              result[0], 
+              result[1], 
+              result[2], 
+              result[3], 
+              result[4]
+            ];
+            //console.log(answer);
+            response.send(answer);
           });
         });
       });
