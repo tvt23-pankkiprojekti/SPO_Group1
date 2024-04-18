@@ -45,6 +45,19 @@ const usercontrols = {
                 response.send("200");
             }
         });
+    },
+
+    listAllUsers(request, response) {
+        
+        user.listAllUsers(function(err, result) {
+            if (err) {
+                console.error(err);
+                response.status(500).send("Internal Server Error");
+            } else {
+                console.log("Users listed");
+                response.status(200).json(result);
+            }
+        });
     }    
 }
 
