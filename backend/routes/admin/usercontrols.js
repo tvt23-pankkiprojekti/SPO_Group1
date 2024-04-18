@@ -60,21 +60,23 @@ const usercontrols = {
         });
     },
 
-    updateUserUser(request, response) {
-        var id_user = request.body['id_user'];
+    updateUser(request, response) {
         
+        console.log("received");
         var userObject = {
+    
             'fname' : request.body['fname'],
             'lname' : request.body['lname'],
             'password' : request.body['password']
         };
-
-        if (userObject['fname'] == null || userObject['lname'] == null || userObject['password'] == null) {
+        console.log("2")
+        if (request.body.id_user == null || userObject['fname'] == null || userObject['lname'] == null || userObject['password'] == null) {
+            console.log("3");
             response.send("400");
             return;
         }
 
-        user.updateUser(userObject, function(err, result) {
+        user.updateUser(request.body.id_user, userObject, function(err, result) {
             if (err) {
                 console.log(err);
                 response.send("500");

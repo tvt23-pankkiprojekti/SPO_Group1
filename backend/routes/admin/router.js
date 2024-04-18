@@ -19,7 +19,7 @@ router.get('/listAllUsers', function(request, response) {
     usercontrols.listAllUsers(request, response);
 });
 
-router.put('/updateuser', function(request, response) {
+router.put('/updateUser', function(request, response) {
     usercontrols.updateUser(request, response);
 });
 

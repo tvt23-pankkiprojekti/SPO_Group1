@@ -132,6 +132,9 @@
                             "schema":{
                                 "type": "object",
                                 "properties": {
+                                    "id_user":{
+                                        "type": "number"
+                                    },
                                     "fname": {
                                         "type": "string"
                                     },
