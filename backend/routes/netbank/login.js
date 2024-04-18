@@ -83,6 +83,9 @@ function logOut(request, response) {
     if (request.cookies['simulbanktoken']) {
         response.cookie('simulbanktoken', null, {expires: new Date(1)});
     }
+    if (request.cookies['simulbankusername']) {
+        response.cookie('simulbankusername', null, {expires: new Date(1)});
+    }
     let url = request.headers['referer'];
     response.redirect(url + "/../");
 }

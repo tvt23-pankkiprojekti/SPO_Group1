@@ -29,6 +29,11 @@ Dialog::~Dialog()
     delete ui;
 }
 
+QString Dialog::getPincode() const
+{
+    return pincode;
+}
+
 void Dialog::numberClickedHandler()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
@@ -109,9 +114,4 @@ void Dialog::onN9Clicked()
 void Dialog::onN0Clicked()
 {
     numberClickedHandler();
-}
-
-QString Dialog::getPincode() const
-{
-    return pincode;
 }

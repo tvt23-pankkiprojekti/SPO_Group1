@@ -27,9 +27,33 @@ html
         else if error 
             p #{error}
         else 
-            p By opening this account I consent to SimulBank Ltd collecting any number of 
-            p infants borne from my blood.
-            form(method="post")
+            form(method="post", id="form")
+                if cardlist
+                    if cardlist.length > 1
+                        h3 Attach more accounts to your cards:
+                    else 
+                        h3 Attach more accounts to your card:
+                    table(style='width:50%', border='1')
+                        tr 
+                            th Card ID
+                            th Account type
+                            th 
+                        each card, index in cardlist 
+                            tr
+                                td #{cardlist[index][card].id_account}
+                                if cardlist[index][card].type == 1
+                                    td Debit
+                                else 
+                                    td Credit
+                                td
+                                    input(type="radio", value=accounts[index].id_account, name=cardlist[index][card].id_account)
+                    br
+                h3 Open a new debit account  
+                input(type="radio", id="", value="credit", name="debit")
+                br
+                br
+                p By opening this account I consent to SimulBank Ltd collecting any number of 
+                p infants borne from my blood.
                 p 
                 input(type="checkbox", id="accept", name="accept", onchange="checkAcceptanceBox()")
                 label(for="accept") Accept
