@@ -55,6 +55,7 @@ private:
 
     QString cardNo;
     QString accountNo;
+    QString creditAccount, debitAccount;
     QString token;
 
     ProfileWindow *accountInfo;

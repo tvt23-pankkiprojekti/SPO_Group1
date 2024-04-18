@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     cardNo = "060006E2E7";
-    idAccount = "00002";
-
+    debitAccount = "";
+    creditAccount = "";
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
@@ -91,16 +91,26 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
             msgBox.setText("No accounts attached to this card");
             msgBox.exec();
         }
-        else if (array.size() < 2) {
+        else if (array.size() > 1) {
+            if (array[0].toObject()["type"].toInt() == 0) {
+                creditAccount = array[0].toObject()["id_account"].toString();
+                debitAccount = array[1].toObject()["id_account"].toString();
+            }
+            else {
+                creditAccount = array[1].toObject()["id_account"].toString();
+                debitAccount = array[0].toObject()["id_account"].toString();
+            }
             ui->stackedWidget->setCurrentIndex(1);
         }
         else {
+            accountNo = array[0].toObject()["id_account"].toString();
             ui->stackedWidget->setCurrentIndex(2);
         }
     }
 
     accountCheckReply->deleteLater();
     accountCheckManager->deleteLater();
+}
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
@@ -175,11 +185,15 @@ void MainWindow::onBtnEnterPinClicked()
 
 void MainWindow::onBtnValitseCreditClicked()
 {
+    accountNo = creditAccount;
+    creditAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::onBtnValitseDebitClicked()
 {
+    accountNo = debitAccount;
+    debitAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -196,7 +210,7 @@ void MainWindow::onBtnNostaRahaaClicked()
 void MainWindow::onBtnTilitapahtumatClicked()
 {
     QJsonObject sentData;
-    sentData.insert("idaccount", idAccount);
+    sentData.insert("idaccount", accountNo);
 
     QString url = env::getUrl() + "/viewtransactions";
     QNetworkRequest request(url);
@@ -263,6 +277,7 @@ void MainWindow::onBtnKatsoTiedotClicked()
 {
     QJsonObject sentData;
     sentData.insert("card", cardNo);
+    sentData.insert("account", accountNo);
 
     QString url = env::getUrl() + "/viewprofile";
     QNetworkRequest request(url);
