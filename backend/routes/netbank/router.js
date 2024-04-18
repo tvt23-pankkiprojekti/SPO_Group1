@@ -47,10 +47,10 @@ router.use(express.urlencoded({ extended: false }));
         // actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
         router.get('/addcard', function(request, response) {
             let data = {
-                'id_card': "060006E2E7",
+                'id_card': "0600064988",
                 'state': null,
-                'id_owner': 3,
-                'pincode': '888'
+                'id_owner': 4,
+                'pincode': '000'
             };
             card.addCard(data, function(err, result) {
                 if (err) {

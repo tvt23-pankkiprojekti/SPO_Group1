@@ -1,3 +1,18 @@
+script.
+    function acceptChecked(accept, error, submit) {    
+        let box = document.getElementById(accept);
+        let errorLabel = document.getElementById(error);
+        let submitButton = document.getElementById(submit);
+        if (box.checked) {
+            errorLabel.innerText = "";
+            submitButton.disabled = false;
+        }
+        else {
+            errorLabel.innerText = "You must accept the terms and conditions to proceed";
+            submitButton.disabled = true;
+        }
+    }
+
 html 
     head 
         title New services
@@ -6,14 +21,47 @@ html
         br
         br
         h1 Available services: 
+        h2 Open a new account: 
+        form(method="post", id="openAccount")
+            h3 Product types:
+            input(type="radio", id="sadebit", value=0, name="openAccount")
+            label(for="sadebit") Standalone debit account
+            br
+            input(type="radio", id="debitwcard", value=1, name="openAccount")
+            label(for="debitwcard") Debit account with card
+            br
+            input(type="radio", id="sacredit", value=2, name="openAccount")
+            label(for="sacredit") Standalone credit account
+            br
+            input(type="radio", id="creditwcard", value=3, name="openAccount")
+            label(for="creditwcard") Credit account with card
+            br
+            p By opening an account I consent to SimulBank Ltd collecting any number of 
+            p infants borne from my blood.
+            input(type="checkbox", id="openAccountAccept", name="accept", onchange="acceptChecked('openAccountAccept', 'openAccountError', 'openAccountSubmit')")
+            label(for="openAccountAccept") Accept
+            br
+            br
+            button(type="submit", id="openAccountSubmit", name="submit", disabled=true) Open an account
+            label(for="openAccountSubmit", id="openAccountError", name="error", innerText="You must accept the terms and conditions to open an account")
         br
-        button(type='button' onclick='window.location.href = window.location.href + "/openaccount"') Open a new account
         br
-        br
+        if newCardAccounts 
+            form(method="post", id="getNewCard")
+                h3 Accounts with new card availability:
+                br
+                p By opening an account I consent to SimulBank Ltd collecting any number of 
+                p infants borne from my blood.
+                input(type="checkbox", id="newCardAccept", name="accept", onchange="acceptChecked('newCardAccept', 'newCardError', 'newCardSubmit')")
+                label(for="newCardAccept") Accept
+                br
+                br
+                button(type="submit", id="newCardSubmit", disabled=true) Open an account
+                label(for="newCardSubmit", id="newCardError", innerText="You must accept the terms and conditions to open an account")
         button(type='button' onclick='window.location.href = window.location.href + "/getcard"') Get a card
         br
         br
         if accounts.length > 0
-            button(type='button' onclick='window.location.href = window.location.href + "/authorizecard"') Authorize a card for another user
+            button(type='button' onclick='window.location.href = window.location.href + "/authorizecard"') Authorize a card for another user or view your authorizations
             br
             br

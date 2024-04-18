@@ -1,4 +1,5 @@
 const user = require('../../models/user_model');
+const token = require('jsonwebtoken');
 
 // Adds given user data to the database, 
 function addUser(request, response) {
@@ -16,12 +17,18 @@ function addUser(request, response) {
             response.render('signup', {error: "Database error"});
         }
         else {
-            console.log("New user added to database");
+            console.log("New user added to database, id " + result['insertId']);
             response.cookie('simulbankuserid', result['insertId'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
             response.cookie('simulbankusername', userObject['fname'] + " " + userObject['lname'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+            let token = generateToken({userid: result['insertId']});
+            response.cookie('simulbanktoken', token, { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
             response.redirect(url + "/netbank/home");
         }
     });
+}
+
+function generateToken(id) {
+    return token.sign(id, process.env.Web_Token, {expiresIn: '600s'});
 }
 
 module.exports = {
