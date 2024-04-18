@@ -101,22 +101,23 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
-    data=reply->readAll();
+    data = reply->readAll();
     qDebug()<<data;
     QMessageBox msgBox;
-    qDebug()<<"response_data";
+    qDebug()<<data;
     if(data=="-4078" || data.length()==0){
         msgBox.setText("Virhe tietoyhteydessä");
         msgBox.exec();
     }
     else{
         if(data!="false"){
+            msgBox.setText("Kirjautunut");
             //kirjautuminen onnistui
             qDebug() << "loginSLot(), data wasn't false";
             checkAttachedAccounts();
         }
         else{
-            msgBox.setText("Tunnus ei täsmää");
+            msgBox.setText("Väärä tunnus");
             msgBox.exec();
             //ui->textUsername->clear();
             ui->lineEdit->clear();
@@ -132,8 +133,8 @@ void MainWindow::onBtnEnterPinClicked()
     //ui->stackedWidget->setCurrentIndex(1);
     QString pin=ptr_dll->getPincode();
     QJsonObject jsonObj;
-    jsonObj.insert("pincode", pin);
     jsonObj.insert("card", cardNo);
+    jsonObj.insert("pincode", pin);
 
     QString url = env::getUrl() + "/login";
     QNetworkRequest request(url);
@@ -187,7 +188,7 @@ void MainWindow::onBtnTakaisin3Clicked()
 void MainWindow::handleDLLSignal(QString s)
 {
     ui->lineEdit->setText(s);
-    ui->stackedWidget->setCurrentIndex(1);
+    //ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::handleClick()
