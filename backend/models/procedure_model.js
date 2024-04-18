@@ -6,32 +6,32 @@ with SQL TRANSACTION.
 */
 
 /* Creates:
-    - a new credit account (curr. with a limit of €1000)
-    - a new credit card
+    - a new account
+    - a new card
     - a card-account connection
     - a user-account connection
 */
-function addCreditCardAndAccount(data, callback) {
+function newCardAndAccount(data, callback) {
     bcrypt.hash(data.pincode, 10, function(err, hashedPincode) {
-        return db.query("CALL openCreditCard(?, ?, ?, ?, ?)", [data.id_card, data.id_user, hashedPincode, data.id_account, data.credit_limit], callback);
+        return db.query("CALL newCardAndAccount(?, ?, ?, ?, ?, ?)", [data.id_card, data.account_type, data.id_user, hashedPincode, data.id_account, data.credit_limit], callback);
     });
 }
 
 /* Creates:
-    - a new debit account
+    - a new account
     - a user-account connection
 */
-function addDebitAccount(data, callback) {
-    return db.query("CALL openDebitAccount(?, ?)", [data.id_account, data.id_user], callback);
+function newAccount(data, callback) {
+    return db.query("CALL newAccount(?, ?, ?, ?)", [data.id_account, data.account_type, data.id_user, data.credit_limit], callback);
 }
 
 /* Creates:
     - a new card
     - a card-account connection
 */
-function addNewCard(data, callback) {
+function newCard(data, callback) {
     bcrypt.hash(data.pincode, 10, function(err, hashedPincode) {
-        return db.query("CALL openNewCard(?, ?, ?, ?)", [data.id_card, data.id_account, data.id_user, hashedPincode], callback);
+        return db.query("CALL newCard(?, ?, ?, ?)", [data.id_card, data.id_account, data.id_user, hashedPincode], callback);
     });
 }
 
@@ -56,9 +56,9 @@ function accountToAccountTransaction(data, callback) {
 }
 
 module.exports = {
-    addCreditCardAndAccount,
-    addDebitAccount,
-    addNewCard,
+    newCardAndAccount,
+    newAccount,
+    newCard,
     addAuthorizedCard,
     accountToAccountTransaction
 }
