@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
     data = reply->readAll();
