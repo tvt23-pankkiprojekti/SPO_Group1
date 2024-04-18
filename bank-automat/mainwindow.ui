@@ -80,7 +80,7 @@
        <string>DLL DEMO</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="line">
+     <widget class="QLineEdit" name="lineEdit">
       <property name="geometry">
        <rect>
         <x>130</x>

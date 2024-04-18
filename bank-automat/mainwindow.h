@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-
+#include <QMessageBox>
 #include <QDialog>
 #include <QFile>
 #include <QDir>
@@ -37,7 +37,7 @@ public slots:
     void transactionEventsData(QNetworkReply *reply);
 
 private slots:
-    void onActionDEMOTriggered();
+    void loginSlot(QNetworkReply *reply);
     void onBtnEnterPinClicked();
     void onBtnValitseCreditClicked();
     void onBtnValitseDebitClicked();
@@ -63,6 +63,7 @@ private:
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
+    QNetworkAccessManager *loginManager;
     QNetworkReply *reply;
     QNetworkReply *replyEvents;
     QByteArray data;

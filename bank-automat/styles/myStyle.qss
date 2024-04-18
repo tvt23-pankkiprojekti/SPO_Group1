@@ -3,14 +3,12 @@ MainWindow {
 }
 
 QLabel {
-background-color: gray;
 min-height: 20px;
 min-width: 40px;
 font-size:16px;
 }
 
 QLineEdit {
-background-color: gray;
 min-height: 20px;
 min-width: 30px;
 font-size:11px;

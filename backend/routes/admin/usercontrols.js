@@ -30,7 +30,22 @@ const usercontrols = {
                 response.send("200");
             }
         });
-    }
+    },
+
+    deleteUser(request, response) {
+        var id_user = request.body['id_user'];
+    
+        user.deleteUser(id_user, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.send("500");
+            }
+            else {
+                console.log("User deleted from database");
+                response.send("200");
+            }
+        });
+    }    
 }
 
 module.exports = usercontrols;

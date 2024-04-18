@@ -11,9 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
-    connect(ptr_dll,SIGNAL(sendString(QString)),
-            this,SLOT(handleDLLSignal(QString)));
 
+    connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
     connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
     connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
     connect(ui->btnKirjauduUlos, SIGNAL(clicked()), this, SLOT(onBtnKirjauduUlosClicked()));
@@ -26,11 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(0);
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
     eventData = new transactionHistory;
+    eventData-> attachWindow(ui->stackedWidget);
 }
 
 
@@ -62,6 +62,7 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     transferManager->deleteLater();
 }
 
+
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
     QByteArray data = reply->readAll();
@@ -88,18 +89,52 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
 
 }
 
-void MainWindow::onActionDEMOTriggered()
+void MainWindow::loginSlot(QNetworkReply *reply)
 {
+    data=reply->readAll();
+    qDebug()<<data;
+    QMessageBox msgBox;
+    qDebug()<<"response_data";
+    if(data=="-4078" || data.length()==0){
 
+        msgBox.setText("Virhe tietoyhteydessä");
+        msgBox.exec();
+    }
+    else{
+        if(data!="false"){
+            //kirjautuminen onnistui
+            /*mainMenu *objectStudentMenu=new StudentMenu(this);
+            objectStudentMenu->setUsername(ui->lineEdit->text());
+            objectStudentMenu->setWebToken(data);*/
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+        else{
+            msgBox.setText("Tunnus ei täsmää");
+            msgBox.exec();
+            //ui->textUsername->clear();
+            ui->lineEdit->clear();
+        }
+    }
+    reply->deleteLater();
+    loginManager->deleteLater();
 }
-
-
-
-
 
 void MainWindow::onBtnEnterPinClicked()
 {
+    qDebug()<<"enter clicked";
     //ui->stackedWidget->setCurrentIndex(1);
+    QString pin=ptr_dll->getPincode();
+    QJsonObject jsonObj;
+    jsonObj.insert("pincode", pin);
+    jsonObj.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/login";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    loginManager = new QNetworkAccessManager(this);
+    connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void MainWindow::onBtnValitseCreditClicked()
@@ -160,7 +195,7 @@ void MainWindow::onBtnTakaisin3Clicked()
 
 void MainWindow::handleDLLSignal(QString s)
 {
-    ui->line->setText(s);
+    ui->lineEdit->setText(s);
     ui->stackedWidget->setCurrentIndex(1);
 }
 
@@ -179,7 +214,7 @@ void MainWindow::onBtnKatsoTiedotClicked()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     transferManager = new QNetworkAccessManager(this);
-    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+    connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }

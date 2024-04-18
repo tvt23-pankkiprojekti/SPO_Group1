@@ -8,11 +8,13 @@ transactionHistory::~transactionHistory()
 {
 }
 
+void transactionHistory::attachWindow(QWidget *window)
+{
+    tableEvents= window->findChild<QTableView*>("tableEvents");
+}
+
 void transactionHistory::addEvents()
 {
-
-
-
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
@@ -21,8 +23,9 @@ void transactionHistory::addEvents()
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
+    qDebug()<<"virhe 1";
    for (int row = 0; row < 10; ++row) {
-
+    qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
         table_model->setItem(row, 0, amount);
@@ -43,7 +46,7 @@ void transactionHistory::addEvents()
         event+=json_obj["time"].toString();
         event+="\r";
     }*/
-
+    qDebug()<<"virhe 2";
     tableEvents->setModel(table_model);
 
 }
