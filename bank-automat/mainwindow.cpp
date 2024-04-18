@@ -7,12 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     cardNo = "060006E2E7";
+    idAccount = "00002";
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
-    connect(ptr_dll,SIGNAL(sendString(QString)),
-            this,SLOT(handleDLLSignal(QString)));
 
+    connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
     connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
     connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
     connect(ui->btnKirjauduUlos, SIGNAL(clicked()), this, SLOT(onBtnKirjauduUlosClicked()));
@@ -25,11 +25,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(0);
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
-}
 
+    eventData = new transactionHistory;
+    eventData-> attachWindow(ui->stackedWidget);
+}
 
 
 
@@ -59,18 +61,80 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     transferManager->deleteLater();
 }
 
-void MainWindow::onActionDEMOTriggered()
+
+void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
+    QByteArray data = reply->readAll();
+
+    if(data.length()==0 || data == "-4078"){
+        qDebug()<<"Tietoliikenneyhteysvika";
+        reply->deleteLater();
+        transferManagerEvents->deleteLater();
+        return;
+    }
+
+    if (data == "false") {
+        qDebug() << "Tietoa ei saatu";
+        reply->deleteLater();
+        transferManagerEvents->deleteLater();
+        return;
+    }
+
+    ui->stackedWidget->setCurrentIndex(4);
+    eventData->getEventSlot(data);
+
+    replyEvents->deleteLater();
+    transferManagerEvents->deleteLater();
 
 }
 
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    data = reply->readAll();
+    qDebug()<<data;
+    QMessageBox msgBox;
+    qDebug()<<data;
+    if(data=="-4078" || data.length()==0){
 
-
-
+        msgBox.setText("Virhe tietoyhteydessä");
+        msgBox.exec();
+    }
+    else{
+        if(data!="false"){
+            msgBox.setText("Kirjautunut");
+            //kirjautuminen onnistui
+            /*mainMenu *objectStudentMenu=new StudentMenu(this);
+            objectStudentMenu->setUsername(ui->lineEdit->text());
+            objectStudentMenu->setWebToken(data);*/
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+        else{
+            msgBox.setText("Väärä tunnus");
+            msgBox.exec();
+            //ui->textUsername->clear();
+            ui->lineEdit->clear();
+        }
+    }
+    reply->deleteLater();
+    loginManager->deleteLater();
+}
 
 void MainWindow::onBtnEnterPinClicked()
 {
+    qDebug()<<"enter clicked";
     //ui->stackedWidget->setCurrentIndex(1);
+    QString pin=ptr_dll->getPincode();
+    QJsonObject jsonObj;
+    jsonObj.insert("card", cardNo);
+    jsonObj.insert("pincode", pin);
+
+    QString url = env::getUrl() + "/login";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    loginManager = new QNetworkAccessManager(this);
+    connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void MainWindow::onBtnValitseCreditClicked()
@@ -95,7 +159,23 @@ void MainWindow::onBtnNostaRahaaClicked()
 
 void MainWindow::onBtnTilitapahtumatClicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    QJsonObject sentData;
+    sentData.insert("idaccount", idAccount);
+
+    QString url = env::getUrl() + "/viewtransactions";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
+    transferManagerEvents = new QNetworkAccessManager(this);
+    connect(transferManagerEvents, SIGNAL(finished (QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
+
+    replyEvents = transferManagerEvents->post(request, QJsonDocument(sentData).toJson());
+
 }
 
 void MainWindow::onBtnTakaisinClicked()
@@ -115,8 +195,8 @@ void MainWindow::onBtnTakaisin3Clicked()
 
 void MainWindow::handleDLLSignal(QString s)
 {
-    ui->line->setText(s);
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->lineEdit->setText(s);
+    //ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::handleClick()
@@ -134,7 +214,10 @@ void MainWindow::onBtnKatsoTiedotClicked()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     transferManager = new QNetworkAccessManager(this);
-    connect(transferManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+    connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
+
+
+

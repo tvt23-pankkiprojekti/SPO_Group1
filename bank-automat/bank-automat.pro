@@ -1,5 +1,4 @@
 QT += gui core serialport widgets
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += network
 
 CONFIG += c++17
@@ -12,12 +11,14 @@ SOURCES += \
     env.cpp \
     main.cpp \
     mainwindow.cpp \
-    profilewindow.cpp
+    profilewindow.cpp \
+    transactionHistory.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
-    profilewindow.h 
+    profilewindow.h \
+    transactionHistory.h
 
 FORMS += \
     mainwindow.ui
@@ -27,11 +28,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32: LIBS += -L$$PWD/../pincodeDLL/build/debug/ -lpincodeDLL
-
-INCLUDEPATH += $$PWD/../pincodeDLL
-DEPENDPATH += $$PWD/../pincodeDLL
-
 DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
@@ -39,3 +35,8 @@ DISTFILES += \
 
 RESOURCES += \
     Retest.qrc
+
+win32: LIBS += -L$$PWD/../pincodeDLL/build/debug/ -lpincodeDLL
+
+INCLUDEPATH += $$PWD/../pincodeDLL
+DEPENDPATH += $$PWD/../pincodeDLL

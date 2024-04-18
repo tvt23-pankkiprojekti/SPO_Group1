@@ -3,7 +3,6 @@
 #include <QDebug>
 
 #include "pincodeDLL_global.h"
-#include "dialog.h"
 #include <QString>
 #include <QDialog>
 #include <QObject>

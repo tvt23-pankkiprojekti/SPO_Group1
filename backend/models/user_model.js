@@ -3,8 +3,12 @@ const bcrypt=require('bcryptjs');
 
 const user={
     getUser(id_user, callback){
-        return db.query("SELECT fname, lname, state, temp_restriction FROM user WHERE id_user = ?", [id_user], callback);
+        return db.query("SELECT fname, lname, state FROM user WHERE id_user = ?", [id_user], callback);
     }, // for admins
+
+    listAllUsers(callback){
+        return db.query("SELECT id_user, fname, lname FROM user", callback);
+    },
 
     addUser(newUser, callback){
         bcrypt.hash(newUser.password, 10, function(err, hashedPassword){
@@ -18,7 +22,7 @@ const user={
     
     getUserByName(fname, lname, callback) {
         return db.query("SELECT id_user FROM user WHERE fname = ? AND lname = ?", [fname, lname], callback);
-    }, // 
+    },
 
     updateUser(id, updateData, callback){
         bcrypt.hash(updateData.password, 10,function(err,hashedPassword){

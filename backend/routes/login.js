@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var card=require('../models/card_model');
-
+const express = require('express');
+const router = express.Router();
+const card=require('../models/card_model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.post('/',function(request, response){
     if(request.body.card && request.body.pincode){
@@ -11,12 +12,12 @@ router.post('/',function(request, response){
                 response.json(err.errno);
             }
             else{
-                if(result.length >0){
+                if(result.length > 0){
                     bcrypt.compare(request.body.pincode, result[0].pincode, function(err, compareResult){
-                        if(compareResult){
+                        if(compareResult == true) {
                             console.log('Kirjautuminen onnistui');
-                            const token=genToken({pincode: request.body.pincode});
-                            response.send(token);
+                            const token = genToken({pincode: request.body.card});
+                            response.json(token);
                         }
                         else {
                             console.log("Väärä salasana");
@@ -36,7 +37,7 @@ router.post('/',function(request, response){
   });
   
   function genToken(value){
-    return jwt.sign(value, process.env.MY_TOKEN, {expiresIn: '200s'});
+    return jwt.sign(value, process.env.Web_Token, {expiresIn: '200s'});
   }
 
   module.exports=router;

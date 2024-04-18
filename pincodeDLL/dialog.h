@@ -6,7 +6,6 @@
 #include <QGridLayout>
 #include <QRegularExpression>
 
-
 namespace Ui {
 class Dialog;
 }
@@ -18,6 +17,8 @@ class PINCODEDLL_EXPORT Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
+
+    QString getPincode() const;
 
 private slots:
     void clickHandler();
@@ -38,9 +39,11 @@ private slots:
 
 signals:
     void sendString(QString);
+    void pincodeReady();
 
 private:
     Ui::Dialog *ui;
+    QString pincode;
 };
 
 #endif // DIALOG_H

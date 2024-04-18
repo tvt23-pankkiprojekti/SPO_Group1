@@ -2,8 +2,8 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const transaction={
-    getTransactionHistory(history, callback) {
-        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? ORDER BY time DESC", [history], callback);
+    getTransactionHistory(id_account, callback) {
+        return db.query("SELECT id_transaction, amount, time, description FROM transaction WHERE id_account = ? ORDER BY time DESC", [id_account], callback);
     }, //transaction history
 
     addTransaction(acc, am, des, callback) {
