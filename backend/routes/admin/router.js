@@ -11,7 +11,7 @@ router.post('/adduser', function(request, response) {
     usercontrols.addUser(request, response);
 });
 
-router.delete('/deleteaccount', function(request, response) {
+router.delete('/deleteuser', function(request, response) {
     usercontrols.deleteUser(request, response);
 });
 
@@ -19,7 +19,7 @@ router.get('/listAllUsers', function(request, response) {
     usercontrols.listAllUsers(request, response);
 });
 
-router.put('/updateuser', function(request, response) {
+router.put('/updateUser', function(request, response) {
     usercontrols.updateUser(request, response);
 });
 

@@ -6,7 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    cardNo = "0600064988";
+    cardNo = "060006E2E7";
+    idAccount = "00002";
+
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
@@ -27,8 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
-}
 
+    eventData = new transactionHistory;
+    eventData-> attachWindow(ui->stackedWidget);
+}
 
 
 
@@ -97,6 +101,30 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
     accountCheckReply->deleteLater();
     accountCheckManager->deleteLater();
+
+void MainWindow::transactionEventsData(QNetworkReply *reply)
+{
+    QByteArray data = reply->readAll();
+
+    if(data.length()==0 || data == "-4078"){
+        qDebug()<<"Tietoliikenneyhteysvika";
+        reply->deleteLater();
+        transferManagerEvents->deleteLater();
+        return;
+    }
+
+    if (data == "false") {
+        qDebug() << "Tietoa ei saatu";
+        reply->deleteLater();
+        transferManagerEvents->deleteLater();
+        return;
+    }
+
+    ui->stackedWidget->setCurrentIndex(4);
+    eventData->getEventSlot(data);
+
+    replyEvents->deleteLater();
+    transferManagerEvents->deleteLater();
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)
@@ -167,7 +195,23 @@ void MainWindow::onBtnNostaRahaaClicked()
 
 void MainWindow::onBtnTilitapahtumatClicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    QJsonObject sentData;
+    sentData.insert("idaccount", idAccount);
+
+    QString url = env::getUrl() + "/viewtransactions";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
+    transferManagerEvents = new QNetworkAccessManager(this);
+    connect(transferManagerEvents, SIGNAL(finished (QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
+
+    replyEvents = transferManagerEvents->post(request, QJsonDocument(sentData).toJson());
+
 }
 
 void MainWindow::onBtnTakaisinClicked()
@@ -229,3 +273,6 @@ void MainWindow::onBtnKatsoTiedotClicked()
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
+
+
+
