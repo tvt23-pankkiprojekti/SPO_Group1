@@ -7,7 +7,7 @@ Dialog::Dialog(QWidget *parent)
     , ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    ui->line->setMaxLength(3);
+    ui->line->setMaxLength(4);
 
     connect(ui->enterBtn,SIGNAL(clicked(bool)),
             this,SLOT(clickHandler()));

@@ -45,7 +45,7 @@
             }
         },
         
-        "/admin/deleteaccount": {
+        "/admin/deleteuser": {
             "delete": {
                 "description": "Deletes a user from the database",
                 "produces": "application/json",
@@ -78,13 +78,13 @@
             }
         },
 
-        "/admin/listAllUsers": {
+        "/admin/listallusers": {
             "get": {
                 "description": "Lists all users",
                 "produces": "application/json",
                         "responses": {
                         "200": {
-                            "description": "Successfully listed"
+                            "description": "Successfully listed all users"
                         },
                           "content": {
                             "application/json": {
@@ -101,10 +101,6 @@
                                         },
                                         "lname": {
                                             "type": "string"
-                                        },
-                                        "state": {
-                                            "type": "string",
-                                            "description": "State of the user"
                                         }
                                     }
                                 }
@@ -115,10 +111,58 @@
                         "description": "Not all required data was received with the request"
                     },
                     "500": {
-                        "description": "An error occurred while trying"
+                        "description": "An error occurred while trying to list users"
+                    }
+                }
+            }
+        },
+
+        "/admin/getuserbyuserid": {
+            "get": {
+                "description": "Finds user by id",
+                "produces": "application/json",
+                "parameters": [
+                    {
+                        "name": "id_user",
+                        "in": "query",
+                        "required": "true",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                        "responses": {
+                        "200": {
+                            "description": "User found"
+                        },
+                          "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fname": {
+                                            "type": "string"
+                                        },
+                                        "lname": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                        "400": {
+                            "description": "Not all required data was received with the request"
+                            },
+                        "500": {
+                            "description": "An error occurred while trying to list user by id"
+                        }
                     }
                 }
             }
         }
     }
-}
+}}
