@@ -163,6 +163,48 @@
                     }
                 }
             }
+        },
+
+        "/admin/updateUser": {
+            "put": {
+                "description": "Updates user data to the database",
+                "produces": "application/json",
+                "consumes": "application/json",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "id_user":{
+                                        "type": "number"
+                                    },
+                                    "fname": {
+                                        "type": "string"
+                                    },
+                                    "lname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
         }
     }
 }}

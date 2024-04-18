@@ -15,6 +15,8 @@
 #include <QNetworkRequest>
 #include "profilewindow.h"
 #include "env.h"
+#include <QList>
+#include "transactionHistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,8 +31,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
+
 public slots:
     void profileDataSlot(QNetworkReply *reply);
+    void transactionEventsData(QNetworkReply *reply);
 
 private slots:
     void loginSlot(QNetworkReply *reply);
@@ -47,16 +51,24 @@ private slots:
     void handleDLLSignal(QString);
     void handleClick();
 
+
 private:
     Ui::MainWindow *ui;
     Dialog * ptr_dll;
 
     QString cardNo;
+    QString idAccount;
+    QString token;
 
     ProfileWindow *accountInfo;
     QNetworkAccessManager *transferManager;
+    QNetworkAccessManager *transferManagerEvents;
     QNetworkAccessManager *loginManager;
     QNetworkReply *reply;
+    QNetworkReply *replyEvents;
     QByteArray data;
+    transactionHistory * eventData;
+
+
 };
 #endif // MAINWINDOW_H
