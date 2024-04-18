@@ -8,12 +8,12 @@
 #include <QDialog>
 #include <QFile>
 #include <QDir>
-#include "dialog.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtNetwork>
 #include <QNetworkRequest>
 #include "profilewindow.h"
+#include "dialog.h"
 #include "env.h"
 
 QT_BEGIN_NAMESPACE
@@ -48,7 +48,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Dialog * ptr_dll;
+    Dialog *ptr_dll;
 
     QString cardNo;
     QString accountNo;

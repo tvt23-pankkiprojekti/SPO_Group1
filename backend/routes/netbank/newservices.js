@@ -19,7 +19,7 @@ function openDebitCard(request, response) {
             'pincode': pin
         };
 
-        procedure.addDebitCard(data, function(err, result) {
+        procedure.addNewCard(data, function(err, result) {
             if (err) {
                 response.render('getcard', {error: "Something went wrong"});
                 console.log(err);
@@ -31,7 +31,6 @@ function openDebitCard(request, response) {
     });
 }
 
-
 function openCreditCard(request, response) {    
     findFreeCardID(request, response, 0, function(cardID) {
         findFreeAccountID(request, response, 0, function(accountID) {
@@ -41,7 +40,7 @@ function openCreditCard(request, response) {
                 'id_card': cardID,
                 'id_account': accountID,
                 'pincode': pin,
-                'credit_limit': 1000.00
+                'credit_limit': 3000.00
             };
 
             procedure.addCreditCardAndAccount(data, function(err, result) {
@@ -56,7 +55,8 @@ function openCreditCard(request, response) {
         });
     });
 }
-
+/* 
+*/
 function openAccount(request, response, accountType, next) {
     findFreeAccountID(request, response, 0, function(accountID) {
         let data = {
@@ -75,18 +75,28 @@ function openAccount(request, response, accountType, next) {
     });    
 }
 
+function addCreditAccountToCard() {
+
+}
+
+function a() {
+
+}
+
+/* Creates a 4-digit pin
+*/
 function randomizePin() {
     let pin = "";
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         pin = pin + Math.floor((Math.random() * 10));
     }
     return pin;
 }
 
-function findFreeAccountID(request, response, no, next) {
-    let id = no;
-
-    account.getAccount(id, function(err, result) {
+/* Loops through
+*/
+function findFreeAccountID(request, response, number, next) {
+    account.getAccount(number, function(err, result) {
         if (err) {
             response.render('openaccount', {error: "Something went wrong with the database"});
             return;
@@ -94,47 +104,47 @@ function findFreeAccountID(request, response, no, next) {
         // 0 rows returned means that there's no existing account with that ID
         else if (result.length == 0){
             let idString;
-            if (id < 10) {
-                idString = "0000" + id;
+            if (number < 10) {
+                idString = "0000" + number;
             }
-            else if (id < 100) {
-                idString = "000" + id;
+            else if (number < 100) {
+                idString = "000" + number;
             }
-            else if (id < 1000) {
-                idString = "00" + id;
+            else if (number < 1000) {
+                idString = "00" + number;
             }
-            else if (id < 10000) {
-                idString = "0" + id;
+            else if (number < 10000) {
+                idString = "0" + number;
             }
-            else idString = "" + id;
+            else idString = "" + number;
             next(idString);
         }
         else {
-            accountIDLoop(request, response, id, next);
+            accountIDLoop(request, response, number, next);
         }
     });
 }
 
-function accountIDLoop(request, response, no, next) {
-    let id = no + 1;
+function accountIDLoop(request, response, number, next) {
+    let id = number + 1;
     findFreeAccountID(request, response, id, next);
 }
 
-function findFreeCardID(request, response, no, next) {
+function findFreeCardID(request, response, number, next) {
     let idString;
     if (no < 10) {
-        idString = "060000000" + no;
+        idString = "060000000" + number;
     }
-    else if (no < 100) {
-        idString = "06000000" + no;
+    else if (number < 100) {
+        idString = "06000000" + number;
     }
-    else if (no < 1000) {
-        idString = "0600000" + no;
+    else if (number < 1000) {
+        idString = "0600000" + number;
     }
-    else if (no < 10000) {
-        idString = "060000" + no;
+    else if (number < 10000) {
+        idString = "060000" + number;
     }
-    else idString = "06000" + no;
+    else idString = "06000" + number;
 
     card.getCard(idString, function(err, result) {
         if (err) {
@@ -146,13 +156,13 @@ function findFreeCardID(request, response, no, next) {
             next(idString);
         }
         else {
-            cardIDLoop(request, response, no, next);
+            cardIDLoop(request, response, number, next);
         }
     });
 }
 
-function cardIDLoop(request, response, no, next) {
-    let id = no + 1;
+function cardIDLoop(request, response, number, next) {
+    let id = number + 1;
     findFreeCardID(request, response, id, next);
 }
 

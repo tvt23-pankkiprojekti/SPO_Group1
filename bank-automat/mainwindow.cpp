@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    cardNo = "060006F233";
+    cardNo = "0600064988";
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
@@ -131,7 +131,7 @@ void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
     //ui->stackedWidget->setCurrentIndex(1);
-    QString pin=ptr_dll->getPincode();
+    QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
     jsonObj.insert("pincode", pin);

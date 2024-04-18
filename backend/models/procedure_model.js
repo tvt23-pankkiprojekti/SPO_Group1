@@ -1,6 +1,10 @@
 const db=require('../database');
 const bcrypt=require('bcryptjs');
 
+/* Most of these are procedures because they require multiple steps and it's easier to catch errors
+with SQL TRANSACTION.
+*/
+
 /* Creates:
     - a new credit account (curr. with a limit of €1000)
     - a new credit card
@@ -8,7 +12,7 @@ const bcrypt=require('bcryptjs');
     - a user-account connection
 */
 function addCreditCardAndAccount(data, callback) {
-    bcrypt.hash(data.pincode,10,function(err,hashedPincode){
+    bcrypt.hash(data.pincode, 10, function(err, hashedPincode) {
         return db.query("CALL openCreditCard(?, ?, ?, ?, ?)", [data.id_card, data.id_user, hashedPincode, data.id_account, data.credit_limit], callback);
     });
 }
@@ -22,12 +26,23 @@ function addDebitAccount(data, callback) {
 }
 
 /* Creates:
-    - a new debit card
+    - a new card
     - a card-account connection
 */
-function addDebitCard(data, callback) {
-    bcrypt.hash(data.pincode,10,function(err,hashedPincode){
-        return db.query("CALL openDebitCard(?, ?, ?, ?)", [data.id_card, data.id_account, data.id_user, hashedPincode], callback);
+function addNewCard(data, callback) {
+    bcrypt.hash(data.pincode, 10, function(err, hashedPincode) {
+        return db.query("CALL openNewCard(?, ?, ?, ?)", [data.id_card, data.id_account, data.id_user, hashedPincode], callback);
+    });
+}
+
+/* Creates:
+    - a new card
+    - a card-account connection
+    - a user-account connection
+*/
+function addAuthorizedCard(data, callback) {
+    bcrypt.hash(data.pincode, 10, function(err, hashedPincode) {
+        return db.query("CALL addAuthorizedCard(?, ?, ?, ?, ?)", [data.id_card, data.id_user, hashedPincode, data.id_account, data.credit_limit], callback);
     });
 }
 
@@ -43,6 +58,7 @@ function accountToAccountTransaction(data, callback) {
 module.exports = {
     addCreditCardAndAccount,
     addDebitAccount,
-    addDebitCard,
+    addNewCard,
+    addAuthorizedCard,
     accountToAccountTransaction
 }
