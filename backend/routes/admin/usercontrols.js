@@ -45,7 +45,46 @@ const usercontrols = {
                 response.send("200");
             }
         });
-    }    
+    },
+
+    listAllUsers(request, response) {
+        
+        user.listAllUsers(function(err, result) {
+            if (err) {
+                console.error(err);
+                response.status(500).send("Internal Server Error");
+            } else {
+                console.log("Users listed");
+                response.status(200).json(result);
+            }
+        });
+    },
+
+    updateUserUser(request, response) {
+        var id_user = request.body['id_user'];
+        
+        var userObject = {
+            'fname' : request.body['fname'],
+            'lname' : request.body['lname'],
+            'password' : request.body['password']
+        };
+
+        if (userObject['fname'] == null || userObject['lname'] == null || userObject['password'] == null) {
+            response.send("400");
+            return;
+        }
+
+        user.updateUser(userObject, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.send("500");
+            }
+            else {
+                console.log("User data updated succesfully");
+                response.send("200");
+            }
+        });
+    },  
 }
 
 module.exports = usercontrols;

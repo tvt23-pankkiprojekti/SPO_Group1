@@ -76,6 +76,88 @@
                     }
                 }
             }
+        },
+
+        "/admin/listAllUsers": {
+            "get": {
+                "description": "Lists all users",
+                "produces": "application/json",
+                        "responses": {
+                        "200": {
+                            "description": "Successfully listed"
+                        },
+                          "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id_user": {
+                                            "type": "string"
+                                        },
+                                        "fname": {
+                                            "type": "string"
+                                        },
+                                        "lname": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string",
+                                            "description": "State of the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Not all required data was received with the request"
+                    },
+                    "500": {
+                        "description": "An error occurred while trying"
+                    }
+                }
+            }
+        },
+
+        "/admin/updateUser": {
+            "put": {
+                "description": "Updates user data to the database",
+                "produces": "application/json",
+                "consumes": "application/json",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "fname": {
+                                        "type": "string"
+                                    },
+                                    "lname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
         }
     }
 }
