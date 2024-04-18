@@ -18,13 +18,14 @@ void transactionHistory::addEvents()
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
-    QStandardItemModel *table_model = new QStandardItemModel(10,3);
+    int max_events = qMin(json_array.size(), 10);
+    QStandardItemModel *table_model = new QStandardItemModel(max_events,3);
     table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Amount"));
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
     qDebug()<<"virhe 1";
-   for (int row = 0; row < 10; ++row) {
+    for (int row = 0; row < max_events; ++row) {
     qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
