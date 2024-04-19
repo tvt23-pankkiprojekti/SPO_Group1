@@ -165,7 +165,7 @@
             }
         },
 
-        "/admin/updateUser": {
+        "/admin/updateuser": {
             "put": {
                 "description": "Updates user data to the database",
                 "produces": "application/json",

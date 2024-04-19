@@ -32,6 +32,7 @@ DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
     backG.jpg
+    logo.png
 
 RESOURCES += \
     Retest.qrc

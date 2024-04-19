@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
+    <width>1047</width>
     <height>633</height>
    </rect>
   </property>
@@ -17,39 +17,26 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>10</y>
-      <width>831</width>
-      <height>601</height>
+      <width>1021</width>
+      <height>611</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>10</y>
+        <x>270</x>
+        <y>260</y>
         <width>461</width>
-        <height>210</height>
+        <height>121</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <pointsize>36</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Bankkimaattori</string>
-         </property>
-        </widget>
-       </item>
        <item alignment="Qt::AlignHCenter">
         <widget class="QLabel" name="labelKortinTila">
          <property name="font">
@@ -61,43 +48,48 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="text">
-          <string>Syötä kortti</string>
+          <string>INSERT YOUR CARD</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn">
+         <property name="text">
+          <string>DLL DEMO</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="btn">
+     <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>470</y>
-        <width>111</width>
-        <height>41</height>
+        <x>170</x>
+        <y>-90</y>
+        <width>651</width>
+        <height>501</height>
        </rect>
       </property>
       <property name="text">
-       <string>DLL DEMO</string>
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="Retest.qrc">:/logo.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>520</y>
-        <width>113</width>
-        <height>28</height>
-       </rect>
-      </property>
-     </widget>
+     <zorder>label_2</zorder>
+     <zorder>verticalLayoutWidget</zorder>
     </widget>
     <widget class="QWidget" name="pageValitseTili">
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>190</y>
-        <width>331</width>
+        <x>310</x>
+        <y>180</y>
+        <width>431</width>
         <height>251</height>
        </rect>
       </property>
@@ -111,7 +103,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Valitse Tili</string>
+          <string>Credit or Debit</string>
          </property>
         </widget>
        </item>
@@ -165,10 +157,10 @@
      <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>60</x>
         <y>10</y>
-        <width>748</width>
-        <height>567</height>
+        <width>911</width>
+        <height>191</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -182,7 +174,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Tervetuloa N.N.</string>
+            <string>WELCOME</string>
            </property>
           </widget>
          </item>
@@ -244,124 +236,96 @@
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>220</y>
+        <width>421</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QPushButton" name="btnNostaRahaa">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
+         <property name="font">
+          <font>
+           <pointsize>22</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+         <property name="text">
+          <string>NOSTA RAHAA</string>
          </property>
-        </spacer>
+        </widget>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <widget class="QPushButton" name="btnNostaRahaa">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>22</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>NOSTA RAHAA</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
-            <widget class="QPushButton" name="btnTilitapahtumat">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>20</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>TILITAPAHTUMAT</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="btnKatsoTiedot">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>20</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="autoFillBackground">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>KÄYTTÄJÄTIEDOT</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnKirjauduUlos">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>22</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>KIRJAUDU ULOS</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QPushButton" name="btnKatsoTiedot">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>20</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>KÄYTTÄJÄTIEDOT</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QPushButton" name="btnTilitapahtumat">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>20</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>TILITAPAHTUMAT</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QPushButton" name="btnKirjauduUlos">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>22</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>KIRJAUDU ULOS</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -370,9 +334,9 @@
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>10</y>
-        <width>271</width>
+        <x>360</x>
+        <y>40</y>
+        <width>311</width>
         <height>91</height>
        </rect>
       </property>
@@ -389,8 +353,8 @@
      <widget class="QPushButton" name="btnTakaisin">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>440</y>
+        <x>350</x>
+        <y>430</y>
         <width>331</width>
         <height>91</height>
        </rect>
@@ -767,6 +731,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Retest.qrc"/>
+ </resources>
  <connections/>
 </ui>
