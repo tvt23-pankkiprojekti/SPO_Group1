@@ -17,9 +17,9 @@ router.post('/', function(request, response) {
         else {
             let answers = [];
             for (let i = 0; i < result.length; i++) {
-                //if (result[i]['state'] == null) {
+                if (result[i]['state'] == null) {
                     answers.push(result[i]);
-                //}
+                }
             }
             //console.log(answers);
             response.send(answers);

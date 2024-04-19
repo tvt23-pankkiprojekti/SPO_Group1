@@ -66,7 +66,7 @@ router.use(express.urlencoded({ extended: false }));
 
 // Unauthenticated routes
 router.get('/', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/netbank.html"));
+    response.render('netbank');
 });
 
 router.get('/login', function(request, response) {
@@ -100,15 +100,9 @@ router.get('/newservices', function(request, response) {
     authenticateToken(request, response, newservices.newServicesWindow);
 });
 
-router.get('/newservices/openaccount', function(request, response) {
-    authenticateToken(request, response, function(request, response) {
-        response.render('openaccount')
-    });
-});
-
 router.post('/newservices/openaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        newservices.openAccount(request, response, 1)
+        newservices.openAccount(request, response);
     });
 });
 
@@ -126,12 +120,9 @@ router.get('/newservices/getcard', function(request, response) {
 });
 
 router.post('/newservices/getcard', function(request, response) {
-    if (request.body['account'] == 'credit') {
-        newservices.openCreditCard(request, response);
-    }
-    else {
-        newservices.openDebitCard(request, response);
-    }
+    authenticateToken(request, response, function(request, response) {
+        newservices.openCard(request, response);
+    });    
 });
 
 router.get('/newservices/authorizecard', function(request, response) {
@@ -152,7 +143,10 @@ function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
         //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
-            //console.log("Authentication successful, id " + request.cookies['simulbankuserid']);
+            // renews cookies
+            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
+            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
+            response.cookie('simulbanktoken', request.cookies['simulbanktoken'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             next(request, response);
         } 
         else {

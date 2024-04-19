@@ -18,10 +18,10 @@ function addUser(request, response) {
         }
         else {
             console.log("New user added to database, id " + result['insertId']);
-            response.cookie('simulbankuserid', result['insertId'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
-            response.cookie('simulbankusername', userObject['fname'] + " " + userObject['lname'], { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+            response.cookie('simulbankuserid', result['insertId'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+            response.cookie('simulbankusername', userObject['fname'] + " " + userObject['lname'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             let token = generateToken({userid: result['insertId']});
-            response.cookie('simulbanktoken', token, { expires: new Date(Date.now() + 1000000), httpOnly : true, secure : true});
+            response.cookie('simulbanktoken', token, { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             response.redirect(url + "/netbank/home");
         }
     });
