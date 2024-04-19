@@ -21,7 +21,8 @@ public:
     void deposit();
     void withdraw();
     void balance();
-    void history();
+    void transactionHistory();
+    void addTransaction();
 private slots:
     //void depositSlot(QNetworkReply *reply);
     //void withdrawSlot(QNetworkReply *reply);
@@ -32,6 +33,7 @@ private:
 
     QString id_account;
     QString amount;
+    QString description;
     QByteArray webtoken;
     QNetworkAccessManager *getManager;
     QNetworkAccessManager *postManager;

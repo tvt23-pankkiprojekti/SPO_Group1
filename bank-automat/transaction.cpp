@@ -20,8 +20,6 @@ void transaction::transactionSlot(QNetworkReply *reply){
     qDebug()<<response_data;
     qDebug()<<"transaction_response_data";
     //if tarkastukset aka yhteysvika ja tietoa ei saatu viat tähän väliin
-
-    //
 }
 
 void transaction::deposit(){
@@ -65,7 +63,7 @@ void transaction::balance(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(balanceObj).toJson());
 }
-void transaction::history(){
+void transaction::transactionHistory(){
     //json objectiin syöttö
     QJsonObject historyObj;
     historyObj.insert("acc",id_account);
@@ -77,4 +75,18 @@ void transaction::history(){
     postManager = new QNetworkAccessManager(this);
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(historyObj).toJson());
+}
+void transaction::addTransaction(){
+    QJsonObject addObj;
+    addObj.insert("acc", id_account);
+    addObj.insert("am", amount);
+    addObj.insert("des", description);
+    //urlin asettaminen ja headeri
+    QString site_url=env::getUrl()+"/transaction/adddTransaction";
+    QNetworkRequest request(site_url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    //depositObj postaus
+    postManager = new QNetworkAccessManager(this);
+    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
+    reply = postManager->post(request, QJsonDocument(addObj).toJson());
 }
