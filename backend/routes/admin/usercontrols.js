@@ -60,6 +60,20 @@ const usercontrols = {
         });
     },
 
+    getUser(request, response) {
+        var id_user = request.query['id_user'];
+
+        user.getUser(id_user, function(err, result) {
+            if (err) {
+                console.error(err);
+                response.status(500).send("Internal Server Error");
+            } else {
+                console.log("User listed");
+                response.status(200).json(result);
+            }
+        });
+    },
+
     updateUser(request, response) {
         
         console.log("received");
@@ -86,7 +100,7 @@ const usercontrols = {
                 response.send("200");
             }
         });
-    },  
+    }
 }
 
 module.exports = usercontrols;

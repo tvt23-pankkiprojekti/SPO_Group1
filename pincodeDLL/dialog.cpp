@@ -7,7 +7,7 @@ Dialog::Dialog(QWidget *parent)
     , ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    ui->line->setMaxLength(3);
+    ui->line->setMaxLength(4);
 
     connect(ui->enterBtn,SIGNAL(clicked(bool)),
             this,SLOT(clickHandler()));
@@ -27,6 +27,11 @@ Dialog::Dialog(QWidget *parent)
 Dialog::~Dialog()
 {
     delete ui;
+}
+
+QString Dialog::getPincode() const
+{
+    return pincode;
 }
 
 void Dialog::numberClickedHandler()
@@ -109,9 +114,4 @@ void Dialog::onN9Clicked()
 void Dialog::onN0Clicked()
 {
     numberClickedHandler();
-}
-
-QString Dialog::getPincode() const
-{
-    return pincode;
 }

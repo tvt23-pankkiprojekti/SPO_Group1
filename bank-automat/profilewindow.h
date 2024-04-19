@@ -16,7 +16,7 @@ class ProfileWindow : public QWidget
 public:
     ProfileWindow();
     void attachWindow(QWidget *window);
-    void updateUserData(QByteArray *data);
+    void updateUserData(QByteArray data);
 
 private:
     QLabel *descriptionLabels[6];

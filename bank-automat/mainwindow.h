@@ -8,12 +8,12 @@
 #include <QDialog>
 #include <QFile>
 #include <QDir>
-#include "dialog.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtNetwork>
 #include <QNetworkRequest>
 #include "profilewindow.h"
+#include "dialog.h"
 #include "env.h"
 #include <QList>
 #include "transactionHistory.h"
@@ -31,13 +31,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
-
-public slots:
-    void profileDataSlot(QNetworkReply *reply);
-    void transactionEventsData(QNetworkReply *reply);
-
-
 private slots:
+    void profileDataSlot(QNetworkReply *reply);
+    void attachedAccountCheckSlot(QNetworkReply *reply);
+    void transactionEventsData(QNetworkReply *reply);
     void loginSlot(QNetworkReply *reply);
     void onBtnEnterPinClicked();
     void onBtnValitseCreditClicked();
@@ -55,26 +52,34 @@ private slots:
     void onpreviousButtonclicked();
     void checkPage();
 
+
 private:
     Ui::MainWindow *ui;
-    Dialog * ptr_dll;
+    Dialog *ptr_dll;
 
     QString cardNo;
-    QString idAccount;
+    QString accountNo;
+    QString creditAccount, debitAccount;
     QString token;
 
     ProfileWindow *accountInfo;
+    
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
     QNetworkAccessManager *loginManager;
+    QNetworkAccessManager *accountCheckManager;
+    
     QNetworkReply *reply;
+    QNetworkReply *accountCheckReply;
     QNetworkReply *replyEvents;
+    
     QByteArray data;
-    transactionHistory *eventData;
 
     int currentPage = 0;
     int maxPage;
-
-
+    
+    transactionHistory * eventData;
+    
+    void checkAttachedAccounts();
 };
 #endif // MAINWINDOW_H
