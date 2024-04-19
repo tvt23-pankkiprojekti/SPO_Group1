@@ -6,34 +6,44 @@ function getUserData(request, response, next) {
     let userid = request.cookies['simulbankuserid'];
 
     if (!userid) {
-        next(true, [], [], []);
+        next(true, [], [], [], []);
         return;
     }
 
     user.getUser(userid, function(err,result){
 		if(err){
-			next(true, [], [], []);
+			next(true, [], [], [], []);
 			return;
 		};
 		let userData = result[0];
 
-		account.allAccountsByUser(userid, function(err,result){
+		account.allAccountsAccessibleByUser(userid, function(err,result){
 			if(err){
-				next(true, [], [], []);
+				next(true, [], [], [], []);
 				return;
 			}
 
-			let accounts = [];
+			let creditAccounts = [];
+            let debitAccounts = [];
 			let i = 0;
 			while (result[i] != null && result[i] != undefined) {
-                //console.log(result[i]);
-                accounts.push(result[i]);
+                if (result[i]['state'] == null) {
+                    if (result[i]['type'] == 0) {
+                        creditAccounts.push(result[i]);
+                    }
+                    else {
+                        debitAccounts.push(result[i]);
+                    }
+                }
+
                 i++;
 			}
+            //console.log(creditAccounts);
+            //console.log(debitAccounts);
 
 			card.getCardsByOwner(userid, function(err, result) {
                 if (err) {
-                    next(true, [], [], []);
+                    next(true, [], [], [], []);
                     return;
                 }
                 //console.log(result);
@@ -46,12 +56,7 @@ function getUserData(request, response, next) {
                     i++;
                 }
 
-                let data = {
-                'username': userData['fname'] + " " + userData['lname'],
-                'id_user': userid
-                };
-
-                next(false, data, cards, accounts);
+                next(false, cards, debitAccounts, creditAccounts, []);
 			});
 		});
     });

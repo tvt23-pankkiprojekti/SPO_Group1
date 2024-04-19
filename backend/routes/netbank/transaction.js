@@ -11,7 +11,7 @@ function findTransactionCapableAccounts(request, response) {
         else {
             let validAccounts = [];
             for (let i = 0; i < result.length; i++) {
-                if (result[i]['type'] == 1 && result[i]['state'] == null) {
+                if (result[i]['state'] == null) {
                     validAccounts.push(result[i]);
                 }
             }
