@@ -48,6 +48,10 @@ private slots:
     void onBtnKatsoTiedotClicked();
     void handleDLLSignal(QString);
     void handleClick();
+    void onnextButtonclicked();
+    void onpreviousButtonclicked();
+    void checkPage();
+
 
 private:
     Ui::MainWindow *ui;
@@ -70,6 +74,9 @@ private:
     QNetworkReply *replyEvents;
     
     QByteArray data;
+
+    int currentPage = 0;
+    int maxPage;
     
     transactionHistory * eventData;
     

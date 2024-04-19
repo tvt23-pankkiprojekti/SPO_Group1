@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
     connect(ui->btnTakaisin3, SIGNAL(clicked()), this, SLOT(onBtnTakaisin3Clicked()));
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
+    connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
+    connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
@@ -30,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
-    eventData = new transactionHistory;
-    eventData-> attachWindow(ui->stackedWidget);
+    eventData = new transactionHistory(this);
+    eventData->attachWindow(ui->stackedWidget);
 }
 
 
@@ -113,6 +115,7 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
+
     QByteArray data = reply->readAll();
 
     if(data.length()==0 || data == "-4078"){
@@ -204,6 +207,9 @@ void MainWindow::onBtnNostaRahaaClicked()
 
 void MainWindow::onBtnTilitapahtumatClicked()
 {
+    ui->previousButton->setVisible(false);
+    maxPage = 1;
+    currentPage = 1;
     QJsonObject sentData;
     sentData.insert("idaccount", accountNo);
 
@@ -286,3 +292,43 @@ void MainWindow::onBtnKatsoTiedotClicked()
 
 
 
+
+void MainWindow::onpreviousButtonclicked()
+{
+    if (currentPage > 1) {
+        currentPage--;
+        maxPage = eventData->addEvents(currentPage);
+    }
+
+    checkPage();
+}
+
+void MainWindow::checkPage()
+{
+    if (currentPage == 1) {
+        ui->previousButton->setVisible(false);
+    }
+    else {
+        ui->previousButton->setVisible(true);
+    }
+
+    if (currentPage == maxPage) {
+        ui->nextButton->setVisible(false);
+    }
+    else {
+        ui->nextButton->setVisible(true);
+    }
+}
+
+
+void MainWindow::onnextButtonclicked()
+{
+    if (currentPage <= maxPage) {
+        currentPage++;
+        maxPage = eventData->addEvents(currentPage);
+    }
+
+    qDebug()<<maxPage;
+
+    checkPage();
+}

@@ -125,6 +125,13 @@ router.post('/newservices/getcard', function(request, response) {
     });    
 });
 
+router.post('/newservices/secondaccount', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        console.log("Looking to attach second account to card");
+        //newservices.openAccount(request, response);
+    });
+});
+
 router.get('/newservices/authorizecard', function(request, response) {
     authenticateToken(request, response, function(request, response) {
         response.render('authorizecard');
