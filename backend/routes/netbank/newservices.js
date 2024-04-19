@@ -4,21 +4,26 @@ const userdata = require('./userdata');
 const procedure = require('../../models/procedure_model');
 
 function newServicesWindow(request, response) {
-    userdata.getUserData(request, response, function(err, cards, debitAccounts, creditAccounts, authorizedAccounts) {
+    userdata.getCardApprovedAccounts(request, response, function(err, debitAvailableCards, creditAvailableCards, debitAccounts, creditAccounts, authorizedAccounts) {
         if (err) {
             response.render('newserviceswindow', {error: "Something went wrong with getting your data"});
         }
         else {
-            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, cards: cards});
+            /*let i = 0;
+            while (cards[i] != null && cards[i] != undefined)
+            {
+                for (let j = 0; j < debitAccounts.length; j++) {
+
+                }
+                i++;
+            }*/
+            
+            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, authorizedAccounts: authorizedAccounts, cards: creditAvailableCards});
         }
     });
 }
 
 function openCard(request, response) {
-
-}
-
-function openDebitCard(request, response) {
     findFreeCardID(request, response, 0x0, function(cardID) {
         let pin = randomizePin();
         let data = {
@@ -28,39 +33,14 @@ function openDebitCard(request, response) {
             'pincode': pin
         };
 
-        procedure.addNewCard(data, function(err, result) {
+        procedure.newCard(data, function(err, result) {
             if (err) {
                 response.render('getcard', {error: "Something went wrong"});
                 console.log(err);
             }
             else {
-                response.render('getcard', {newcard: "Your debit card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
+                response.render('getcard', {newcard: "Your card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
             }
-        });
-    });
-}
-
-function openCreditCard(request, response) {    
-    findFreeCardID(request, response, 0x0, function(cardID) {
-        findFreeAccountID(request, response, 0x0, function(accountID) {
-            let pin = randomizePin();
-            let data = {
-                'id_user': request.cookies['simulbankuserid'],
-                'id_card': cardID,
-                'id_account': accountID,
-                'pincode': pin,
-                'credit_limit': 3000.00
-            };
-
-            procedure.addCreditCardAndAccount(data, function(err, result) {
-                if (err) {
-                    response.render('getcard', {error: "Something went wrong"});
-                    console.log(err);
-                }
-                else {
-                    response.render('getcard', {newcard: "Your credit card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
-                }
-            });
         });
     });
 }
@@ -77,11 +57,12 @@ function openAccount(request, response) {
     findFreeAccountID(request, response, 0, function(accountID) {
         if (requestType > 1) {
             findFreeCardID(request, response, 0x0, function(cardID) {
+                let pin = randomizePin();
                 let data = {
                     'id_card': cardID,
                     'account_type': requestType - 2,
                     'id_user': request.cookies['simulbankuserid'],
-                    'pincode': randomizePin(),
+                    'pincode': pin,
                     'id_account': accountID,
                     'credit_limit': (requestType - 2 == 0) ? 3000.00 : 0.00
                 };
@@ -92,7 +73,7 @@ function openAccount(request, response) {
                     }
                     else {
                         //console.log(data);
-                        response.render('newservices', {success: "Account opened succesfully.", success2: "Your account ID is " + accountID + ", card ID is " + cardID + ", and PIN number is " + data['pincode'] + "."});
+                        response.render('newservices', {success: "Account opened succesfully.", success2: "Your account ID is " + accountID + ", card ID is " + cardID + ", and PIN number is " + pin + "."});
                     }
                 });
             });
