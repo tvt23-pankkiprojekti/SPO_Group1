@@ -36,6 +36,7 @@ public slots:
     void profileDataSlot(QNetworkReply *reply);
     void transactionEventsData(QNetworkReply *reply);
 
+
 private slots:
     void loginSlot(QNetworkReply *reply);
     void onBtnEnterPinClicked();
@@ -50,7 +51,9 @@ private slots:
     void onBtnKatsoTiedotClicked();
     void handleDLLSignal(QString);
     void handleClick();
-
+    void onnextButtonclicked();
+    void onpreviousButtonclicked();
+    void checkPage();
 
 private:
     Ui::MainWindow *ui;
@@ -67,7 +70,10 @@ private:
     QNetworkReply *reply;
     QNetworkReply *replyEvents;
     QByteArray data;
-    transactionHistory * eventData;
+    transactionHistory *eventData;
+
+    int currentPage = 0;
+    int maxPage;
 
 
 };
