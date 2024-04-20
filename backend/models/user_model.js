@@ -25,7 +25,7 @@ const user={
     },
 
     updateUser(id, updateData, callback){
-        bcrypt.hash(updateData.password, 10,function(err,hashedPassword){
+        bcrypt.hash(updateData.password, 10, function(err,hashedPassword){
             return db.query("UPDATE user SET fname=?, lname=?, state=?, temp_restriction=?, password=? WHERE id_user=?",
             [updateData.fname, updateData.lname, updateData.state, updateData.temp_restriction, hashedPassword, id], callback);
         });

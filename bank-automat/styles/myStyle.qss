@@ -1,6 +1,6 @@
 /*-----QMainWindow-----*/
-MainWindow {
-    background-image: url(":/logo.png");
+MainWindow
+{
     background-color: #36548f;
 }
 

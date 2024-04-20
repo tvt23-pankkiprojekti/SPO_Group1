@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1047</width>
-    <height>633</height>
+    <width>1051</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,9 +34,9 @@
       <property name="geometry">
        <rect>
         <x>270</x>
-        <y>260</y>
+        <y>250</y>
         <width>461</width>
-        <height>121</height>
+        <height>61</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -44,8 +44,14 @@
         <widget class="QLabel" name="labelKortinTila">
          <property name="font">
           <font>
-           <pointsize>28</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>22</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
@@ -79,10 +85,10 @@
      <widget class="QPushButton" name="btn">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>550</y>
-        <width>141</width>
-        <height>29</height>
+        <x>40</x>
+        <y>540</y>
+        <width>201</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
@@ -320,21 +326,29 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>26</pointsize>
+        <family>Segoe UI</family>
+        <pointsize>22</pointsize>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
        <string>NOSTA RAHAA</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="btnTakaisin">
       <property name="geometry">
        <rect>
-        <x>350</x>
-        <y>430</y>
-        <width>331</width>
-        <height>91</height>
+        <x>230</x>
+        <y>500</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="baseSize">
@@ -345,12 +359,17 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>22</pointsize>
-        <bold>true</bold>
+        <family>Segoe UI</family>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+        <fontweight>DemiBold</fontweight>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 600 11pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>TAKAISIN</string>
+       <string>BACK</string>
       </property>
      </widget>
     </widget>
@@ -358,71 +377,88 @@
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>20</y>
-        <width>381</width>
+        <x>270</x>
+        <y>10</y>
+        <width>521</width>
         <height>91</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>26</pointsize>
+        <family>Segoe UI</family>
+        <pointsize>22</pointsize>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>TILI TAPAHTUMAT</string>
+       <string>TRANSACTION HISTORY</string>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="btnTakaisin2">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>500</y>
-        <width>231</width>
-        <height>81</height>
+        <x>200</x>
+        <y>510</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 600 11pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>TAKAISIN</string>
+       <string>BACK</string>
       </property>
      </widget>
      <widget class="QPushButton" name="nextButton">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>480</y>
-        <width>91</width>
-        <height>24</height>
+        <x>740</x>
+        <y>440</y>
+        <width>111</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="mouseTracking">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>seuraava sivu</string>
+       <string>Forward</string>
       </property>
      </widget>
      <widget class="QPushButton" name="previousButton">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>480</y>
-        <width>91</width>
-        <height>24</height>
+        <x>200</x>
+        <y>440</y>
+        <width>111</width>
+        <height>31</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>edellinen sivu</string>
+       <string>Back</string>
       </property>
      </widget>
      <widget class="QTableView" name="tableView">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>200</x>
         <y>100</y>
         <width>649</width>
         <height>331</height>
@@ -464,14 +500,14 @@
      <widget class="QPushButton" name="btnTakaisin3">
       <property name="geometry">
        <rect>
-        <x>640</x>
-        <y>490</y>
-        <width>121</width>
-        <height>51</height>
+        <x>150</x>
+        <y>510</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
+       <string notr="true">font: 600 11pt &quot;Segoe UI&quot;;</string>
       </property>
       <property name="text">
        <string>BACK</string>
@@ -480,7 +516,7 @@
      <widget class="QLabel" name="labelAccountInfo">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>160</x>
         <y>20</y>
         <width>721</width>
         <height>41</height>
@@ -500,11 +536,14 @@
       <property name="text">
        <string>CARD AND ACCOUNT INFORMATION</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
      <widget class="QLabel" name="labelTransactionHistory">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>150</x>
         <y>230</y>
         <width>511</width>
         <height>31</height>
@@ -516,16 +555,16 @@
        </font>
       </property>
       <property name="text">
-       <string>Transaction history:</string>
+       <string>Recent transaction history:</string>
       </property>
      </widget>
      <widget class="QWidget" name="gridLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>540</x>
         <y>80</y>
         <width>351</width>
-        <height>121</height>
+        <height>111</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="cardGrid">
@@ -642,10 +681,10 @@
      <widget class="QWidget" name="gridLayoutWidget_5">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>160</x>
         <y>80</y>
         <width>371</width>
-        <height>121</height>
+        <height>111</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="accountGrid">
@@ -762,7 +801,7 @@
      <widget class="QTableWidget" name="transactionTable">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>150</x>
         <y>270</y>
         <width>741</width>
         <height>201</height>
