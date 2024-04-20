@@ -1,18 +1,20 @@
+/*-----QMainWindow-----*/
 MainWindow {
     background-image: url(":/logo.png");
+    background-color: #36548f;
 }
 
-/*-----QWidget-----*/
-QWidget
+/*-----QDialog-----*/
+QDialog
 {
-    background-color: #5663b0;
-    font-weight: bold;
+    background-color: #ffffff;
     border-color: #051a39;
 }
 
 /*-----QLabel-----*/
 QLabel
 {
+    font-size: 20px;
     background-color: transparent;
     color: #ffffff;
 }
@@ -20,12 +22,14 @@ QLabel
 /*-----QPushButton-----*/
 QPushButton
 {
-    background-color: #5663b0;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #426ca4;
     color: #ffffff;
     border-style: solid;
     border-width: 1px;
-    border-radius: 11px;
-    border-color: #2082ff;
+    border-radius: 5px;
+    border-color: transparent;
     padding: 5px;
 }
 
@@ -38,30 +42,52 @@ QPushButton:disabled
 
 QPushButton:hover
 {
-    background-color: #5aa9e8;
+    background-color: #54a6cc;
     color: #ffffff;
     border-style: solid;
-    border-width: 1px;
-    border-radius: 11px;
-    border-color: #2082ff;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: #36548f;
     padding: 5px;
 }
 
 QPushButton:pressed
 {
-    background-color: #2082ff;
+    background-color: #284070;
     color: #ffffff;
     border-style: solid;
-    border-width: 1px;
-    border-radius: 11px;
-    border-color: #2082ff;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: transparent;
     padding: 5px;
 }
 
 /*-----QLineEdit-----*/
 QLineEdit
 {
-    background-color: #6c7ac8;
+    background-color: #426ca4;
+    color: #ffffff;
+    border-width: 1px;
+    border-radius: 0px;
+    border-color: #051a39;
+    padding: 2px;
+}
+
+/*-----QTableWidget-----*/
+QTableWidget
+{
+    background-color: #426ca4;
+    color: #ffffff;
+    border-width: 1px;
+    border-radius: 0px;
+    border-color: #051a39;
+    padding: 2px;
+}
+
+/*-----QTableView-----*/
+QTableView
+{
+    background-color: #426ca4;
     color: #ffffff;
     border-width: 1px;
     border-radius: 0px;

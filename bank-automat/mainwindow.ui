@@ -17,14 +17,17 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
       <width>1021</width>
       <height>611</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -52,13 +55,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="btn">
-         <property name="text">
-          <string>DLL DEMO</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QLabel" name="label_2">
@@ -80,8 +76,22 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>550</y>
+        <width>141</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DLL DEMO</string>
+      </property>
+     </widget>
      <zorder>label_2</zorder>
      <zorder>verticalLayoutWidget</zorder>
+     <zorder>btn</zorder>
     </widget>
     <widget class="QWidget" name="pageValitseTili">
      <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -94,13 +104,18 @@
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item alignment="Qt::AlignHCenter">
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
         <widget class="QLabel" name="label_9">
          <property name="font">
           <font>
-           <pointsize>36</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>22</pointsize>
+           <italic>false</italic>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Credit or Debit</string>
@@ -114,8 +129,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>358</width>
+           <height>58</height>
           </size>
          </property>
         </spacer>
@@ -157,80 +172,43 @@
      <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>10</y>
-        <width>911</width>
-        <height>191</height>
+        <x>70</x>
+        <y>40</y>
+        <width>901</width>
+        <height>161</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item alignment="Qt::AlignHCenter">
+         <item>
           <widget class="QLabel" name="label_10">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>36</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 36pt &quot;Segoe UI&quot;;</string>
+           </property>
            <property name="text">
-            <string>WELCOME</string>
+            <string>WELCOME!</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QLabel" name="label_11">
-             <property name="font">
-              <font>
-               <pointsize>22</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Viimeisin sisäänkirjatuminen:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="labelLastLogin">
-             <property name="font">
-              <font>
-               <pointsize>22</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>[PH] Päivämäärä</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QLabel" name="label_12">
-           <property name="font">
-            <font>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>Tilin tyyppi:</string>
+            <string>How can we help you today?</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelAccountType">
-           <property name="font">
-            <font>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>CREDIT/DEBIT</string>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -241,14 +219,14 @@
      <widget class="QWidget" name="verticalLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>220</y>
-        <width>421</width>
-        <height>341</height>
+        <x>290</x>
+        <y>240</y>
+        <width>471</width>
+        <height>261</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <item>
         <widget class="QPushButton" name="btnNostaRahaa">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -263,11 +241,11 @@
           </font>
          </property>
          <property name="text">
-          <string>NOSTA RAHAA</string>
+          <string>WITHDRAW FUNDS</string>
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <item>
         <widget class="QPushButton" name="btnKatsoTiedot">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -285,11 +263,11 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>KÄYTTÄJÄTIEDOT</string>
+          <string>YOUR PROFILE</string>
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <item>
         <widget class="QPushButton" name="btnTilitapahtumat">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -304,11 +282,11 @@
           </font>
          </property>
          <property name="text">
-          <string>TILITAPAHTUMAT</string>
+          <string>TRANSACTION HISTORY</string>
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <item>
         <widget class="QPushButton" name="btnKirjauduUlos">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -323,7 +301,7 @@
           </font>
          </property>
          <property name="text">
-          <string>KIRJAUDU ULOS</string>
+          <string>SIGN OUT</string>
          </property>
         </widget>
        </item>
@@ -403,7 +381,7 @@
       <property name="geometry">
        <rect>
         <x>220</x>
-        <y>520</y>
+        <y>500</y>
         <width>231</width>
         <height>81</height>
        </rect>
@@ -486,29 +464,38 @@
      <widget class="QPushButton" name="btnTakaisin3">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>520</y>
-        <width>181</width>
+        <x>640</x>
+        <y>490</y>
+        <width>121</width>
         <height>51</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
+      </property>
       <property name="text">
-       <string>TAKAISIN</string>
+       <string>BACK</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelAccountInfo">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
-        <width>471</width>
+        <y>20</y>
+        <width>721</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Segoe UI</family>
         <pointsize>22</pointsize>
+        <italic>false</italic>
+        <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
       </property>
       <property name="text">
        <string>CARD AND ACCOUNT INFORMATION</string>
@@ -518,7 +505,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>240</y>
+        <y>230</y>
         <width>511</width>
         <height>31</height>
        </rect>
@@ -536,30 +523,42 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>60</y>
+        <y>80</y>
         <width>351</width>
-        <height>161</height>
+        <height>121</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="cardGrid">
-       <item row="3" column="1">
+       <item row="3" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayCardID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>number</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="0" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayCardOwner">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>name</string>
@@ -570,8 +569,14 @@
         <widget class="QLabel" name="labelCardOwnerID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Card owner ID:</string>
@@ -582,8 +587,14 @@
         <widget class="QLabel" name="labelCardOwner">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Card owner:</string>
@@ -594,20 +605,32 @@
         <widget class="QLabel" name="labelCardID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Card ID:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="2" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayCardOwnerID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>number</string>
@@ -619,10 +642,10 @@
      <widget class="QWidget" name="gridLayoutWidget_5">
       <property name="geometry">
        <rect>
-        <x>21</x>
-        <y>59</y>
+        <x>20</x>
+        <y>80</y>
         <width>371</width>
-        <height>161</height>
+        <height>121</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="accountGrid">
@@ -630,32 +653,50 @@
         <widget class="QLabel" name="labelAccountOwner">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Account owner:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="3" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayAccountID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>number</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="0" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayAccountOwner">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>name</string>
@@ -666,20 +707,32 @@
         <widget class="QLabel" name="labelAccountID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Account ID:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="1" column="1" alignment="Qt::AlignLeft">
         <widget class="QLabel" name="displayAccountOwnerID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>number</string>
@@ -690,8 +743,14 @@
         <widget class="QLabel" name="labelAccountOwnerID">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
          </property>
          <property name="text">
           <string>Account owner ID:</string>
@@ -718,7 +777,7 @@
        <bool>true</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(128, 128, 128);</string>
+       <string notr="true"/>
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>

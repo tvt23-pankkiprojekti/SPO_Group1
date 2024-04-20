@@ -30,6 +30,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void welcomePage(QByteArray data);
+    void userName(QWidget *window);
+    void userNameSlot(QNetworkReply *reply);
 
 private slots:
     void profileDataSlot(QNetworkReply *reply);
@@ -63,6 +66,7 @@ private:
     QString token;
 
     ProfileWindow *accountInfo;
+    MainWindow *Name;
     
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
