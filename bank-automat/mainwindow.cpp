@@ -243,11 +243,11 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::handleDLLSignal(QString s)
+/*void MainWindow::handleDLLSignal(QString s)
 {
     //ui->lineEdit->setText(s);
     ui->stackedWidget->setCurrentIndex(1);
-}
+}*/
 
 void MainWindow::handleClick()
 {

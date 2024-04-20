@@ -49,7 +49,7 @@ private slots:
     void onBtnTakaisin2Clicked();
     void onBtnTakaisin3Clicked();
     void onBtnKatsoTiedotClicked();
-    void handleDLLSignal(QString);
+    //void handleDLLSignal(QString);
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();

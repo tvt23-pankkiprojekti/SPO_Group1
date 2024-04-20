@@ -32,6 +32,8 @@ DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
     logo.png
+    deco.png
+    card.png
 
 RESOURCES += \
     Retest.qrc
