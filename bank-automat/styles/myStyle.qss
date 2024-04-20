@@ -94,14 +94,3 @@ QTableView
     border-color: #051a39;
     padding: 2px;
 }
-
-/*-----QObject-----*/
-QObject:tr
-{
-    background-color: #426ca4;
-    color: #ffffff;
-    border-width: 1px;
-    border-radius: 0px;
-    border-color: #051a39;
-    padding: 2px;
-}
