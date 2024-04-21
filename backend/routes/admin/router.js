@@ -15,16 +15,16 @@ router.delete('/deleteuser', function(request, response) {
     usercontrols.deleteUser(request, response);
 });
 
-router.get('/listAllUsers', function(request, response) {
+router.get('/listallusers', function(request, response) {
     usercontrols.listAllUsers(request, response);
-});
-
-router.put('/updateUser', function(request, response) {
-    usercontrols.updateUser(request, response);
 });
 
 router.get('/getuserbyuserid', function(request, response) {
     usercontrols.getUser(request, response);
+});
+
+router.put('/updateuser', function(request, response) {
+    usercontrols.updateUser(request, response);
 });
 
 module.exports = router;

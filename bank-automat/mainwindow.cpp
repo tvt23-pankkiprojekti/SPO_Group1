@@ -150,16 +150,13 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
     else{
         if(data!="false"){
-            msgBox.setText("Kirjautunut");
-            //kirjautuminen onnistui
             qDebug() << "loginSLot(), data wasn't false";
             checkAttachedAccounts();
         }
         else{
-            msgBox.setText("Väärä tunnus");
+            msgBox.setText("Incorrect password");
             msgBox.exec();
-            //ui->textUsername->clear();
-            ui->lineEdit->clear();
+            //ui->lineEdit->clear();
         }
     }
     reply->deleteLater();
@@ -169,7 +166,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
-    //ui->stackedWidget->setCurrentIndex(1);
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
@@ -247,11 +243,11 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::handleDLLSignal(QString s)
+/*void MainWindow::handleDLLSignal(QString s)
 {
-    ui->lineEdit->setText(s);
-    //ui->stackedWidget->setCurrentIndex(1);
-}
+    //ui->lineEdit->setText(s);
+    ui->stackedWidget->setCurrentIndex(1);
+}*/
 
 void MainWindow::handleClick()
 {
