@@ -4,13 +4,21 @@ MainWindow
     background-color: #36548f;
 }
 
-/*-----QDialog-----*/
+/*-----QMessageBox-----*/
+QMessageBox
+{
+    font-size: 15px;
+    background-color: #36548f;
+    color: #ffffff;
+}
+
+/*-----QDialog-----
 QDialog
 {
     color: #36548f;
     background-color: #ffffff;
     border-color: #051a39;
-}
+}*/
 
 /*-----QLabel-----*/
 QLabel
