@@ -11,35 +11,30 @@ router.post('/',function(request, response){
                 console.log(err.errno);
                 response.json(err.errno);
             }
-            else {
+            else{
                 if(result.length > 0){
-                    bcrypt.hash(request.body.pincode, 10, function(err, hashedPin) {
-                        if (err) {
-                            console.log(err);
-                            response.sendStatus(500);
-                    } else {
-                    bcrypt.compare(hashedPin, result[0].pincode, function(err, compareResult){
+                    bcrypt.compare(request.body.pincode, result[0].pincode, function(err, compareResult){
                         if(compareResult == true) {
                             console.log('Kirjautuminen onnistui');
                             const token = genToken({pincode: request.body.card});
                             response.json(token);
                         }
-                    });
-                }
-                });
-            }
                         else {
                             console.log("Väärä salasana");
                             response.send(false);
+                        }
+                    })
                 }
+  
             }
         });
     }
+
     else {
         console.log("Tieto puuttuu")
         response.send(false);
     }
-});
+  });
   
   function genToken(value){
     return jwt.sign(value, process.env.Web_Token, {expiresIn: '200s'});
