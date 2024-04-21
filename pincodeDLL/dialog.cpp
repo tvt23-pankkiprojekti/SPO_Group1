@@ -9,6 +9,8 @@ Dialog::Dialog(QWidget *parent)
     ui->setupUi(this);
     ui->line->setMaxLength(4);
 
+    ui->line->setEchoMode(QLineEdit::Password); //hides password
+
     connect(ui->enterBtn,SIGNAL(clicked(bool)),
             this,SLOT(clickHandler()));
     connect(ui->undoBtn, SIGNAL(clicked()), this, SLOT(undoClickHandler()));
@@ -22,6 +24,7 @@ Dialog::Dialog(QWidget *parent)
     connect(ui->N8, SIGNAL(clicked()), this, SLOT(onN8Clicked()));
     connect(ui->N9, SIGNAL(clicked()), this, SLOT(onN9Clicked()));
     connect(ui->N0, SIGNAL(clicked()), this, SLOT(onN0Clicked()));
+    connect(this, SIGNAL(finished(int)), this, SLOT(clearLineEdit()));
 }
 
 Dialog::~Dialog()
@@ -114,4 +117,9 @@ void Dialog::onN9Clicked()
 void Dialog::onN0Clicked()
 {
     numberClickedHandler();
+}
+
+void Dialog::clearLineEdit()
+{
+    ui->line->clear();
 }

@@ -16,6 +16,7 @@
 #include "dialog.h"
 #include "env.h"
 #include <QList>
+#include <QScreen>
 #include "transactionHistory.h"
 
 QT_BEGIN_NAMESPACE
