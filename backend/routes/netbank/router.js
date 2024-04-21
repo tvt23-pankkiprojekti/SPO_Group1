@@ -13,6 +13,7 @@ const profilelookup  = require('./viewprofile');
 const newservices = require('./newservices');
 const transaction = require('./transaction');
 const userdata = require('./userdata');
+const authorization = require('./authorization');
 
 const user = require('../../models/user_model'); // this is here for the /updateuser bandaid, can be removed later
 const card = require('../../models/card_model');
@@ -128,13 +129,31 @@ router.post('/newservices/getcard', function(request, response) {
 router.post('/newservices/secondaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
         console.log("Looking to attach second account to card");
-        //newservices.openAccount(request, response);
+        //console.log(request.body);
+        if (request.body['openAccount'] == 0 || request.body['openAccount'] == 1) {
+            newservices.openAccount(request, response);
+        }
+        else {
+            newservices.attachSecondAccount(request, response);
+        }
     });
 });
 
-router.get('/newservices/authorizecard', function(request, response) {
+router.get('/authorization', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        response.render('authorizecard');
+        authorization.authorizationWindow(request, response);
+    });
+});
+
+router.post('/authorization/authorizeuser', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        authorization.authorizeUser(request, response);
+    });
+});
+
+router.post('/authorization/removeauthorization', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        authorization.removeAuthorization(request, response);
     });
 });
 
@@ -146,13 +165,14 @@ router.get('/transaction', function(request, response) {
 
 router.post('/transaction', transaction.accountToAccountTransaction);
 
+
 function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
         //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
             // renews cookies
-            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
-            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
+            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             response.cookie('simulbanktoken', request.cookies['simulbanktoken'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             next(request, response);
         } 

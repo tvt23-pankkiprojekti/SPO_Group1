@@ -69,8 +69,8 @@ function verifyPassword(request, response, res) {
 function sendLoginCookies(request, response, username, url) {
     //console.log(compareResult);
     // Adds cookies for the user id and login token to the response
-    response.cookie('simulbankuserid', request.body['user'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
-    response.cookie('simulbankusername', username, { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
+    response.cookie('simulbankuserid', request.body['user'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+    response.cookie('simulbankusername', username, { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
     let token = generateToken({userid: request.body['user']});
     response.cookie('simulbanktoken', token, { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
     response.redirect(url + "/netbank/home");
@@ -91,7 +91,7 @@ function logOut(request, response) {
 }
 
 function generateToken(id) {
-    return token.sign(id, process.env.Web_Token, {expiresIn: '600s'});
+    return token.sign(id, process.env.Web_Token);
 }
 
 module.exports = {
