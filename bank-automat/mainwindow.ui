@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
-    <height>633</height>
+    <width>836</width>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>0</y>
+      <x>10</x>
+      <y>20</y>
       <width>781</width>
       <height>581</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="pageStartMenu">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -88,6 +88,68 @@
         <width>113</width>
         <height>28</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>270</y>
+        <width>361</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnPorts">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>290</y>
+        <width>141</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ports</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="cmbPorts">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>50</y>
+        <width>69</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnOpenPorts">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>80</y>
+        <width>75</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_2">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>460</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DLL DEMO</string>
       </property>
      </widget>
     </widget>

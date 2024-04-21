@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
     connect(ui->btnTakaisin3, SIGNAL(clicked()), this, SLOT(onBtnTakaisin3Clicked()));
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
+    connect(ui->btnPorts, SIGNAL(clicked()), this, SLOT(onBtnPortsClicked()));
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
@@ -157,6 +158,7 @@ void MainWindow::onBtnNostaRahaaClicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
+
 void MainWindow::onBtnTilitapahtumatClicked()
 {
     QJsonObject sentData;
@@ -220,4 +222,12 @@ void MainWindow::onBtnKatsoTiedotClicked()
 }
 
 
+
+
+void MainWindow::onBtnPortsClicked()
+{
+    foreach (auto &port, QSerialPortInfo::availablePorts()) {
+        qDebug() << port.portName();
+    }
+}
 

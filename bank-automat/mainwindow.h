@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QDebug>
 #include <QMessageBox>
 #include <QDialog>
 #include <QFile>
@@ -50,7 +51,7 @@ private slots:
     void onBtnKatsoTiedotClicked();
     void handleDLLSignal(QString);
     void handleClick();
-
+    void onBtnPortsClicked();
 
 private:
     Ui::MainWindow *ui;
