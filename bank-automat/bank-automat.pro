@@ -31,7 +31,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
-    backG.jpg
+    logo.png
+    deco.png
+    card.png
 
 RESOURCES += \
     Retest.qrc

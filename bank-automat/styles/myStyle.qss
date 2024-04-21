@@ -1,26 +1,96 @@
-MainWindow {
-    background-image: url(":/backG.jpg");
+/*-----QMainWindow-----*/
+MainWindow
+{
+    background-color: #36548f;
 }
 
-QLabel {
-min-height: 20px;
-min-width: 100px;
-font-size:16px;
+/*-----QDialog-----*/
+QDialog
+{
+    background-color: #ffffff;
+    border-color: #051a39;
 }
 
-QLineEdit {
-min-height: 20px;
-min-width: 30px;
-font-size:11px;
+/*-----QLabel-----*/
+QLabel
+{
+    font-size: 20px;
+    background-color: transparent;
+    color: #ffffff;
 }
 
-QPushButton {
-background-color: gray;
-border-style: outset;
-border-width: 2px;
-border-color: black;
-min-height: 20px;
-min-width: 20px;
-border-radius: 6px;
-font-size:11px;
+/*-----QPushButton-----*/
+QPushButton
+{
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #426ca4;
+    color: #ffffff;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+}
+
+QPushButton:disabled
+{
+    background-color: #404040;
+    color: #656565;
+    border-color: #051a39;
+}
+
+QPushButton:hover
+{
+    background-color: #54a6cc;
+    color: #ffffff;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: #36548f;
+    padding: 5px;
+}
+
+QPushButton:pressed
+{
+    background-color: #284070;
+    color: #ffffff;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+}
+
+/*-----QLineEdit-----*/
+QLineEdit
+{
+    background-color: #426ca4;
+    color: #ffffff;
+    border-width: 1px;
+    border-radius: 0px;
+    border-color: #051a39;
+    padding: 2px;
+}
+
+/*-----QTableWidget-----*/
+QTableWidget
+{
+    background-color: #426ca4;
+    color: #ffffff;
+    border-width: 1px;
+    border-radius: 0px;
+    border-color: #051a39;
+    padding: 2px;
+}
+
+/*-----QTableView-----*/
+QTableView
+{
+    background-color: #426ca4;
+    color: #ffffff;
+    border-width: 1px;
+    border-radius: 0px;
+    border-color: #051a39;
+    padding: 2px;
 }

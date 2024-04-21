@@ -30,6 +30,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void welcomePage(QByteArray data);
+    void userName(QWidget *window);
+    void userNameSlot(QNetworkReply *reply);
 
 private slots:
     void profileDataSlot(QNetworkReply *reply);
@@ -46,7 +49,7 @@ private slots:
     void onBtnTakaisin2Clicked();
     void onBtnTakaisin3Clicked();
     void onBtnKatsoTiedotClicked();
-    void handleDLLSignal(QString);
+    //void handleDLLSignal(QString);
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();
@@ -63,6 +66,7 @@ private:
     QString token;
 
     ProfileWindow *accountInfo;
+    MainWindow *Name;
     
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
