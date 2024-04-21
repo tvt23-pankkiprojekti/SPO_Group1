@@ -31,10 +31,10 @@ int transactionHistory::addEvents(int pageNum)
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
-    qDebug()<<json_array.size();
-    qDebug()<<maxNum;
+    qDebug()<<"arrayn koko:" << json_array.size();
+    qDebug()<< "Viimeinen sivu: "<<maxNum;
     for (int row = (pageNum-1)*eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
-    qDebug()<<row;
+        qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
         table_model->setItem(row-((pageNum-1)*eventsOnPage), 0, amount);
