@@ -114,24 +114,24 @@ html
                             th Balance
                             th Credit limit
                             th State
-                        each id_account, i in authorizedAccounts
+                        each id_account, index in authorizedAccounts
                             tr
-                                td #{authorizedAccounts[i].id_account}
-                                if authorizedAccounts[i].type == 0
+                                td #{authorizedAccounts[index].id_account}
+                                if authorizedAccounts[index].type == 0
                                     td Credit 
                                 else 
                                     td Debit
-                                td #{authorizedAccounts[i].balance} €
-                                if authorizedAccounts[i].type == 0
-                                    td #{authorizedAccounts[i].credit_limit} 
+                                td #{authorizedAccounts[index].balance} €
+                                if authorizedAccounts[index].type == 0
+                                    td #{authorizedAccounts[index].credit_limit} 
                                 else 
                                     td -
-                                if authorizedAccounts[i].state == null 
+                                if authorizedAccounts[index].state == null 
                                     td OK 
                                 else 
                                     td Restricted 
                                 td
-                                    input(type="radio", value=authorizedAccounts[i].id_account, name="account")                                        
+                                    input(type="radio", value=authorizedAccounts[index].id_account, name="account")                                        
                         else 
                             tr 
                                 td No authorized cardless accounts
@@ -147,63 +147,68 @@ html
                     br
                     button(type="submit", id="newCardSubmit", disabled=true) Get a card
                     label(for="newCardSubmit", id="newCardError", innerText="You must accept the terms and conditions to open an account")
-            if debitCards || creditCards 
+            if debitAvailableCards || creditAvailableCards 
+                br
                 h2 Attach a second account to an existing card: 
                 form(method="post", id="attachAccountToCard", action="/netbank/newservices/secondaccount")
                     h3 Cards with debit account availability:
-                    each id_card, i in debitCards    
-                        p #{debitCards[i].id_card}
+                    each id_card, i in debitAvailableCards    
+                        p #{debitAvailableCards[i].id_card}
                         table(style='width:60%', border='1')
                             tr 
                                 th Account ID
                                 th Balance
                                 th State
-                            each id_account, j in debitCards[i]
+                                th
+                            each id_account, j in debitAccounts
                                 tr
-                                    td #{debitCards[i][j].id_account}
-                                    td #{debitCards[i][j].balance} €
-                                    if debitCards[i][j].state == null 
+                                    td #{debitAccounts[j].id_account}
+                                    td #{debitAccounts[j].balance} €
+                                    if debitAccounts[j].state == null 
                                         td OK 
                                     else 
                                         td Restricted 
                                     td
-                                        input(type="radio", value=debitCards[i][j].id_account, name="account")                                        
-                                tr 
-                                    td New debit account
-                                    td -
-                                    td -
-                                    td 
-                                        input(type="radio", value=debitCards[i][j].id_account, name="account")
-                    p Credit: 
-                    table(style='width:60%', border='1')
-                        tr 
-                            th Account ID
-                            th Balance
-                            th Credit limit
-                            th State
-                        each id_account, j in creditAccounts
-                            tr
-                                td #{creditAccounts[j].id_account}
-                                td #{creditAccounts[j].balance} €
-                                td #{creditAccounts[j].credit_limit} €
-                                if creditAccounts[j].state == null 
-                                    td OK 
-                                else 
-                                    td Restricted    
-                                td
-                                    input(type="radio", value=creditAccounts[j].id_account, name="account")                                          
-                        else 
+                                        input(type="radio", value= debitAvailableCards[i].id_card + "/" + debitAccounts[j].id_account, name="openAccount")                                        
                             tr 
-                                td No cardless accounts
+                                td New debit account
+                                td -
+                                td -
+                                td 
+                                    input(type="radio", value=1, name="openAccount")
+                    h3 Cards with credit account availability:
+                    each id_card, i in creditAvailableCards    
+                        p #{creditAvailableCards[i].id_card} 
+                        table(style='width:60%', border='1')
+                            tr 
+                                th Account ID
+                                th Balance
+                                th Credit limit
+                                th State
+                                th
+                            each id_account, j in creditAccounts
+                                tr
+                                    td #{creditAccounts[j].id_account}
+                                    td #{creditAccounts[j].balance} €
+                                    td #{creditAccounts[j].credit_limit} €
+                                    if creditAccounts[j].state == null 
+                                        td OK 
+                                    else 
+                                        td Restricted    
+                                    td
+                                        input(type="radio", value=creditAvailableCards[i].id_card + "/" + creditAccounts[j].id_account, name="openAccount") 
+                            tr 
+                                td New credit account
                                 td -
                                 td -
                                 td -
-                                td
+                                td 
+                                    input(type="radio", value=0, name="openAccount")
                     p By acquiring a card I consent to SimulBank Ltd collecting any number of 
                     p infants borne from my blood.
-                    input(type="checkbox", id="newCardAccept", name="accept", onchange="acceptChecked('newCardAccept', 'newCardError', 'newCardSubmit')")
-                    label(for="newCardAccept") Accept
+                    input(type="checkbox", id="secondAccountAccept", name="accept", onchange="acceptChecked('secondAccountAccept', 'secondAccountError', 'secondAccountSubmit')")
+                    label(for="secondAccountAccept") Accept
                     br
                     br
-                    button(type="submit", id="newCardSubmit", disabled=true) Get a card
-                    label(for="newCardSubmit", id="newCardError", innerText="You must accept the terms and conditions to open an account")
+                    button(type="submit", id="secondAccountSubmit", disabled=true) Get a card
+                    label(for="secondAccountSubmit", id="secondAccountError", innerText="You must accept the terms and conditions to open an account")
