@@ -7,8 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     cardNo = "060006E2E7";
-    debitAccount = "";
-    creditAccount = "";
+    idAccount = "00002";
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
@@ -23,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
     connect(ui->btnTakaisin3, SIGNAL(clicked()), this, SLOT(onBtnTakaisin3Clicked()));
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
-    connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
-    connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
+    connect(ui->btnPorts, SIGNAL(clicked()), this, SLOT(onBtnPortsClicked()));
 
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
@@ -32,89 +30,41 @@ MainWindow::MainWindow(QWidget *parent)
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
-    eventData = new transactionHistory(this);
-    eventData->attachWindow(ui->stackedWidget);
+    eventData = new transactionHistory;
+    eventData-> attachWindow(ui->stackedWidget);
 }
+
+
 
 
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
-    QByteArray data = reply->readAll();
-    QMessageBox msgBox;
+    data = reply->readAll();
 
     if (data.length() == 0 || data == "-4078") {
         qDebug() << "Tietoliikenneyhteysvika";
-        msgBox.setText("Tietoliikenneyhteysvika");
-        msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
         return;
     }
 
     if (data == "false") {
-        qDebug() << "Virhe tietojen hankinnassa";
-        msgBox.setText("Tietoa ei saatu");
-        msgBox.exec();
+        qDebug() << "Tietoa ei saatu";
         reply->deleteLater();
         transferManager->deleteLater();
         return;
     }
 
     ui->stackedWidget->setCurrentIndex(5);
-    accountInfo->updateUserData(data);
+    accountInfo->updateUserData(&data);
 
     reply->deleteLater();
     transferManager->deleteLater();
 }
 
-void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
-{
-    qDebug() << "attachedAccountCheckSlot()";
-
-    QByteArray data=reply->readAll();
-    QMessageBox msgBox;
-
-    if (data=="-4078" || data.length()==0) {
-        msgBox.setText("Network error");
-        msgBox.exec();
-    }
-    else {
-        if(data == "false"){
-            msgBox.setText("Data acquisition error");
-            msgBox.exec();
-        }
-
-        QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
-        qDebug() << dataUnpacked;
-        QJsonArray array = dataUnpacked.array();
-        if (array.size() < 1) {
-            msgBox.setText("No accounts attached to this card");
-            msgBox.exec();
-        }
-        else if (array.size() > 1) {
-            if (array[0].toObject()["type"].toInt() == 0) {
-                creditAccount = array[0].toObject()["id_account"].toString();
-                debitAccount = array[1].toObject()["id_account"].toString();
-            }
-            else {
-                creditAccount = array[1].toObject()["id_account"].toString();
-                debitAccount = array[0].toObject()["id_account"].toString();
-            }
-            ui->stackedWidget->setCurrentIndex(1);
-        }
-        else {
-            accountNo = array[0].toObject()["id_account"].toString();
-            ui->stackedWidget->setCurrentIndex(2);
-        }
-    }
-
-    accountCheckReply->deleteLater();
-    accountCheckManager->deleteLater();
-}
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
-
     QByteArray data = reply->readAll();
 
     if(data.length()==0 || data == "-4078"){
@@ -136,6 +86,7 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
 
     replyEvents->deleteLater();
     transferManagerEvents->deleteLater();
+
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)
@@ -145,6 +96,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     QMessageBox msgBox;
     qDebug()<<data;
     if(data=="-4078" || data.length()==0){
+
         msgBox.setText("Virhe tietoyhteydessä");
         msgBox.exec();
     }
@@ -152,8 +104,10 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         if(data!="false"){
             msgBox.setText("Kirjautunut");
             //kirjautuminen onnistui
-            qDebug() << "loginSLot(), data wasn't false";
-            checkAttachedAccounts();
+            /*mainMenu *objectStudentMenu=new StudentMenu(this);
+            objectStudentMenu->setUsername(ui->lineEdit->text());
+            objectStudentMenu->setWebToken(data);*/
+            ui->stackedWidget->setCurrentIndex(1);
         }
         else{
             msgBox.setText("Väärä tunnus");
@@ -170,7 +124,7 @@ void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
     //ui->stackedWidget->setCurrentIndex(1);
-    QString pin = ptr_dll->getPincode();
+    QString pin=ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
     jsonObj.insert("pincode", pin);
@@ -186,15 +140,11 @@ void MainWindow::onBtnEnterPinClicked()
 
 void MainWindow::onBtnValitseCreditClicked()
 {
-    accountNo = creditAccount;
-    creditAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::onBtnValitseDebitClicked()
 {
-    accountNo = debitAccount;
-    debitAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -208,13 +158,11 @@ void MainWindow::onBtnNostaRahaaClicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
+
 void MainWindow::onBtnTilitapahtumatClicked()
 {
-    ui->previousButton->setVisible(false);
-    maxPage = 1;
-    currentPage = 1;
     QJsonObject sentData;
-    sentData.insert("idaccount", accountNo);
+    sentData.insert("idaccount", idAccount);
 
     QString url = env::getUrl() + "/viewtransactions";
     QNetworkRequest request(url);
@@ -226,7 +174,7 @@ void MainWindow::onBtnTilitapahtumatClicked()
     //WEBTOKEN LOPPU
 
     transferManagerEvents = new QNetworkAccessManager(this);
-    connect(transferManagerEvents, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
+    connect(transferManagerEvents, SIGNAL(finished (QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
 
     replyEvents = transferManagerEvents->post(request, QJsonDocument(sentData).toJson());
 
@@ -258,30 +206,10 @@ void MainWindow::handleClick()
     ptr_dll->show();
 }
 
-void MainWindow::checkAttachedAccounts()
-{
-    qDebug() << "checkAttachedAccounts()";
-
-    QJsonObject sentData;
-    sentData.insert("card", cardNo);
-
-    QString url = env::getUrl() + "/getaccounts";
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    // add token here
-
-    accountCheckManager = new QNetworkAccessManager(this);
-    connect(accountCheckManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(attachedAccountCheckSlot(QNetworkReply*)));
-
-    accountCheckReply = accountCheckManager->post(request, QJsonDocument(sentData).toJson());
-}
-
 void MainWindow::onBtnKatsoTiedotClicked()
 {
     QJsonObject sentData;
     sentData.insert("card", cardNo);
-    sentData.insert("account", accountNo);
 
     QString url = env::getUrl() + "/viewprofile";
     QNetworkRequest request(url);
@@ -296,42 +224,10 @@ void MainWindow::onBtnKatsoTiedotClicked()
 
 
 
-void MainWindow::onpreviousButtonclicked()
+void MainWindow::onBtnPortsClicked()
 {
-    if (currentPage > 1) {
-        currentPage--;
-        maxPage = eventData->addEvents(currentPage);
-    }
-
-    checkPage();
-}
-
-void MainWindow::checkPage()
-{
-    if (currentPage == 1) {
-        ui->previousButton->setVisible(false);
-    }
-    else {
-        ui->previousButton->setVisible(true);
-    }
-
-    if (currentPage == maxPage) {
-        ui->nextButton->setVisible(false);
-    }
-    else {
-        ui->nextButton->setVisible(true);
+    foreach (auto &port, QSerialPortInfo::availablePorts()) {
+        qDebug() << port.portName();
     }
 }
 
-
-void MainWindow::onnextButtonclicked()
-{
-    if (currentPage <= maxPage) {
-        currentPage++;
-        maxPage = eventData->addEvents(currentPage);
-    }
-
-    qDebug()<<maxPage;
-
-    checkPage();
-}

@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
     connect(ui->btnTakaisin3, SIGNAL(clicked()), this, SLOT(onBtnTakaisin3Clicked()));
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
+    connect(ui->btnPorts, SIGNAL(clicked()), this, SLOT(onBtnPortsClicked()));
+
     connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
     connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
 
@@ -208,6 +210,7 @@ void MainWindow::onBtnNostaRahaaClicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
+
 void MainWindow::onBtnTilitapahtumatClicked()
 {
     ui->previousButton->setVisible(false);
@@ -294,6 +297,14 @@ void MainWindow::onBtnKatsoTiedotClicked()
 }
 
 
+
+
+void MainWindow::onBtnPortsClicked()
+{
+    foreach (auto &port, QSerialPortInfo::availablePorts()) {
+        qDebug() << port.portName();
+    }
+}
 
 
 void MainWindow::onpreviousButtonclicked()

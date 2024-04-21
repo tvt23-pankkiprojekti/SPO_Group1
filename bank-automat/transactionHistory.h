@@ -14,6 +14,9 @@
 #include <QJsonObject>
 #include <QNetworkRequest>
 #include <QTableView>
+#include <QColor>
+#include <QColorDialog>
+#include <QPalette>
 
 
 QT_BEGIN_NAMESPACE
@@ -31,21 +34,15 @@ public:
     ~transactionHistory();
 
     void attachWindow(QWidget *window);
-    void addEvents();
-
-    void on_tableEvents_clicked(const QModelIndex &index);
-    void on_pushButtonEvents_clicked();
-
+    int addEvents(int pageNum);
     void getEventSlot(QByteArray data);
 
 private:
 
-    QTableView * tableEvents;
-
     QNetworkAccessManager *getManager;
     QByteArray response_data;
-
     QList<transactionHistory> eventList;
+    QTableView *tableView;
 
 };
 

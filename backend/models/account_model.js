@@ -31,7 +31,7 @@ const account={
     },
 
     allAccountsAccessibleByUser(id_user, callback) {
-        return db.query("SELECT account.id_account, type, state, balance, id_user, rights_level FROM account INNER JOIN account_ownership ON account.id_account = account_ownership.id_account WHERE account_ownership.id_user = ?", [id_user], callback);
+        return db.query("SELECT account.id_account, type, state, balance, credit_limit, owner, rights_level, 'null' AS authorization FROM account INNER JOIN account_ownership ON account.id_account = account_ownership.id_account  WHERE account_ownership.id_user = ?", [id_user], callback);
     }
 }
 
