@@ -11,6 +11,27 @@ MainWindow::MainWindow(QWidget *parent)
     creditAccount = "";
 
     ui->setupUi(this);
+
+    /*QLabel *arro = new QLabel(this);
+    arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    QMovie *movie=new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+
+    arro=new QLabel(this);
+    arro->setGeometry(145, 350, 250, 250);
+    arro->setScaledContents(true);
+    arro->setMovie(movie);
+    movie->start();
+
+    QLabel *arro2 = new QLabel(this);
+    arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+    arro2=new QLabel(this);
+    arro2->setGeometry(650, 355, 250, 250);
+    arro2->setScaledContents(true);
+    arro2->setMovie(movie);
+    movie->start();*/
+
+    ui->setupUi(this);
     ptr_dll = new Dialog(this);
 
     connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
@@ -29,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
     ui->stackedWidget->setCurrentIndex(0);
+    displayGifsOnStartMenu();
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
@@ -36,6 +58,44 @@ MainWindow::MainWindow(QWidget *parent)
     eventData->attachWindow(ui->stackedWidget);
 }
 
+void MainWindow::displayGifsOnStartMenu() {
+    if (ui->stackedWidget->currentIndex() != 0)
+        return;
+
+    if (!arro) {
+        arro = new QLabel(this);
+        arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        arro->setGeometry(145, 350, 250, 250);
+        arro->setScaledContents(true);
+        QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+        arro->setMovie(movie);
+        movie->start();
+    }
+
+    if (!arro2) {
+        arro2 = new QLabel(this);
+        arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        arro2->setGeometry(650, 355, 250, 250);
+        arro2->setScaledContents(true);
+        QMovie *movie2 = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+        arro2->setMovie(movie2);
+        movie2->start();
+    }
+}
+
+void MainWindow::clearGifs() {
+    if (arro) {
+        arro->movie()->stop();
+        delete arro;
+        arro = nullptr;
+    }
+
+    if (arro2) {
+        arro2->movie()->stop();
+        delete arro2;
+        arro2 = nullptr;
+    }
+}
 
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
@@ -230,6 +290,7 @@ void MainWindow::onBtnEnterPinClicked()
     loginManager = new QNetworkAccessManager(this);
     connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
+    clearGifs();
 }
 
 void MainWindow::onBtnValitseCreditClicked()

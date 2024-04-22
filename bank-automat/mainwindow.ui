@@ -67,8 +67,8 @@
        <widget class="QPushButton" name="btn">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>100</y>
+          <x>10</x>
+          <y>10</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -96,31 +96,69 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="labelKortinTila">
+       <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
           <x>340</x>
-          <y>310</y>
-          <width>347</width>
-          <height>59</height>
+          <y>300</y>
+          <width>349</width>
+          <height>80</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>22</pointsize>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="labelKortinTila">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>22</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>INSERT YOUR CARD</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="arro">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>350</y>
+          <width>211</width>
+          <height>181</height>
+         </rect>
         </property>
         <property name="text">
-         <string>INSERT YOUR CARD</string>
+         <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="arro2">
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>350</y>
+          <width>211</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>
