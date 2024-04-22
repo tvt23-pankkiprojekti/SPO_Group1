@@ -16,7 +16,6 @@ const swaggerDoc = require('./swagger.json');
 const loginRouter = require('./routes/login');
 const cardVerificationRouter = require('./routes/verifycard');
 
-
 //verified bankomat
 const accountRouter = require('./routes/getaccounts');
 const viewCardRouter = require('./routes/viewcard');

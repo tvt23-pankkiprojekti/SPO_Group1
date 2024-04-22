@@ -7,7 +7,7 @@ function getData(request, response) {
         }
         else {
             let accounts = debitAccounts.concat(creditAccounts);
-            console.log(accounts);
+            //console.log(accounts);
             response.render('profile', {name: request.cookies['simulbankusername'], id: request.cookies['simulbankuserid'], accounts: accounts, authorizedAccounts: authorizedAccounts, cards: cards});
         }
     })
