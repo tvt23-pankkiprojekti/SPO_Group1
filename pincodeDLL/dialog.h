@@ -35,6 +35,7 @@ private slots:
     void onN8Clicked();
     void onN9Clicked();
     void onN0Clicked();
+    void clearLineEdit();
 
 
 signals:

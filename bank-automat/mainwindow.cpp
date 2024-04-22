@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     cardNo = "060006E2E7";
-    idAccount = "00002";
+    debitAccount = "";
+    creditAccount = "";
 
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
@@ -38,29 +39,81 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
-    data = reply->readAll();
+    QByteArray data = reply->readAll();
+    QMessageBox msgBox;
 
     if (data.length() == 0 || data == "-4078") {
         qDebug() << "Tietoliikenneyhteysvika";
+        msgBox.setText("Tietoliikenneyhteysvika");
+        msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
         return;
     }
 
     if (data == "false") {
-        qDebug() << "Tietoa ei saatu";
+        qDebug() << "Virhe tietojen hankinnassa";
+        msgBox.setText("Tietoa ei saatu");
+        msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
         return;
     }
 
     ui->stackedWidget->setCurrentIndex(5);
-    accountInfo->updateUserData(&data);
+    accountInfo->updateUserData(data);
 
     reply->deleteLater();
     transferManager->deleteLater();
 }
 
+void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
+{
+    qDebug() << "attachedAccountCheckSlot()";
+
+    QByteArray data=reply->readAll();
+    QMessageBox msgBox;
+
+    if (data=="-4078" || data.length()==0) {
+        msgBox.setText("Network error");
+        msgBox.exec();
+    }
+    else {
+        if(data == "false"){
+            msgBox.setText("Data acquisition error");
+            msgBox.exec();
+        }
+
+        QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
+        //qDebug() << dataUnpacked;
+        QJsonArray array = dataUnpacked.array();
+        if (array.size() < 1) {
+            msgBox.setText("No accounts attached to this card");
+            msgBox.exec();
+        }
+        else if (array.size() > 1) {
+            qDebug() << "Tilin tyyppi: " << array[0].toObject()["type"].toInt();
+            if (array[0].toObject()["type"].toInt() == 0) {
+                creditAccount = array[0].toObject()["id_account"].toString();
+                debitAccount = array[1].toObject()["id_account"].toString();
+                //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
+            }
+            else {
+                creditAccount = array[1].toObject()["id_account"].toString();
+                debitAccount = array[0].toObject()["id_account"].toString();
+                //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
+            }
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+        else {
+            accountNo = array[0].toObject()["id_account"].toString();
+            ui->stackedWidget->setCurrentIndex(2);
+        }
+    }
+
+    accountCheckReply->deleteLater();
+    accountCheckManager->deleteLater();
+}
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
@@ -86,7 +139,6 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
 
     replyEvents->deleteLater();
     transferManagerEvents->deleteLater();
-
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)
@@ -96,24 +148,18 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     QMessageBox msgBox;
     qDebug()<<data;
     if(data=="-4078" || data.length()==0){
-
         msgBox.setText("Virhe tietoyhteydessä");
         msgBox.exec();
     }
     else{
         if(data!="false"){
-            msgBox.setText("Kirjautunut");
-            //kirjautuminen onnistui
-            /*mainMenu *objectStudentMenu=new StudentMenu(this);
-            objectStudentMenu->setUsername(ui->lineEdit->text());
-            objectStudentMenu->setWebToken(data);*/
-            ui->stackedWidget->setCurrentIndex(1);
+            qDebug() << "loginSLot(), data wasn't false";
+            checkAttachedAccounts();
         }
         else{
-            msgBox.setText("Väärä tunnus");
+            msgBox.setText("Incorrect password");
             msgBox.exec();
-            //ui->textUsername->clear();
-            ui->lineEdit->clear();
+            //ui->lineEdit->clear();
         }
     }
     reply->deleteLater();
@@ -123,8 +169,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
-    //ui->stackedWidget->setCurrentIndex(1);
-    QString pin=ptr_dll->getPincode();
+    QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
     jsonObj.insert("pincode", pin);
@@ -140,11 +185,17 @@ void MainWindow::onBtnEnterPinClicked()
 
 void MainWindow::onBtnValitseCreditClicked()
 {
+    //qDebug() << "Credit valittu";
+    accountNo = creditAccount;
+    creditAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::onBtnValitseDebitClicked()
 {
+    //qDebug() << "Debit valittu";
+    accountNo = debitAccount;
+    debitAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -164,7 +215,7 @@ void MainWindow::onBtnTilitapahtumatClicked()
     maxPage = 1;
     currentPage = 1;
     QJsonObject sentData;
-    sentData.insert("idaccount", idAccount);
+    sentData.insert("idaccount", accountNo);
 
     QString url = env::getUrl() + "/viewtransactions";
     QNetworkRequest request(url);
@@ -197,21 +248,41 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::handleDLLSignal(QString s)
+/*void MainWindow::handleDLLSignal(QString s)
 {
-    ui->lineEdit->setText(s);
-    //ui->stackedWidget->setCurrentIndex(1);
-}
+    //ui->lineEdit->setText(s);
+    ui->stackedWidget->setCurrentIndex(1);
+}*/
 
 void MainWindow::handleClick()
 {
     ptr_dll->show();
 }
 
+void MainWindow::checkAttachedAccounts()
+{
+    qDebug() << "checkAttachedAccounts()";
+
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/getaccounts";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    // add token here
+
+    accountCheckManager = new QNetworkAccessManager(this);
+    connect(accountCheckManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(attachedAccountCheckSlot(QNetworkReply*)));
+
+    accountCheckReply = accountCheckManager->post(request, QJsonDocument(sentData).toJson());
+}
+
 void MainWindow::onBtnKatsoTiedotClicked()
 {
     QJsonObject sentData;
     sentData.insert("card", cardNo);
+    sentData.insert("account", accountNo);
 
     QString url = env::getUrl() + "/viewprofile";
     QNetworkRequest request(url);
@@ -222,9 +293,6 @@ void MainWindow::onBtnKatsoTiedotClicked()
 
     reply = transferManager->post(request, QJsonDocument(sentData).toJson());
 }
-
-
-
 
 void MainWindow::onpreviousButtonclicked()
 {

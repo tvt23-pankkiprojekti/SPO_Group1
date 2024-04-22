@@ -10,9 +10,13 @@ const accountOwnership={
         return db.query("SELECT id_account FROM account_ownership WHERE id_user = ?", [id_user], callback);
     }, //get the associated account of user
 
-    removeAssociationUser(id_user, callback) {
-        return db.query("DELETE FROM account_ownership WHERE id_user = ?", [id_user], callback);
+    removeAssociationUser(id_user, id_account, callback) {
+        return db.query("DELETE FROM account_ownership WHERE id_user = ? AND id_account = ?", [id_user, id_account], callback);
     }, //remove association between user and an account
+
+    getAuthorizedAccountsByUser(id_user, callback) {
+        return db.query("SELECT account.id_account, type, state, balance, owner, credit_limit, account_ownership.id_user AS attached_user, rights_level FROM account INNER JOIN account_ownership ON account_ownership.id_account = account.id_account WHERE owner = ? AND account_ownership.id_user != ?", [id_user, id_user], callback);
+    }
 }
 
 module.exports=accountOwnership;

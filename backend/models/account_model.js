@@ -30,8 +30,12 @@ const account={
         return db.query("SELECT id_account, balance, type, state, credit_limit FROM account WHERE owner=?", [id_account], callback);
     },
 
+    allAccountsOwnedByUser(id_user, callback) {
+        return db.query("SELECT account.id_account, type, state, balance, owner, credit_limit, account_ownership.id_user AS attached_user, rights_level FROM account INNER JOIN account_ownership ON account_ownership.id_account = account.id_account WHERE owner = ? AND account_ownership.id_user = ?", [id_user, id_user], callback);
+    },
+
     allAccountsAccessibleByUser(id_user, callback) {
-        return db.query("SELECT account.id_account, type, state, balance, id_user, rights_level FROM account INNER JOIN account_ownership ON account.id_account = account_ownership.id_account WHERE account_ownership.id_user = ?", [id_user], callback);
+        return db.query("SELECT account.id_account, type, state, balance, credit_limit, owner, rights_level FROM account INNER JOIN account_ownership ON account.id_account = account_ownership.id_account WHERE account_ownership.id_user = ?", [id_user], callback);
     }
 }
 

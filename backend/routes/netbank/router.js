@@ -13,6 +13,7 @@ const profilelookup  = require('./viewprofile');
 const newservices = require('./newservices');
 const transaction = require('./transaction');
 const userdata = require('./userdata');
+const authorization = require('./authorization');
 
 const user = require('../../models/user_model'); // this is here for the /updateuser bandaid, can be removed later
 const card = require('../../models/card_model');
@@ -47,10 +48,10 @@ router.use(express.urlencoded({ extended: false }));
         // actually login into the netbank with more users ('000' in the database won't match with '000' fed into bcrypt.compare())
         router.get('/addcard', function(request, response) {
             let data = {
-                'id_card': "060006E2E7",
+                'id_card': "0600064988",
                 'state': null,
-                'id_owner': 3,
-                'pincode': '888'
+                'id_owner': 4,
+                'pincode': '000'
             };
             card.addCard(data, function(err, result) {
                 if (err) {
@@ -66,7 +67,7 @@ router.use(express.urlencoded({ extended: false }));
 
 // Unauthenticated routes
 router.get('/', function(request, response) {
-    response.sendFile(path.join(base_path, "../../public/netbank.html"));
+    response.render('netbank');
 });
 
 router.get('/login', function(request, response) {
@@ -100,15 +101,9 @@ router.get('/newservices', function(request, response) {
     authenticateToken(request, response, newservices.newServicesWindow);
 });
 
-router.get('/newservices/openaccount', function(request, response) {
-    authenticateToken(request, response, function(request, response) {
-        response.render('openaccount')
-    });
-});
-
 router.post('/newservices/openaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        newservices.openAccount(request, response, 1)
+        newservices.openAccount(request, response);
     });
 });
 
@@ -126,17 +121,39 @@ router.get('/newservices/getcard', function(request, response) {
 });
 
 router.post('/newservices/getcard', function(request, response) {
-    if (request.body['account'] == 'credit') {
-        newservices.openCreditCard(request, response);
-    }
-    else {
-        newservices.openDebitCard(request, response);
-    }
+    authenticateToken(request, response, function(request, response) {
+        newservices.openCard(request, response);
+    });    
 });
 
-router.get('/newservices/authorizecard', function(request, response) {
+router.post('/newservices/secondaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        response.render('authorizecard');
+        console.log("Looking to attach second account to card");
+        //console.log(request.body);
+        if (request.body['openAccount'] == 0 || request.body['openAccount'] == 1) {
+            newservices.openAccount(request, response);
+        }
+        else {
+            newservices.attachSecondAccount(request, response);
+        }
+    });
+});
+
+router.get('/authorization', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        authorization.authorizationWindow(request, response);
+    });
+});
+
+router.post('/authorization/authorizeuser', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        authorization.authorizeUser(request, response);
+    });
+});
+
+router.post('/authorization/removeauthorization', function(request, response) {
+    authenticateToken(request, response, function(request, response) {
+        authorization.removeAuthorization(request, response);
     });
 });
 
@@ -148,11 +165,15 @@ router.get('/transaction', function(request, response) {
 
 router.post('/transaction', transaction.accountToAccountTransaction);
 
+
 function authenticateToken(request, response, next) {
     token.verify(request.cookies['simulbanktoken'], process.env.Web_Token, function(err, user) {
         //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
-            //console.log("Authentication successful, id " + request.cookies['simulbankuserid']);
+            // renews cookies
+            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+            response.cookie('simulbanktoken', request.cookies['simulbanktoken'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             next(request, response);
         } 
         else {

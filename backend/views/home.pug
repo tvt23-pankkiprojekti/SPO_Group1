@@ -1,6 +1,7 @@
 html
     head
         title Home
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
     body 
         button(type="button" onclick='window.location.href=window.location.origin + "/netbank/logout"') Log out
         br
@@ -18,3 +19,7 @@ html
         br
         p Need more financing options? Open a new card or account below:
         button(type="button" onclick='window.location.href=window.location.origin + "/netbank/newservices"') Services
+        br
+        br
+        p Authorize access to your account for another user here:
+        button(type="button" onclick='window.location.href=window.location.origin + "/netbank/authorization"') Authorization
