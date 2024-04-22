@@ -45,6 +45,13 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     if (data.length() == 0 || data == "-4078") {
         qDebug() << "Tietoliikenneyhteysvika";
         msgBox.setText("Tietoliikenneyhteysvika");
+        msgBox.setStyleSheet(
+            "QDialog { background-color: #36548f; color: #ffffff; }"
+            "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+            "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+            "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            );
         msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
@@ -54,6 +61,13 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     if (data == "false") {
         qDebug() << "Virhe tietojen hankinnassa";
         msgBox.setText("Tietoa ei saatu");
+        msgBox.setStyleSheet(
+            "QDialog { background-color: #36548f; color: #ffffff; }"
+            "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+            "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+            "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            );
         msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
@@ -76,11 +90,25 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
     if (data=="-4078" || data.length()==0) {
         msgBox.setText("Network error");
+        msgBox.setStyleSheet(
+            "QDialog { background-color: #36548f; color: #ffffff; }"
+            "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+            "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+            "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            );
         msgBox.exec();
     }
     else {
         if(data == "false"){
             msgBox.setText("Data acquisition error");
+            msgBox.setStyleSheet(
+                "QDialog { background-color: #36548f; color: #ffffff; }"
+                "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+                "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+                "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                );
             msgBox.exec();
         }
 
@@ -89,6 +117,13 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         QJsonArray array = dataUnpacked.array();
         if (array.size() < 1) {
             msgBox.setText("No accounts attached to this card");
+            msgBox.setStyleSheet(
+                "QDialog { background-color: #36548f; color: #ffffff; }"
+                "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+                "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+                "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                );
             msgBox.exec();
         }
         else if (array.size() > 1) {
@@ -145,7 +180,14 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     QMessageBox msgBox;
     qDebug()<<data;
     if(data=="-4078" || data.length()==0){
-        msgBox.setText("Virhe tietoyhteydessä");
+        msgBox.setText("Network error");
+        msgBox.setStyleSheet(
+            "QDialog { background-color: #36548f; color: #ffffff; }"
+            "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+            "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+            "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+            );
         msgBox.exec();
     }
     else{
@@ -155,6 +197,13 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         }
         else{
             msgBox.setText("Incorrect password");
+            msgBox.setStyleSheet(
+                "QDialog { background-color: #36548f; color: #ffffff; }"
+                "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+                "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+                "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+                );
             msgBox.exec();
             //ui->lineEdit->clear();
         }

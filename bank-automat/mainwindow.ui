@@ -10,23 +10,32 @@
     <height>646</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>1051</width>
     <height>646</height>
    </size>
   </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
-    <item alignment="Qt::AlignHCenter">
+    <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="minimumSize">
        <size>
         <width>1021</width>
-        <height>0</height>
+        <height>650</height>
        </size>
       </property>
       <property name="styleSheet">
@@ -36,43 +45,10 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="pageStartMenu">
-       <widget class="QWidget" name="verticalLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>320</y>
-          <width>461</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item alignment="Qt::AlignHCenter">
-          <widget class="QLabel" name="labelKortinTila">
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>22</pointsize>
-             <italic>false</italic>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
-           <property name="text">
-            <string>INSERT YOUR CARD</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>180</x>
+          <x>160</x>
           <y>10</y>
           <width>701</width>
           <height>281</height>
@@ -91,10 +67,10 @@
        <widget class="QPushButton" name="btn">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>530</y>
-          <width>201</width>
-          <height>51</height>
+          <x>430</x>
+          <y>100</y>
+          <width>141</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -104,10 +80,10 @@
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>380</y>
-          <width>281</width>
-          <height>231</height>
+          <x>370</x>
+          <y>360</y>
+          <width>291</width>
+          <height>251</height>
          </rect>
         </property>
         <property name="text">
@@ -120,10 +96,33 @@
          <bool>true</bool>
         </property>
        </widget>
-       <zorder>label_2</zorder>
-       <zorder>verticalLayoutWidget</zorder>
-       <zorder>btn</zorder>
-       <zorder>label_3</zorder>
+       <widget class="QLabel" name="labelKortinTila">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>310</y>
+          <width>347</width>
+          <height>59</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>22</pointsize>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 700 22pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text">
+         <string>INSERT YOUR CARD</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="pageValitseTili">
        <widget class="QWidget" name="verticalLayoutWidget_2">
