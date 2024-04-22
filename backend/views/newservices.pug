@@ -175,7 +175,7 @@ html
                                 td -
                                 td -
                                 td 
-                                    input(type="radio", value=1, name="openAccount")
+                                    input(type="radio", value=debitAvailableCards[i].id_card + "/" + 1, name="openAccount")
                     h3 Cards with credit account availability:
                     each id_card, i in creditAvailableCards    
                         p #{creditAvailableCards[i].id_card} 
@@ -203,7 +203,7 @@ html
                                 td -
                                 td -
                                 td 
-                                    input(type="radio", value=0, name="openAccount")
+                                    input(type="radio", value=creditAvailableCards[i].id_card + "/" + 0, name="openAccount")
                     p By acquiring a card I consent to SimulBank Ltd collecting any number of 
                     p infants borne from my blood.
                     input(type="checkbox", id="secondAccountAccept", name="accept", onchange="acceptChecked('secondAccountAccept', 'secondAccountError', 'secondAccountSubmit')")

@@ -91,7 +91,7 @@ function openAccount(request, response) {
     });  
 }
 
-function attachSecondAccount(request, response) {
+function attachExistingSecondAccount(request, response) {
     let data = request.body['openAccount'].split('/');
     cardAssociatedAccount.associateCardWithAccount(data[0], data[1], function (err, result) {
         if (err) {
@@ -103,6 +103,36 @@ function attachSecondAccount(request, response) {
         }
     });
 }
+
+function attachNewSecondAccount(request, response) {
+    let data = request.body['openAccount'].split('/');
+    findFreeAccountID(request, response, 0, function(accountID) {    
+        let account = {
+            'id_account': accountID,
+            'account_type': data[1],
+            'id_user': request.cookies['simulbankuserid'],
+            'credit_limit': (data[1] == 0) ? 3000.00 : 0.00
+        };
+        procedure.newAccount(account, function(err, result) {    
+            if (err) {
+                response.render('newservices', {error: "Something went wrong with the database"});
+                console.log(err);
+            }
+            else {
+                cardAssociatedAccount.associateCardWithAccount(data[0], accountID, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        response.render('newservices', {error: "Something went wrong with the database"});
+                    }
+                    else {
+                        response.render('newservices', {success: "A second account was succesfully attached to your card!"});
+                    }
+                });
+            }
+        });
+    });  
+}
+
 
 /* Creates a 4-digit pin
 */
@@ -192,5 +222,6 @@ module.exports = {
     newServicesWindow,
     openCard,
     openAccount,
-    attachSecondAccount
+    attachExistingSecondAccount,
+    attachNewSecondAccount
 }
