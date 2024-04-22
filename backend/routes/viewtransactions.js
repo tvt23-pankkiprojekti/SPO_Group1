@@ -14,7 +14,7 @@ router.post('/', function(request, response) {
             response.send(err);
             console.log(error);
         } else {
-            console.log(result);
+            //console.log(result);
             response.send(result);
         }
     });

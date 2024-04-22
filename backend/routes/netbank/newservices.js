@@ -2,23 +2,15 @@ const account = require('../../models/account_model');
 const card = require('../../models/card_model');
 const userdata = require('./userdata');
 const procedure = require('../../models/procedure_model');
+const cardAssociatedAccount = require('../../models/card_attached_account_model');
 
 function newServicesWindow(request, response) {
     userdata.getCardApprovedAccounts(request, response, function(err, debitAvailableCards, creditAvailableCards, debitAccounts, creditAccounts, authorizedAccounts) {
         if (err) {
-            response.render('newserviceswindow', {error: "Something went wrong with getting your data"});
+            response.render('newservices', {error: "Something went wrong with getting your data"});
         }
         else {
-            /*let i = 0;
-            while (cards[i] != null && cards[i] != undefined)
-            {
-                for (let j = 0; j < debitAccounts.length; j++) {
-
-                }
-                i++;
-            }*/
-            
-            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, authorizedAccounts: authorizedAccounts, cards: creditAvailableCards});
+            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, authorizedAccounts: authorizedAccounts, creditAvailableCards: creditAvailableCards, debitAvailableCards: debitAvailableCards});
         }
     });
 }
@@ -99,12 +91,17 @@ function openAccount(request, response) {
     });  
 }
 
-function addCreditAccountToCard() {
-
-}
-
-function a() {
-
+function attachSecondAccount(request, response) {
+    let data = request.body['openAccount'].split('/');
+    cardAssociatedAccount.associateCardWithAccount(data[0], data[1], function (err, result) {
+        if (err) {
+            console.log(err);
+            response.render('newservices', {error: "Something went wrong with the database"});
+        }
+        else {
+            response.render('newservices', {success: "A second account was succesfully attached to your card!"});
+        }
+    });
 }
 
 /* Creates a 4-digit pin
@@ -156,7 +153,7 @@ function accountIDLoop(request, response, number, next) {
 
 function findFreeCardID(request, response, number, next) {
     let idString;
-    console.log(number);
+    //console.log(number);
     if (number < Math.pow(16, 1)) {
         idString = "060000000" + number.toString(16);
     }
@@ -194,5 +191,6 @@ function cardIDLoop(request, response, number, next) {
 module.exports = {
     newServicesWindow,
     openCard,
-    openAccount
+    openAccount,
+    attachSecondAccount
 }
