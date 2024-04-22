@@ -12,25 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    /*QLabel *arro = new QLabel(this);
-    arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    QMovie *movie=new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
-
-    arro=new QLabel(this);
-    arro->setGeometry(145, 350, 250, 250);
-    arro->setScaledContents(true);
-    arro->setMovie(movie);
-    movie->start();
-
-    QLabel *arro2 = new QLabel(this);
-    arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-    arro2=new QLabel(this);
-    arro2->setGeometry(650, 355, 250, 250);
-    arro2->setScaledContents(true);
-    arro2->setMovie(movie);
-    movie->start();*/
-
     ui->setupUi(this);
     ptr_dll = new Dialog(this);
 
