@@ -128,13 +128,16 @@ router.post('/newservices/getcard', function(request, response) {
 
 router.post('/newservices/secondaccount', function(request, response) {
     authenticateToken(request, response, function(request, response) {
-        console.log("Looking to attach second account to card");
-        //console.log(request.body);
-        if (request.body['openAccount'] == 0 || request.body['openAccount'] == 1) {
-            newservices.openAccount(request, response);
+        //console.log(request.body['openAccount']);
+        let data = request.body['openAccount'].split('/');
+        //console.log(data);
+        if (data[1] == '0' || data[1] == '1') {
+            console.log("Looking to attach new second account to card");
+            newservices.attachNewSecondAccount(request, response);
         }
         else {
-            newservices.attachSecondAccount(request, response);
+            console.log("Looking to attach existing second account to card");
+            newservices.attachExistingSecondAccount(request, response);
         }
     });
 });
