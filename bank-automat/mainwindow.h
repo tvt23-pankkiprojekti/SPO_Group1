@@ -67,6 +67,7 @@ private:
 
     ProfileWindow *accountInfo;
     MainWindow *Name;
+
     
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;

@@ -171,8 +171,8 @@ function authenticateToken(request, response, next) {
         //console.log("Verifying token");
         if (!err && user['userid'] == request.cookies['simulbankuserid']) {
             // renews cookies
-            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
-            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
+            response.cookie('simulbankuserid', request.cookies['simulbankuserid'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
+            response.cookie('simulbankusername', request.cookies['simulbankusername'], { expires: new Date(Date.now() + 3000000), httpOnly : true, secure : true});
             response.cookie('simulbanktoken', request.cookies['simulbanktoken'], { expires: new Date(Date.now() + 300000), httpOnly : true, secure : true});
             next(request, response);
         } 

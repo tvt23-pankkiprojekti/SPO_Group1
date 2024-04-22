@@ -28,7 +28,7 @@ function addUser(request, response) {
 }
 
 function generateToken(id) {
-    return token.sign(id, process.env.Web_Token);
+    return token.sign(id, process.env.Web_Token, {expiresIn: '600s'});
 }
 
 module.exports = {
