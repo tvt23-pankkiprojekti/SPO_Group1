@@ -5,21 +5,17 @@ const procedure = require('../../models/procedure_model');
 const cardAssociatedAccount = require('../../models/card_attached_account_model');
 
 function newServicesWindow(request, response) {
-    userdata.getUserData(request, response, function(err, cards, debitAccounts, creditAccounts, authorizedAccounts) {
+    userdata.getCardApprovedAccounts(request, response, function(err, debitAvailableCards, creditAvailableCards, debitAccounts, creditAccounts, authorizedAccounts) {
         if (err) {
-            response.render('newserviceswindow', {error: "Something went wrong with getting your data"});
+            response.render('newservices', {error: "Something went wrong with getting your data"});
         }
         else {
-            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, cards: cards});
+            response.render('newservices', {debitAccounts: debitAccounts, creditAccounts: creditAccounts, authorizedAccounts: authorizedAccounts, creditAvailableCards: creditAvailableCards, debitAvailableCards: debitAvailableCards});
         }
     });
 }
 
 function openCard(request, response) {
-
-}
-
-function openDebitCard(request, response) {
     findFreeCardID(request, response, 0x0, function(cardID) {
         let pin = randomizePin();
         let data = {
@@ -29,7 +25,7 @@ function openDebitCard(request, response) {
             'pincode': pin
         };
 
-        procedure.addNewCard(data, function(err, result) {
+        procedure.newCard(data, function(err, result) {
             if (err) {
                 response.render('getcard', {error: "Something went wrong"});
                 console.log(err);
@@ -38,42 +34,6 @@ function openDebitCard(request, response) {
                 response.render('getcard', {newcard: "Your card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
             }
         });
-    });
-}
-
-function openCreditCard(request, response) {    
-    findFreeCardID(request, response, 0x0, function(cardID) {
-        findFreeAccountID(request, response, 0x0, function(accountID) {
-            let pin = randomizePin();
-            let data = {
-                'id_account': accountID,
-                'pincode': pin,
-                'credit_limit': 3000.00
-            };
-            procedure.newAccount(data, function(err, result) {    
-                if (err) {
-                    response.render('newservices', {error: "Something went wrong with the database"});
-                    console.log(err);
-                }
-                else {
-                    //console.log(data);
-                    response.render('newservices', {success: "Account opened succesfully, ID " + accountID + "!"});
-                }
-            });
-        }
-    });  
-}
-
-function attachSecondAccount(request, response) {
-    let data = request.body['openAccount'].split('/');
-    cardAssociatedAccount.associateCardWithAccount(data[0], data[1], function (err, result) {
-        if (err) {
-            console.log(err);
-            response.render('newservices', {error: "Something went wrong with the database"});
-        }
-        else {
-            response.render('newservices', {success: "A second account was succesfully attached to your card!"});
-        }
     });
 }
 
@@ -89,11 +49,12 @@ function openAccount(request, response) {
     findFreeAccountID(request, response, 0, function(accountID) {
         if (requestType > 1) {
             findFreeCardID(request, response, 0x0, function(cardID) {
+                let pin = randomizePin();
                 let data = {
                     'id_card': cardID,
                     'account_type': requestType - 2,
                     'id_user': request.cookies['simulbankuserid'],
-                    'pincode': randomizePin(),
+                    'pincode': pin,
                     'id_account': accountID,
                     'credit_limit': (requestType - 2 == 0) ? 3000.00 : 0.00
                 };
@@ -104,7 +65,7 @@ function openAccount(request, response) {
                     }
                     else {
                         //console.log(data);
-                        response.render('newservices', {success: "Account opened succesfully.", success2: "Your account ID is " + accountID + ", card ID is " + cardID + ", and PIN number is " + data['pincode'] + "."});
+                        response.render('newservices', {success: "Account opened succesfully.", success2: "Your account ID is " + accountID + ", card ID is " + cardID + ", and PIN number is " + pin + "."});
                     }
                 });
             });
@@ -130,13 +91,48 @@ function openAccount(request, response) {
     });  
 }
 
-function addCreditAccountToCard() {
-
+function attachExistingSecondAccount(request, response) {
+    let data = request.body['openAccount'].split('/');
+    cardAssociatedAccount.associateCardWithAccount(data[0], data[1], function (err, result) {
+        if (err) {
+            console.log(err);
+            response.render('newservices', {error: "Something went wrong with the database"});
+        }
+        else {
+            response.render('newservices', {success: "A second account was succesfully attached to your card!"});
+        }
+    });
 }
 
-function a() {
-
+function attachNewSecondAccount(request, response) {
+    let data = request.body['openAccount'].split('/');
+    findFreeAccountID(request, response, 0, function(accountID) {    
+        let account = {
+            'id_account': accountID,
+            'account_type': data[1],
+            'id_user': request.cookies['simulbankuserid'],
+            'credit_limit': (data[1] == 0) ? 3000.00 : 0.00
+        };
+        procedure.newAccount(account, function(err, result) {    
+            if (err) {
+                response.render('newservices', {error: "Something went wrong with the database"});
+                console.log(err);
+            }
+            else {
+                cardAssociatedAccount.associateCardWithAccount(data[0], accountID, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        response.render('newservices', {error: "Something went wrong with the database"});
+                    }
+                    else {
+                        response.render('newservices', {success: "A second account was succesfully attached to your card!"});
+                    }
+                });
+            }
+        });
+    });  
 }
+
 
 /* Creates a 4-digit pin
 */
@@ -187,7 +183,7 @@ function accountIDLoop(request, response, number, next) {
 
 function findFreeCardID(request, response, number, next) {
     let idString;
-    console.log(number);
+    //console.log(number);
     if (number < Math.pow(16, 1)) {
         idString = "060000000" + number.toString(16);
     }
@@ -225,5 +221,7 @@ function cardIDLoop(request, response, number, next) {
 module.exports = {
     newServicesWindow,
     openCard,
-    openAccount
+    openAccount,
+    attachExistingSecondAccount,
+    attachNewSecondAccount
 }
