@@ -3,5 +3,6 @@
 	<file>logo.png</file>
 	<file>card.png</file>
 	<file>deco.png</file>
+	<file>arrow.gif</file>
     </qresource>
 </RCC>
