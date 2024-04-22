@@ -5,6 +5,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QMessageBox>
+#include <QMovie>
 #include <QDialog>
 #include <QFile>
 #include <QDir>
@@ -50,6 +51,8 @@ private slots:
     void onBtnTakaisin3Clicked();
     void onBtnKatsoTiedotClicked();
     //void handleDLLSignal(QString);
+    void clearGifs();
+    void displayGifsOnStartMenu();
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();
@@ -81,6 +84,9 @@ private:
 
     int currentPage = 0;
     int maxPage;
+
+    QLabel *arro = nullptr;
+    QLabel *arro2 = nullptr;
     
     transactionHistory * eventData;
     
