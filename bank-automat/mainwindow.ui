@@ -48,7 +48,7 @@
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>170</x>
           <y>10</y>
           <width>701</width>
           <height>281</height>
@@ -128,38 +128,6 @@
           </widget>
          </item>
         </layout>
-       </widget>
-       <widget class="QLabel" name="arro">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>350</y>
-          <width>211</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="arro2">
-        <property name="geometry">
-         <rect>
-          <x>720</x>
-          <y>350</y>
-          <width>211</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="pageValitseTili">
