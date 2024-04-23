@@ -4,21 +4,13 @@ MainWindow
     background-color: #36548f;
 }
 
-/*-----QMessageBox-----*/
-QMessageBox
-{
-    font-size: 15px;
-    background-color: #36548f;
-    color: #ffffff;
-}
-
-/*-----QDialog-----
+/*-----QDialog-----*/
 QDialog
 {
     color: #36548f;
     background-color: #ffffff;
     border-color: #051a39;
-}*/
+}
 
 /*-----QLabel-----*/
 QLabel
@@ -40,13 +32,6 @@ QPushButton
     border-radius: 5px;
     border-color: transparent;
     padding: 5px;
-}
-
-QPushButton:disabled
-{
-    background-color: #404040;
-    color: #656565;
-    border-color: #051a39;
 }
 
 QPushButton:hover
