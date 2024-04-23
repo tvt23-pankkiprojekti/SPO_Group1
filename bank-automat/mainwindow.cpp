@@ -53,7 +53,7 @@ void MainWindow::displayGifsOnStartMenu() {
     if (ui->stackedWidget->currentIndex() != 0)
         return;
 
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif");
 
     if (!arro) {
         arro = new QLabel(this);
@@ -132,13 +132,12 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
+    else if(data == "false"){
+        msgBox.setText("Data acquisition error");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
+    }
     else {
-        if(data == "false"){
-            msgBox.setText("Data acquisition error");
-            setMessageBoxStyles(msgBox);
-            msgBox.exec();
-        }
-
         QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
         //qDebug() << dataUnpacked;
         QJsonArray array = dataUnpacked.array();
@@ -200,9 +199,8 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
     data = reply->readAll();
-    qDebug()<<data;
+    //qDebug()<<data;
     QMessageBox msgBox;
-    qDebug()<<data;
     if(data=="-4078" || data.length()==0){
         msgBox.setText("Network error");
         setMessageBoxStyles(msgBox);
@@ -210,7 +208,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
     else{
         if(data!="false"){
-            qDebug() << "loginSLot(), data wasn't false";
+            token = data;
+            qDebug() << "loginSlot(), data wasn't false";
             checkAttachedAccounts();
             clearGifs();
         }
@@ -328,7 +327,8 @@ void MainWindow::checkAttachedAccounts()
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    // add token here
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
 
     accountCheckManager = new QNetworkAccessManager(this);
     connect(accountCheckManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(attachedAccountCheckSlot(QNetworkReply*)));
@@ -345,6 +345,9 @@ void MainWindow::onBtnKatsoTiedotClicked()
     QString url = env::getUrl() + "/viewprofile";
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
 
     transferManager = new QNetworkAccessManager(this);
     connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));

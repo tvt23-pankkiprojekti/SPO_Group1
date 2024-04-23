@@ -47,6 +47,5 @@ app.use('/bankomat/getaccounts', accountRouter);
 app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/transaction', transactionRouter);
 app.use('/bankomat/viewtransactions', viewTransactionRouter);
-//app.use(authenticatetoken);
 
 module.exports = app;
