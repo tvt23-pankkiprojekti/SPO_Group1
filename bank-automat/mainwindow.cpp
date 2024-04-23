@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     creditAccount = "";
 
     ui->setupUi(this);
+
+    ui->setupUi(this);
     ptr_dll = new Dialog(this);
 
     connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
@@ -29,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
     ui->stackedWidget->setCurrentIndex(0);
+    displayGifsOnStartMenu();
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
@@ -36,6 +39,54 @@ MainWindow::MainWindow(QWidget *parent)
     eventData->attachWindow(ui->stackedWidget);
 }
 
+void setMessageBoxStyles(QMessageBox& msgBox) {
+    msgBox.setStyleSheet(
+        "QDialog { background-color: #36548f; color: #ffffff; }"
+        "QLabel { font-weight: bold; font-size: 15px; background-color: transparent; color: #ffffff; }"
+        "QPushButton { font-weight: bold; font-size: 10px; background-color: #426ca4; color: #ffffff; border-style: solid; border-width: 1px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+        "QPushButton:hover { background-color: #54a6cc; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: #36548f; padding: 10px; min-width: 20px; }"
+        "QPushButton:pressed { background-color: #284070; color: #ffffff; border-style: solid; border-width: 3px; border-radius: 5px; border-color: transparent; padding: 10px; min-width: 20px; }"
+        );
+}
+
+void MainWindow::displayGifsOnStartMenu() {
+    if (ui->stackedWidget->currentIndex() != 0)
+        return;
+
+    QMovie *movie = new QMovie("C:/Users/nidac/Documents/projektipankkiautomaatti/Pankki_koodit/SPO_Group1/bank-automat/arrow.gif");
+
+    if (!arro) {
+        arro = new QLabel(this);
+        arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        arro->setGeometry(145, 350, 250, 250);
+        arro->setScaledContents(true);
+        arro->setMovie(movie);
+    }
+
+    if (!arro2) {
+        arro2 = new QLabel(this);
+        arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        arro2->setGeometry(650, 355, 250, 250);
+        arro2->setScaledContents(true);
+        arro2->setMovie(movie);
+    }
+
+    movie->start();
+}
+
+void MainWindow::clearGifs() {
+    if (arro) {
+        arro->movie()->stop();
+        delete arro;
+        arro = nullptr;
+    }
+
+    if (arro2) {
+        arro2->movie()->stop();
+        delete arro2;
+        arro2 = nullptr;
+    }
+}
 
 void MainWindow::profileDataSlot(QNetworkReply *reply)
 {
@@ -44,7 +95,8 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 
     if (data.length() == 0 || data == "-4078") {
         qDebug() << "Tietoliikenneyhteysvika";
-        msgBox.setText("Tietoliikenneyhteysvika");
+        msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
         msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
@@ -53,7 +105,8 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
 
     if (data == "false") {
         qDebug() << "Virhe tietojen hankinnassa";
-        msgBox.setText("Tietoa ei saatu");
+        msgBox.setText("Data acquisition error");
+        setMessageBoxStyles(msgBox);
         msgBox.exec();
         reply->deleteLater();
         transferManager->deleteLater();
@@ -76,51 +129,38 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
     if (data=="-4078" || data.length()==0) {
         msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
     else {
         if(data == "false"){
             msgBox.setText("Data acquisition error");
+            setMessageBoxStyles(msgBox);
             msgBox.exec();
         }
 
         QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
-
-
         //qDebug() << dataUnpacked;
 
-        qDebug() << dataUnpacked;
-
-        //qDebug() << dataUnpacked;
         QJsonArray array = dataUnpacked.array();
+
         if (array.size() < 1) {
             msgBox.setText("No accounts attached to this card");
+            setMessageBoxStyles(msgBox);
             msgBox.exec();
         }
         else if (array.size() > 1) {
-
-            qDebug() << "Tilin tyyppi: " << array[0].toObject()["type"].toInt();
+            //qDebug() << "Tilin tyyppi: " << array[0].toObject()["type"].toInt();
             if (array[0].toObject()["type"].toInt() == 0) {
                 creditAccount = array[0].toObject()["id_account"].toString();
                 debitAccount = array[1].toObject()["id_account"].toString();
                 //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
-
-
-            if (array[0].toObject()["type"].toInt() == 0) {
-                creditAccount = array[0].toObject()["id_account"].toString();
-                debitAccount = array[1].toObject()["id_account"].toString();
-
-
             }
             else {
                 creditAccount = array[1].toObject()["id_account"].toString();
                 debitAccount = array[0].toObject()["id_account"].toString();
 
                 //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
-
-
-                //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
-
             }
             ui->stackedWidget->setCurrentIndex(1);
         }
@@ -133,11 +173,9 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
     accountCheckReply->deleteLater();
     accountCheckManager->deleteLater();
 }
-}
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
-
     QByteArray data = reply->readAll();
 
     if(data.length()==0 || data == "-4078"){
@@ -157,6 +195,10 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
     ui->stackedWidget->setCurrentIndex(4);
     eventData->getEventSlot(data);
 
+    maxPage = eventData->addEvents(currentPage);
+    checkPage();
+
+
     replyEvents->deleteLater();
     transferManagerEvents->deleteLater();
 }
@@ -168,7 +210,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     QMessageBox msgBox;
     qDebug()<<data;
     if(data=="-4078" || data.length()==0){
-        msgBox.setText("Virhe tietoyhteydessä");
+        msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
     else{
@@ -180,11 +223,12 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 
             qDebug() << "loginSLot(), data wasn't false";
             checkAttachedAccounts();
+            clearGifs();
         }
         else{
             msgBox.setText("Incorrect password");
+            setMessageBoxStyles(msgBox);
             msgBox.exec();
-            //ui->lineEdit->clear();
         }
     }
     reply->deleteLater();

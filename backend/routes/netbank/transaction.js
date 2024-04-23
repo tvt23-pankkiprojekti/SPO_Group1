@@ -15,15 +15,32 @@ function findTransactionCapableAccounts(request, response) {
                     validAccounts.push(result[i]);
                 }
             }
-            console.log(result);
-            console.log(validAccounts);
+            //console.log(result);
+            //console.log(validAccounts);
             response.render('transaction', {accounts: validAccounts});
         }
     });
 }
 
 function accountToAccountTransaction(request, response) {
+    console.log(request.body);
+    let data = {
+        'account_one': request.body['senderAccount'],
+        'account_two': request.body['receiverAccount'],
+        'amount': request.body['amount'],
+        'description_one': 'Transfer to account ' + request.body['receiverAccount'],
+        'description_two': 'Transfer from account ' + request.body['senderAccount']
+    };
 
+    procedure.accountToAccountTransaction(data, function(err, result) {
+        if (err) {
+            console.log(err);
+            response.render('transaction', {error: "Something went wrong with the database"});
+        }
+        else {
+            response.render('transaction', {success: "Transfer completed successfully!"});
+        }
+    });
 }
 
 module.exports = {

@@ -31,7 +31,7 @@ function openCard(request, response) {
                 console.log(err);
             }
             else {
-                response.render('getcard', {newcard: "Your card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
+                response.render('getcard', {success: "Your card was succesfully created: ID " + cardID + ", PIN " + pin + "." });
             }
         });
     });
