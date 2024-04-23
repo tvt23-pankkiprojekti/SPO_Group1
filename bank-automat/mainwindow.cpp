@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    cardNo = "060006E2E7";
+    cardNo = "06000640F7";
     debitAccount = "";
     creditAccount = "";
 
