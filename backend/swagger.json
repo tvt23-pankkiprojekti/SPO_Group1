@@ -1,4 +1,4 @@
-{
+{   
     "openapi": "3.0.3",
     "info": {
       "title": "SimulBank swagger admin interface",
@@ -112,8 +112,6 @@
                     },
                     "500": {
                         "description": "An error occurred while trying to list users"
-<<<<<<< HEAD
-=======
                     }
                 }
             }
@@ -162,7 +160,6 @@
                         "500": {
                             "description": "An error occurred while trying to list user by id"
                         }
->>>>>>> b2576377c4e46630b73688400ee8d5b516666b0f
                     }
                 }
             }
@@ -259,4 +256,4 @@
             }
         }
     }
-}
+}}
