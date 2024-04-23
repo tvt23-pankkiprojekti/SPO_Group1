@@ -53,7 +53,7 @@ void MainWindow::displayGifsOnStartMenu() {
     if (ui->stackedWidget->currentIndex() != 0)
         return;
 
-    QMovie *movie = new QMovie("C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Users/nidac/Documents/projektipankkiautomaatti/Pankki_koodit/SPO_Group1/bank-automat/arrow.gif");
 
     if (!arro) {
         arro = new QLabel(this);
@@ -140,14 +140,16 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
     else {
         QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
         //qDebug() << dataUnpacked;
+
         QJsonArray array = dataUnpacked.array();
+
         if (array.size() < 1) {
             msgBox.setText("No accounts attached to this card");
             setMessageBoxStyles(msgBox);
             msgBox.exec();
         }
         else if (array.size() > 1) {
-            qDebug() << "Tilin tyyppi: " << array[0].toObject()["type"].toInt();
+            //qDebug() << "Tilin tyyppi: " << array[0].toObject()["type"].toInt();
             if (array[0].toObject()["type"].toInt() == 0) {
                 creditAccount = array[0].toObject()["id_account"].toString();
                 debitAccount = array[1].toObject()["id_account"].toString();
@@ -156,6 +158,7 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
             else {
                 creditAccount = array[1].toObject()["id_account"].toString();
                 debitAccount = array[0].toObject()["id_account"].toString();
+
                 //qDebug() << "Credit-tili:" << creditAccount << ", debit-tili:" << debitAccount;
             }
             ui->stackedWidget->setCurrentIndex(1);
@@ -172,7 +175,6 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
-
     QByteArray data = reply->readAll();
 
     if(data.length()==0 || data == "-4078"){
@@ -191,6 +193,10 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
 
     ui->stackedWidget->setCurrentIndex(4);
     eventData->getEventSlot(data);
+
+    maxPage = eventData->addEvents(currentPage);
+    checkPage();
+
 
     replyEvents->deleteLater();
     transferManagerEvents->deleteLater();
@@ -226,6 +232,11 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
+
+
+    //ui->stackedWidget->setCurrentIndex(1);
+
+
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
@@ -242,7 +253,13 @@ void MainWindow::onBtnEnterPinClicked()
 
 void MainWindow::onBtnValitseCreditClicked()
 {
+
+
     //qDebug() << "Credit valittu";
+
+
+    //qDebug() << "Credit valittu";
+
     accountNo = creditAccount;
     creditAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
@@ -251,6 +268,7 @@ void MainWindow::onBtnValitseCreditClicked()
 void MainWindow::onBtnValitseDebitClicked()
 {
     //qDebug() << "Debit valittu";
+
     accountNo = debitAccount;
     debitAccount = "";
     ui->stackedWidget->setCurrentIndex(2);
