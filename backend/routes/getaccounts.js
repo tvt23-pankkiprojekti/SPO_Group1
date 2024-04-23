@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const tokenCheck = require('./verifytoken');
 const cardAccount = require('../models/card_attached_account_model');
+const { token } = require('morgan');
 
 router.post('/', function(request, response) {
     if (!request.body.card) {
@@ -8,23 +10,31 @@ router.post('/', function(request, response) {
         return;
     }
 
-    cardAccount.accessibleAttachedAccountsWithType(request.body.card, function(err, result) {
-        //console.log(result);
+    tokenCheck.verify(request, response, function(err, request, response) {
         if (err) {
             console.log(err);
             response.send(false);
         }
         else {
-            let answers = [];
-            for (let i = 0; i < result.length; i++) {
-                if (result[i]['state'] == null) {
-                    answers.push(result[i]);
+            cardAccount.accessibleAttachedAccountsWithType(request.body.card, function(err, result) {
+                //console.log(result);
+                if (err) {
+                    console.log(err);
+                    response.send(false);
                 }
-            }
-            //console.log(answers);
-            response.send(answers);
+                else {
+                    let answers = [];
+                    for (let i = 0; i < result.length; i++) {
+                        if (result[i]['state'] == null) {
+                            answers.push(result[i]);
+                        }
+                    }
+                    //console.log(answers);
+                    response.send(answers);
+                }
+            });
         }
-    });
+    })
 });
 
 module.exports = router;

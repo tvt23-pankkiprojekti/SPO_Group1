@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QDir>
 #include <QJsonObject>
+#include <QCoreApplication>
 #include <QJsonDocument>
 #include <QtNetwork>
 #include <QNetworkRequest>

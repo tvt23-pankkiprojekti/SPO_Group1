@@ -16,7 +16,7 @@ router.post('/',function(request, response){
                     bcrypt.compare(request.body.pincode, result[0].pincode, function(err, compareResult){
                         if(compareResult == true) {
                             console.log('Kirjautuminen onnistui');
-                            const token = genToken({pincode: request.body.card});
+                            const token = genToken({card: request.body.card});
                             response.json(token);
                         }
                         else {
@@ -37,7 +37,7 @@ router.post('/',function(request, response){
   });
   
   function genToken(value){
-    return jwt.sign(value, process.env.Web_Token, {expiresIn: '200s'});
+    return jwt.sign(value, process.env.Web_Token, {expiresIn: '600s'});
   }
 
   module.exports=router;
