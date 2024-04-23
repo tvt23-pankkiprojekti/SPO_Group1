@@ -52,7 +52,7 @@ function addAuthorizedCard(data, callback) {
     - create a transaction record with account one, amount, current time and a description
 */
 function accountToAccountTransaction(data, callback) {
-    return db.query("CALL accountToAccountTransaction(?, ?, ?, ?)", [data.account_one, data.account_two, data.amount, data.description], callback);
+    return db.query("CALL accountToAccountTransaction(?, ?, ?, ?, ?)", [data.account_one, data.account_two, data.amount, data.description_one, data.description_two], callback);
 }
 
 module.exports = {
