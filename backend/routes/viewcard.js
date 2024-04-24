@@ -5,11 +5,19 @@ var accountAttached=require('../models/card_attached_account_model');
 var card=require('../models/card_model');
 var account=require('../models/account_model');
 var transaction=require('../models/transaction_model');
+const tokenCheck = require('./verifytoken');
+const { token } = require('morgan');
 
 router.post('/', function(request, response) {
   let answer = [];
   console.log("Bankomat profile request, card " + request.body.card)
 
+  tokenCheck.verify(request, response, function(err) {
+    if (err) {
+        console.log(err);
+        response.send(false);
+    }
+    else {
   card.getCard(request.body.card, function(err,result){
     if(err){
       response.send(err);
@@ -81,6 +89,8 @@ router.post('/', function(request, response) {
       });
     });
   });
+}
+});
 });
 
 module.exports=router;

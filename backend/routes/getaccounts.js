@@ -5,18 +5,18 @@ const cardAccount = require('../models/card_attached_account_model');
 const { token } = require('morgan');
 
 router.post('/', function(request, response) {
-    if (!request.body.card) {
+    if (!request.body['card']) {
         response.send(false);
         return;
     }
 
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, request.body['card'], function(err) {
         if (err) {
             console.log(err);
             response.send(false);
         }
         else {
-            cardAccount.accessibleAttachedAccountsWithType(request.body.card, function(err, result) {
+            cardAccount.accessibleAttachedAccountsWithType(request.body['card'], function(err, result) {
                 //console.log(result);
                 if (err) {
                     console.log(err);
