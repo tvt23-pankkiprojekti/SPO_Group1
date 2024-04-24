@@ -212,6 +212,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
+
     else{
         if(data!="false"){
             token = data;
@@ -236,7 +237,6 @@ void MainWindow::onBtnEnterPinClicked()
 
     //ui->stackedWidget->setCurrentIndex(1);
 
-
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
@@ -245,6 +245,11 @@ void MainWindow::onBtnEnterPinClicked()
     QString url = env::getUrl() + "/login";
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
 
     loginManager = new QNetworkAccessManager(this);
     connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));

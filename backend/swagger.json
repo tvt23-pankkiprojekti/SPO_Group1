@@ -117,143 +117,147 @@
             }
         },
 
-        "/admin/getuserbyuserid": {
-            "get": {
-                "description": "Finds user by id",
-                "produces": "application/json",
-                "parameters": [
-                    {
-                        "name": "id_user",
-                        "in": "query",
-                        "required": "true",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                        "responses": {
-                        "200": {
-                            "description": "User found"
-                        },
-                          "content": {
-                            "application/json": {
-                                "schema": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "fname": {
-                                            "type": "string"
-                                        },
-                                        "lname": {
-                                            "type": "string"
-                                        },
-                                        "state": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            },
-                        "400": {
-                            "description": "Not all required data was received with the request"
-                            },
-                        "500": {
-                            "description": "An error occurred while trying to list user by id"
-                        }
-                    }
-                }
-            }
-        },
-
-        "/admin/getuserbyuserid": {
-            "get": {
-                "description": "Finds user by id",
-                "produces": "application/json",
-                "parameters": [
-                    {
-                        "name": "id_user",
-                        "in": "query",
-                        "required": "true",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                        "responses": {
-                        "200": {
-                            "description": "User found"
-                        },
-                          "content": {
-                            "application/json": {
-                                "schema": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "fname": {
-                                            "type": "string"
-                                        },
-                                        "lname": {
-                                            "type": "string"
-                                        },
-                                        "state": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            },
-                        "400": {
-                            "description": "Not all required data was received with the request"
-                            },
-                        "500": {
-                            "description": "An error occurred while trying to list user by id"
-                        }
-                    }
-                }
-            }
-            }
-        },
-
-        "/admin/updateuser": {
-            "put": {
-                "description": "Updates user data to the database",
-                "produces": "application/json",
-                "consumes": "application/json",
-                "requestBody":{
-                    "content": {
-                        "application/json": {
-                            "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "id_user":{
-                                        "type": "number"
-                                    },
-                                    "fname": {
-                                        "type": "string"
-                                    },
-                                    "lname": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
+            "/admin/getuserbyuserid": {
+                "get": {
+                    "description": "Finds user by id",
+                    "produces": "application/json",
+                    "parameters": [
+                        {
+                            "name": "id_user",
+                            "in": "query",
+                            "required": "true",
+                            "schema": {
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    },
-                    "405": {
-                        "description": "Validation exception"
+                    ],
+                        "responses": {
+                        "200": {
+                            "description": "User found"
+                        },
+                          "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fname": {
+                                            "type": "string"
+                                        },
+                                        "lname": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                        "400": {
+                            "description": "Not all required data was received with the request"
+                            },
+                        "500": {
+                            "description": "An error occurred while trying to list user by id"
+                        }
                     }
                 }
             }
         }
-    }
-}}
+    },
+
+        "/admin/getuserbyuserid": {
+            "get": {
+                "description": "Finds user by id",
+                "produces": "application/json",
+                "parameters": [
+                    {
+                        "name": "id_user",
+                        "in": "query",
+                        "required": "true",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                        "responses": {
+                        "200": {
+                            "description": "User found"
+                        },
+                          "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fname": {
+                                            "type": "string"
+                                        },
+                                        "lname": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                        "400": {
+                            "description": "Not all required data was received with the request"
+                            },
+                        "500": {
+                            "description": "An error occurred while trying to list user by id"
+                        }
+                    }
+                }
+            
+            }
+        }
+    },
+
+                "/admin/updateuser": {
+                    "put": {
+                        "description": "Updates user data to the database",
+                        "produces": "application/json",
+                        "consumes": "application/json",
+                        "requestBody":{
+                            "content": {
+                                "application/json": {
+                                    "schema":{
+                                        "type": "object",
+                                        "properties": {
+                                            "id_user":{
+                                                "type": "number"
+                                            },
+                                            "fname": {
+                                                "type": "string"
+                                            },
+                                            "lname": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "responses": {
+                            "400": {
+                                "description": "Invalid ID supplied"
+                            },
+                            "404": {
+                                "description": "User not found"
+                            },
+                            "405": {
+                                "description": "Validation exception"
+                            }
+                        }
+                    }
+                 }
+            }
+}
+
+          
