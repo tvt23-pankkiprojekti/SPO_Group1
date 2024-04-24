@@ -31,7 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn,SIGNAL(clicked(bool)),
             this,SLOT(handleClick()));
     ui->stackedWidget->setCurrentIndex(0);
+
     displayGifsOnStartMenu();
+
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
 
@@ -50,26 +52,20 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 }
 
 void MainWindow::displayGifsOnStartMenu() {
-    if (ui->stackedWidget->currentIndex() != 0)
-        return;
 
-    QMovie *movie = new QMovie("C:/Users/nidac/Documents/projektipankkiautomaatti/Pankki_koodit/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif"); //env linkki
 
-    if (!arro) {
         arro = new QLabel(this);
         arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
         arro->setGeometry(145, 350, 250, 250);
         arro->setScaledContents(true);
         arro->setMovie(movie);
-    }
 
-    if (!arro2) {
         arro2 = new QLabel(this);
         arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
         arro2->setGeometry(650, 355, 250, 250);
         arro2->setScaledContents(true);
         arro2->setMovie(movie);
-    }
 
     movie->start();
 }
@@ -232,11 +228,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
-
-
-    //ui->stackedWidget->setCurrentIndex(1);
-
-
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
@@ -246,6 +237,11 @@ void MainWindow::onBtnEnterPinClicked()
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
     loginManager = new QNetworkAccessManager(this);
     connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
@@ -253,11 +249,6 @@ void MainWindow::onBtnEnterPinClicked()
 
 void MainWindow::onBtnValitseCreditClicked()
 {
-
-
-    //qDebug() << "Credit valittu";
-
-
     //qDebug() << "Credit valittu";
 
     accountNo = creditAccount;
@@ -322,12 +313,6 @@ void MainWindow::onBtnTakaisin3Clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
-
-/*void MainWindow::handleDLLSignal(QString s)
-{
-    //ui->lineEdit->setText(s);
-    ui->stackedWidget->setCurrentIndex(1);
-}*/
 
 void MainWindow::handleClick()
 {

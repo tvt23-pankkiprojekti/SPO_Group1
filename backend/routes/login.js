@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 router.post('/',function(request, response){
+    
     if(request.body.card && request.body.pincode){
         card.login(request.body.card, function(err,result){
             if(err){
