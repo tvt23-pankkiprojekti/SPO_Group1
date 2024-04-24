@@ -42,3 +42,8 @@ win32: LIBS += -L$$PWD/../pincodeDLL/build/debug/ -lpincodeDLL
 
 INCLUDEPATH += $$PWD/../pincodeDLL
 DEPENDPATH += $$PWD/../pincodeDLL
+
+win32: LIBS += -L$$PWD/../serialportDLL/build/debug/ -lserialportDLL
+
+INCLUDEPATH += $$PWD/../serialportDLL
+DEPENDPATH += $$PWD/../serialportDLL
