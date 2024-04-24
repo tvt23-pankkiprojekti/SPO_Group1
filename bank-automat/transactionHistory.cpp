@@ -31,9 +31,18 @@ int transactionHistory::addEvents(int pageNum)
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
+    if (json_array.isEmpty()) {
+        qDebug() << "No events found.";
+        return 0;
+    }
+
     qDebug()<<"arrayn koko:" << json_array.size();
     qDebug()<< "Viimeinen sivu: "<<maxNum;
     for (int row = (pageNum-1)*eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
+            if (row >= json_array.size()) {
+                break;
+            }
+
         qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
@@ -43,6 +52,7 @@ int transactionHistory::addEvents(int pageNum)
         QStandardItem *date = new QStandardItem(events["time"].toString());
         table_model->setItem(row-((pageNum-1)*eventsOnPage), 2, date);
     }
+
     QString styleSheet = "QObject {"
                          "background-color: #426ca4;"
                          "color: #ffffff;"
@@ -53,19 +63,11 @@ int transactionHistory::addEvents(int pageNum)
                          "}";
 
     tableView->setStyleSheet(styleSheet);
-   /* QString event;
 
-    event="Tilinumero | summa | Tyyppi | PVM\r";
-    foreach (const QJsonValue &value, json_array) {
-        QJsonObject json_obj = value.toObject();
-        event+=json_obj["id_account"].toString()+" | ";
-        event+=QString::number(json_obj["amount"].toInt())+" | ";
-        event+=QString::number(json_obj["description"].toInt())+" | ";
-        event+=json_obj["time"].toString();
-        event+="\r";
-    }*/
-    qDebug()<<"virhe 2";
+    //qDebug()<<"virhe 2";
     tableView->setModel(table_model);
+
+
 
     return maxNum;
 }
@@ -74,7 +76,6 @@ int transactionHistory::addEvents(int pageNum)
 void transactionHistory::getEventSlot(QByteArray data)
 {
     response_data = data;
-    addEvents(1);
 }
 
 

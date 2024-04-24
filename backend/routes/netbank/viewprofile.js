@@ -10,7 +10,7 @@ function getData(request, response) {
             //console.log(accounts);
             response.render('profile', {name: request.cookies['simulbankusername'], id: request.cookies['simulbankuserid'], accounts: accounts, authorizedAccounts: authorizedAccounts, cards: cards});
         }
-    })
+    });
 }
 
 module.exports = {
