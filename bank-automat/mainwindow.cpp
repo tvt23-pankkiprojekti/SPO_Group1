@@ -208,6 +208,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
+
     else{
         if(data!="false"){
             token = data;
@@ -228,6 +229,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
+
+    //ui->stackedWidget->setCurrentIndex(1);
+
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
