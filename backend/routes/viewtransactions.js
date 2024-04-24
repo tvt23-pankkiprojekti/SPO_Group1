@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var transaction = require('../models/transaction_model');
+const tokenCheck = require('./verifytoken');
+const { token } = require('morgan');
 
 router.post('/', function(request, response) {
     /*if (!request.body.idaccount || isNaN(request.body.idaccount)) {
@@ -8,7 +10,12 @@ router.post('/', function(request, response) {
         return;
     }*/
 
-    console.log("Token verified successfully");
+    tokenCheck.verify(request, request.body.card, function(err) {
+        if (err) {
+            console.log(err);
+            response.send(false);
+        }
+        else {
     transaction.getTransactionHistory(request.body.idaccount, function(err, result) {
         if (err) {
             response.send(false);
@@ -18,6 +25,8 @@ router.post('/', function(request, response) {
             response.send(result);
         }
     });
+}
+});
 });
 
 module.exports = router;

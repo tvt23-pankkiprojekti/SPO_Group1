@@ -9,6 +9,7 @@ transactionHistory::transactionHistory(QWidget *parent): QDialog(parent)
 
 transactionHistory::~transactionHistory()
 {
+
 }
 
 void transactionHistory::attachWindow(QWidget *window)
@@ -21,11 +22,10 @@ void transactionHistory::attachWindow(QWidget *window)
 
 int transactionHistory::addEvents(int pageNum)
 {
-    qDebug() << response_data;
+    //qDebug() << response_data;
 
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
-    int arraySize = json_array.size();
     int eventsOnPage = 10;
     int maxNum = ((json_array.size() - 1) / eventsOnPage) + 1;
 
@@ -34,28 +34,26 @@ int transactionHistory::addEvents(int pageNum)
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
-    //qDebug() <<"arrayn koko:" << json_array.size();
-    //qDebug() << "Viimeinen sivu: " << maxNum;
-    for (int row = (pageNum-1) * eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
-        //qDebug() << row;
-        if (arraySize > row) {
-            QJsonObject events = json_array[row].toObject();
-            //qDebug() << row;
-            QStandardItem *amount = new QStandardItem(events["amount"].toString());
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 0, amount);
-            QStandardItem *description = new QStandardItem(events["description"].toString());
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 1, description );
-            QStandardItem *date = new QStandardItem(events["time"].toString());
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 2, date);
+    if (json_array.isEmpty()) {
+        qDebug() << "No events found.";
+        return 0;
+    }
+
+    //qDebug()<<"arrayn koko:" << json_array.size();
+    //qDebug()<< "Viimeinen sivu: "<<maxNum;
+    for (int row = (pageNum-1)*eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
+        if (row >= json_array.size()) {
+            break;
         }
-        else {
-            QStandardItem *amount = new QStandardItem("-");
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 0, amount);
-            QStandardItem *description = new QStandardItem("-");
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 1, description );
-            QStandardItem *date = new QStandardItem("-");
-            table_model->setItem(row-((pageNum-1)*eventsOnPage), 2, date);
-        }
+
+        //qDebug()<<row;
+        QJsonObject events = json_array[row].toObject();
+        QStandardItem *amount = new QStandardItem(events["amount"].toString());
+        table_model->setItem(row-((pageNum-1)*eventsOnPage), 0, amount);
+        QStandardItem *description = new QStandardItem(events["description"].toString());
+        table_model->setItem(row-((pageNum-1)*eventsOnPage), 1, description );
+        QStandardItem *date = new QStandardItem(events["time"].toString());
+        table_model->setItem(row-((pageNum-1)*eventsOnPage), 2, date);
     }
 
     QString styleSheet = "QObject {"
@@ -77,7 +75,6 @@ int transactionHistory::addEvents(int pageNum)
 void transactionHistory::getEventSlot(QByteArray data)
 {
     response_data = data;
-    addEvents(1);
 }
 
 
