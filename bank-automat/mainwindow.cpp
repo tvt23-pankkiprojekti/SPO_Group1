@@ -267,6 +267,10 @@ void MainWindow::onBtnValitseDebitClicked()
 
 void MainWindow::onBtnKirjauduUlosClicked()
 {
+    //cardNo = "";
+    accountNo = "";
+    debitAccount = "";
+    creditAccount = "";
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -282,6 +286,7 @@ void MainWindow::onBtnTilitapahtumatClicked()
     currentPage = 1;
     QJsonObject sentData;
     sentData.insert("idaccount", accountNo);
+    sentData.insert("card", cardNo);
 
     QString url = env::getUrl() + "/viewtransactions";
     QNetworkRequest request(url);
