@@ -2,13 +2,15 @@ var express = require('express');
 var router = express.Router();
 var transaction = require('../models/transaction_model');
 const tokenCheck = require('./verifytoken');
+const { token } = require('morgan');
 
 router.post('/', function(request, response) {
     /*if (!request.body.idaccount || isNaN(request.body.idaccount)) {
         response.send('Invalid parameters');
         return;
     }*/
-    tokenCheck.verify(request, response, function(err, request, response) {
+
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);

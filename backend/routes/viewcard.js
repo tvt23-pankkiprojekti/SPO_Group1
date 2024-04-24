@@ -6,12 +6,13 @@ var card=require('../models/card_model');
 var account=require('../models/account_model');
 var transaction=require('../models/transaction_model');
 const tokenCheck = require('./verifytoken');
+const { token } = require('morgan');
 
 router.post('/', function(request, response) {
   let answer = [];
   console.log("Bankomat profile request, card " + request.body.card)
 
-  tokenCheck.verify(request, response, function(err, request, response) {
+  tokenCheck.verify(request, response, function(err) {
     if (err) {
         console.log(err);
         response.send(false);

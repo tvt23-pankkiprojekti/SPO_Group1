@@ -10,7 +10,7 @@ router.post('/', function(request, response) {
         return;
     }
 
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);

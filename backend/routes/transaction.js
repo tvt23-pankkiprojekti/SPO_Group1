@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var transaction = require('../models/transaction_model');
 const tokenCheck = require('./verifytoken');
+const { token } = require('morgan');
 
 router.get('/transaction',function(request,response){
 
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);
@@ -28,7 +29,7 @@ router.post('/withdraw',function(request, response){
     
     let message = "NOSTO "+ request.body.amount + "€";
 
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);
@@ -51,7 +52,7 @@ router.post('/deposit',function(request, response){
   
     let message = "PANO"+ request.body.amount + "€";
 
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);
@@ -72,7 +73,7 @@ router.post('/deposit',function(request, response){
 
 router.post('/addtobalance', function(request, response) {
     
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);
@@ -104,7 +105,7 @@ router.post('/addtobalance', function(request, response) {
 
 router.post('/withdrawfrombalance', function(request, response) {
     
-    tokenCheck.verify(request, response, function(err, request, response) {
+    tokenCheck.verify(request, response, function(err) {
         if (err) {
             console.log(err);
             response.send(false);
