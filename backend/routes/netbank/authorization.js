@@ -26,7 +26,7 @@ function authorizationWindow(request, response) {
 }
 
 function authorizeUser(request, response) {
-    console.log(request.body);
+    //console.log(request.body);
     user.getUser(request.body['user'], function (err, result) {
         if (err) {
             console.log(err);
