@@ -9,6 +9,7 @@ transactionHistory::transactionHistory(QWidget *parent): QDialog(parent)
 
 transactionHistory::~transactionHistory()
 {
+
 }
 
 void transactionHistory::attachWindow(QWidget *window)
@@ -21,29 +22,32 @@ void transactionHistory::attachWindow(QWidget *window)
 
 int transactionHistory::addEvents(int pageNum)
 {
-    qDebug()<<response_data;
+    //qDebug() << response_data;
+
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     int eventsOnPage = 10;
-    int maxNum = ((json_array.size()-1)/eventsOnPage)+1;
+    int maxNum = ((json_array.size() - 1) / eventsOnPage) + 1;
+
     QStandardItemModel *table_model = new QStandardItemModel(eventsOnPage, 3);
     table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Amount"));
     table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Description"));
     table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
-    if (json_array.isEmpty()) {
-        qDebug() << "No events found.";
-        return 0;
-    }
-
-    qDebug()<<"arrayn koko:" << json_array.size();
-    qDebug()<< "Viimeinen sivu: "<<maxNum;
+    //qDebug()<<"arrayn koko:" << json_array.size();
+    //qDebug()<< "Viimeinen sivu: "<<maxNum;
     for (int row = (pageNum-1)*eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
-            if (row >= json_array.size()) {
+        if (row >= json_array.size()) {
+            break;
+        }
+
+        else if(json_array.isEmpty()) {
+                qDebug() << "No events found.";
                 break;
             }
 
-        qDebug()<<row;
+
+        //qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
         table_model->setItem(row-((pageNum-1)*eventsOnPage), 0, amount);
@@ -63,11 +67,7 @@ int transactionHistory::addEvents(int pageNum)
                          "}";
 
     tableView->setStyleSheet(styleSheet);
-
-    //qDebug()<<"virhe 2";
     tableView->setModel(table_model);
-
-
 
     return maxNum;
 }

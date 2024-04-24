@@ -208,6 +208,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
+
     else{
         if(data!="false"){
             token = data;
@@ -228,6 +229,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
+
+    //ui->stackedWidget->setCurrentIndex(1);
+
     QString pin = ptr_dll->getPincode();
     QJsonObject jsonObj;
     jsonObj.insert("card", cardNo);
@@ -267,6 +271,10 @@ void MainWindow::onBtnValitseDebitClicked()
 
 void MainWindow::onBtnKirjauduUlosClicked()
 {
+    //cardNo = "";
+    accountNo = "";
+    debitAccount = "";
+    creditAccount = "";
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -282,6 +290,7 @@ void MainWindow::onBtnTilitapahtumatClicked()
     currentPage = 1;
     QJsonObject sentData;
     sentData.insert("idaccount", accountNo);
+    sentData.insert("card", cardNo);
 
     QString url = env::getUrl() + "/viewtransactions";
     QNetworkRequest request(url);
