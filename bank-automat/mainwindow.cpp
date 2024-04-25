@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    ui->setupUi(this);
     ptr_dll = new Dialog(this);
 
     connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
@@ -51,9 +50,58 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
         );
 }
 
+void MainWindow::cardScanned()
+{
+    QByteArray data = serialPort.readAll();
+    QNetworkAccessManager *cardVerifyManager = new QNetworkAccessManager(this);
+
+    QJsonObject jsonObj;
+
+    QString url = env::getUrl() + "/verifycard";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
+    cardVerifyManager = new QNetworkAccessManager(this);
+    connect(cardVerifyManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(cardVerifySlot(QNetworkReply*)));
+    reply = cardVerifyManager->post(request, QJsonDocument(jsonObj).toJson());
+}
+
+void MainWindow::cardVerifySlot(QNetworkReply *reply)
+{
+    QByteArray data = serialPort.readAll();
+    data = reply->readAll();
+    //qDebug()<<data;
+    QMessageBox msgBox;
+    if(data=="-4078" || data.length()==0){
+        msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
+    }
+
+    else{
+        if(data!="false"){
+            token = data;
+            ptr_dll->show();
+            qDebug() << "verifyCardSlot(), data wasn't false";
+        }
+        else{
+            msgBox.setText("Can't find card in database");
+            setMessageBoxStyles(msgBox);
+            msgBox.exec();
+        }
+    }
+    reply->deleteLater();
+    cardVerifyManager->deleteLater();
+}
+
 void MainWindow::displayGifsOnStartMenu() {
 
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif"); //env linkki
+    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
         arro = new QLabel(this);
         arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);

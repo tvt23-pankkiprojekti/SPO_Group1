@@ -53,6 +53,8 @@ private slots:
     void onnextButtonclicked();
     void onpreviousButtonclicked();
     void checkPage();
+    void cardScanned();
+    void cardVerifySlot(QNetworkReply *reply);
 
 
 private:
@@ -70,10 +72,12 @@ private:
     QNetworkAccessManager *transferManagerEvents;
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *accountCheckManager;
+    QNetworkAccessManager *cardVerifyManager;
     
     QNetworkReply *reply;
     QNetworkReply *accountCheckReply;
     QNetworkReply *replyEvents;
+    QSerialPort serialPort;
     
     QByteArray data;
 
