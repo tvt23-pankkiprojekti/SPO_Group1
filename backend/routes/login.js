@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const card = require('../models/card_model');
-const card2 = require('./card_model2'); // Renamed card2 to avoid conflict
-const { addFailedLoginAttempt, isCardBlocked } = require('./failedAttempts');
+const { addFailedLoginAttempt, isCardBlocked } = require('./failed_login');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -12,24 +11,24 @@ router.post('/', function(request, response) {
 
     if (!cardNumber || !pin) {
         console.log('Missing information');
-        return response.status(400).json({ error: 'Missing information' });
+        return response.status(400).json(false);
     }
 
     isCardBlocked(cardNumber, function(err, blocked) {
         if (err) {
             console.error("error checking", err);
-            return response.status(500).json({ error: 'Server error' }); // Corrected 'server error' to a string
+            return response.status(500).json(false); // Corrected 'server error' to a string
         }
 
         if (blocked) {
             console.log("Card blocked. Please try again later");
-            return response.status(401).json({ error: "Card Blocked. Please try again later." }); // Added closing quote
+            return response.status(401).json(false); // Added closing quote
         }
 
         card.login(cardNumber, function(err, result) {
             if (err) {
                 console.log(err.errno);
-                return response.status(500).json({ error: err.errno }); // Removed comma
+                return response.status(500).json(false); // Removed comma
             }
 
             if (result.length > 0) {
@@ -45,12 +44,12 @@ router.post('/', function(request, response) {
                                 console.error("error adding failed login attempt");
                             }
                         }); // Corrected closing parentheses
-                        response.status(401).json({ error: 'Incorrect pincode' });
+                        response.status(401).json(false);
                     }
                 });
             } else {
                 console.log("Card not found");
-                response.status(404).json({ error: "Card not found" });
+                response.status(404).json(false);
             }
         });
     });
