@@ -1,5 +1,6 @@
 const db=require('../database');
 const bcrypt=require('bcryptjs');
+const { updatePincode } = require('../routes/admin/usercontrols');
 
 const card={
     getCard(card, callback) {
@@ -35,6 +36,11 @@ const card={
             return db.query("INSERT INTO card VALUES(?,?,?,?,DATE_ADD(NOW(), INTERVAL 3 YEAR), null)",[newCard.id_card, newCard.state, newCard.id_owner, hashedPincode],callback);
         }); //add new card
     },
-}
 
+    updatePincode(updatePinCode, cardNumber, callback){
+        bcrypt.hash(updatePincode,10,function(err,hashedPincode){
+            return db.query("UPDATE card SET pincode = ? WHERE id_card = ?",[hashedPincode, cardNumber], callback)
+        })
+    }
+}
 module.exports=card;
