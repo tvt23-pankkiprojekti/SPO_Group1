@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QSerialPort>  //Tuomas
+#include <QSerialPortInfo> //Tuomas
+#include <QDebug>   //Tuomas
 #include <QMessageBox>
 #include <QMovie>
 #include <QDialog>
@@ -53,6 +54,9 @@ private slots:
     void onnextButtonclicked();
     void onpreviousButtonclicked();
     void checkPage();
+    void onBtnSerialPortsInfoclicked();
+    void onBtnOpenPortclicked();
+    void readData();
 
 private:
     Ui::MainWindow *ui;
@@ -65,6 +69,8 @@ private:
 
     ProfileWindow *accountInfo;
     
+    QSerialPort *_serialPort;
+
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
     QNetworkAccessManager *loginManager;
@@ -85,5 +91,6 @@ private:
     transactionHistory * eventData;
     
     void checkAttachedAccounts();
+    void loadPorts();
 };
 #endif // MAINWINDOW_H

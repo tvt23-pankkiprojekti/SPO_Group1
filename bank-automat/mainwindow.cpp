@@ -5,6 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , _serialPort(nullptr)
 {
     cardNo = "06000640F7";
     debitAccount = "";
@@ -13,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ptr_dll = new Dialog(this);
+
+    ui->setupUi(this);
+    loadPorts();
 
     connect(ptr_dll,SIGNAL(pincodeReady()),this,SLOT(onBtnEnterPinClicked()));
     connect(ui->btnValitseCredit, SIGNAL(clicked()), this, SLOT(onBtnValitseCreditClicked()));
@@ -26,9 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
     connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
     connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
+    connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
+    connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
-    connect(ui->btn,SIGNAL(clicked(bool)),
-            this,SLOT(handleClick()));
+    /*connect(ui->btn,SIGNAL(clicked(bool)),
+            this,SLOT(handleClick()));*/
     ui->stackedWidget->setCurrentIndex(0);
 
     displayGifsOnStartMenu();
@@ -345,6 +351,13 @@ void MainWindow::checkAttachedAccounts()
     accountCheckReply = accountCheckManager->post(request, QJsonDocument(sentData).toJson());
 }
 
+void MainWindow::loadPorts()
+{
+    foreach (auto &port, QSerialPortInfo::availablePorts()) {
+        ui->cmbPorts->addItem(port.portName());
+    }
+}
+
 void MainWindow::onBtnKatsoTiedotClicked()
 {
     QJsonObject sentData;
@@ -403,3 +416,40 @@ void MainWindow::onnextButtonclicked()
 
     checkPage();
 }
+
+void MainWindow::onBtnSerialPortsInfoclicked()
+{
+
+}
+
+void MainWindow::onBtnOpenPortclicked()
+{
+    if (_serialPort != nullptr) {
+        _serialPort->close();
+        delete _serialPort;
+    }
+    _serialPort = new QSerialPort(this);
+    _serialPort->setPortName(ui->cmbPorts->currentText());
+    _serialPort->setBaudRate(QSerialPort::Baud9600);
+    _serialPort->setDataBits(QSerialPort::Data8);
+    _serialPort->setParity(QSerialPort::NoParity);
+    _serialPort->setStopBits(QSerialPort::OneStop);
+    if (_serialPort->open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, "Result", "Portti avattu");
+        connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
+    } else {
+        QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
+    }
+
+}
+
+void MainWindow::readData()
+{
+    if (!_serialPort->isOpen()) {
+        QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        return;
+    }
+    auto data = _serialPort->readAll();
+    //ui->labelKortinNumero->setText(QString(data));
+}
+
