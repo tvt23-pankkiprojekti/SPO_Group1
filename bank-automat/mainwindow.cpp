@@ -38,9 +38,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
     connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
-    ui->stackedWidget->setCurrentIndex(0);
+    //transaction window buttons
+    connect(ui->muuSumma, SIGNAL(clicked()), this, SLOT(muuSummaClicked()));
+    connect(ui->N20, SIGNAL(clicked()), this, SLOT(onN20Clicked()));
+    connect(ui->N40, SIGNAL(clicked()), this, SLOT(onN40Clicked()));
+    connect(ui->N50, SIGNAL(clicked()), this, SLOT(onN50Clicked()));
+    connect(ui->N100, SIGNAL(clicked()), this, SLOT(onN100Clicked()));
+    connect(ui->clearBtn, SIGNAL(clicked()), this, SLOT(clearSum()));
+    connect(ui->lessBtn, SIGNAL(clicked()), this, SLOT(onLessButtonClicked()));
+    connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
+    //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
-    displayGifsOnStartMenu();
+    ui->stackedWidget->setCurrentIndex(2);
+
+    //displayGifsOnStartMenu();
+    hideLessAndMoreButtons();
 
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
@@ -61,8 +73,7 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie(this);
-    movie->setFileName("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
         arro = new QLabel(this);
         arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -75,6 +86,8 @@ void MainWindow::displayGifsOnStartMenu()
         arro2->setGeometry(650, 355, 250, 250);
         arro2->setScaledContents(true);
         arro2->setMovie(movie);
+
+        movie->start();
 
     qDebug() << "Gifs working";
 }
@@ -528,6 +541,84 @@ void MainWindow::onnextButtonclicked()
     checkPage();
 }
 
+/* Withdrawing funds
+ */
+
+
+//buttons
+void MainWindow::muuSummaClicked()
+{
+    clearSum();
+    ui->lessBtn->setVisible(true);
+    ui->moreBtn->setVisible(true);
+}
+
+void MainWindow::onN20Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(20);
+}
+
+void MainWindow::onN40Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(40);
+}
+
+void MainWindow::onN50Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(50);
+}
+
+void MainWindow::onN100Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(100);
+}
+
+void MainWindow::clearSum()
+{
+    ui->lessBtn->setVisible(false);
+    ui->moreBtn->setVisible(false);
+    ui->labelWithdrawSum->setText("0€");
+}
+
+void MainWindow::updateLabelWithdrawSum(int value)
+{
+    ui->labelWithdrawSum->setText(QString::number(value) + "€");
+}
+
+void MainWindow::hideLessAndMoreButtons()
+{
+    ui->lessBtn->setVisible(false);
+    ui->moreBtn->setVisible(false);
+}
+
+void MainWindow::onMoreButtonClicked()
+{
+    QString currentText = ui->labelWithdrawSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue + 10;
+
+    ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::onLessButtonClicked()
+{
+    QString currentText = ui->labelWithdrawSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue - 10;
+
+    // Ensure newValue doesn't go below 0
+    if(newValue < 0)
+        newValue = 0;
+
+    ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
+}
+
 
 /* Logout
  */
@@ -541,5 +632,4 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
-    displayGifsOnStartMenu();
 }
