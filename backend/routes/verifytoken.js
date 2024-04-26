@@ -16,8 +16,8 @@ function verify(request, id_card, next) {
             next("Invalid token");
         }
         else {
-            console.log(id_card);
-            console.log(id_card + " " + card.card);
+            //console.log(id_card);
+            //console.log(id_card + " " + card.card);
             if (id_card != card.card) {
                 console.log("Card no doesn't match token");
                 next("Invalid token");

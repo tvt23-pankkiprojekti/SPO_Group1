@@ -18,6 +18,10 @@ const card={
         return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
     }, // inserts an expiration notice onto a card's data
 
+    /*cardExpired(card) {
+        return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
+    }*/
+
     login(uLogin, callback) {
         return db.query("SELECT pincode FROM card WHERE id_card = ?", [uLogin], callback);
     }, //verify correct pincode
