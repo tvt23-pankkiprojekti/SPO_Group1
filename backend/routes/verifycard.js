@@ -38,8 +38,11 @@ function verifyCard(request, response) {
             cause = cause + "not in database";
         }
         // If the card's state or temp restriction brings up something (null = nothing of note)
-        else if (res[0]['state'] != null || res[0]['temp_restriction'] != null) {
+        else if (res[0]['state'] != null) {
             cause = cause + "card restricted";
+        }
+        else if (res[0]['temp_restriction'] != null && new Date(res[0]['temp_restriction']) > new Date(Date.now())) {
+            cause = cause + "card temporarily restricted";
         }
         else {
             cardStatus = true;
@@ -53,6 +56,10 @@ function verifyCard(request, response) {
                 cause = cause + "card expired"
             }
         }
+        console.log(new Date(res[0]['temp_restriction']));
+        console.log(new Date(Date.now()));
+        console.log(res[0]['temp_restriction'] != null);
+        console.log(new Date(res[0]['temp_restriction']) > new Date(Date.now()));
 
         // True-false-response sent back, console gets message with id_card, success/failure & reason for failure if applicable
         response.send(cardStatus);

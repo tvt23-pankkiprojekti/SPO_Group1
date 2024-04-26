@@ -2,6 +2,7 @@
 */
 
 const user = require('../../models/user_model');
+const card = require('../../models/card_model')
 
 const usercontrols = {
     // Adds given user data to the database, 
@@ -97,6 +98,29 @@ const usercontrols = {
             }
             else {
                 console.log("User data updated succesfully");
+                response.send("200");
+            }
+        });
+    },
+
+    updatePincode(request, response) {
+        
+        console.log("received");
+        
+        console.log("2")
+        if (request.body.pincode == null || request.body.cardNumber ==  null) {
+            console.log("3");
+            response.send("400");
+            return;
+        }
+
+        card.updatePincode(request.body.pincode, request.body.cardNumber, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.send("500");
+            }
+            else {
+                console.log("Pincode updated succesfully");
                 response.send("200");
             }
         });

@@ -1,5 +1,6 @@
 const db=require('../database');
 const bcrypt=require('bcryptjs');
+const { updatePincode } = require('../routes/admin/usercontrols');
 
 const card={
     getCard(card, callback) {
@@ -14,9 +15,13 @@ const card={
         return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);
     }, //card verifying
 
+    addTempRestriction(card) {
+        return db.query("UPDATE card SET temp_restriction = DATE_ADD(NOW(), INTERVAL 30 MINUTE) WHERE id_card = ?", [card]);
+    }, // inserts an expiration notice onto a card's data
+
     updateExpiration(card) {
         return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
-    }, // inserts an expiration notice onto a card's data
+    },
 
     login(uLogin, callback) {
         return db.query("SELECT pincode FROM card WHERE id_card = ?", [uLogin], callback);
@@ -31,6 +36,11 @@ const card={
             return db.query("INSERT INTO card VALUES(?,?,?,?,DATE_ADD(NOW(), INTERVAL 3 YEAR), null)",[newCard.id_card, newCard.state, newCard.id_owner, hashedPincode],callback);
         }); //add new card
     },
-}
 
+    updatePincode(updatePinCode, cardNumber, callback){
+        bcrypt.hash(updatePincode,10,function(err,hashedPincode){
+            return db.query("UPDATE card SET pincode = ? WHERE id_card = ?",[hashedPincode, cardNumber], callback)
+        })
+    }
+}
 module.exports=card;
