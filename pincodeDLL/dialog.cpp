@@ -11,7 +11,6 @@ Dialog::Dialog(QWidget *parent)
 
     ui->line->setEchoMode(QLineEdit::Password); //hides password
 
-
     connect(ui->enterBtn,SIGNAL(clicked(bool)),
             this,SLOT(clickHandler()));
     connect(ui->undoBtn, SIGNAL(clicked()), this, SLOT(undoClickHandler()));

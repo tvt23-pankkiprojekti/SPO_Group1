@@ -50,13 +50,23 @@ private slots:
     void onBtnTakaisin2Clicked();
     void onBtnTakaisin3Clicked();
     void onBtnKatsoTiedotClicked();
+    void muuSummaClicked();
+    void onN20Clicked();
+    void onN40Clicked();
+    void onN50Clicked();
+    void onN100Clicked();
+    void clearSum();
+    void hideLessAndMoreButtons();
+    void updateLabelWithdrawSum(int);
+    void onMoreButtonClicked();
+    void onLessButtonClicked();
+    //void withdrawClickHandler();
     void clearGifs();
     void displayGifsOnStartMenu();
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();
     void checkPage();
-
     void onBtnSerialPortsInfoclicked();
     void onBtnOpenPortclicked();
     void readData();

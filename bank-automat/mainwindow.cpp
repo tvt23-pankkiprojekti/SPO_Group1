@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    ui->setupUi(this);
     ptr_dll = new Dialog(this);
 
     ui->setupUi(this);
@@ -39,11 +38,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
     connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
-    connect(ui->btn,SIGNAL(clicked(bool)),
-            this,SLOT(handleClick()));
-    ui->stackedWidget->setCurrentIndex(0);
+    //transaction window buttons
+    connect(ui->muuSumma, SIGNAL(clicked()), this, SLOT(muuSummaClicked()));
+    connect(ui->N20, SIGNAL(clicked()), this, SLOT(onN20Clicked()));
+    connect(ui->N40, SIGNAL(clicked()), this, SLOT(onN40Clicked()));
+    connect(ui->N50, SIGNAL(clicked()), this, SLOT(onN50Clicked()));
+    connect(ui->N100, SIGNAL(clicked()), this, SLOT(onN100Clicked()));
+    connect(ui->clearBtn, SIGNAL(clicked()), this, SLOT(clearSum()));
+    connect(ui->lessBtn, SIGNAL(clicked()), this, SLOT(onLessButtonClicked()));
+    connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
+    //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
-    displayGifsOnStartMenu();
+    ui->stackedWidget->setCurrentIndex(2);
+
+    //displayGifsOnStartMenu();
+    hideLessAndMoreButtons();
 
     accountInfo = new ProfileWindow;
     accountInfo->attachWindow(ui->stackedWidget);
@@ -62,9 +71,9 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
         );
 }
 
-void MainWindow::displayGifsOnStartMenu() {
-
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif"); //env linkki
+void MainWindow::displayGifsOnStartMenu()
+{
+    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
         arro = new QLabel(this);
         arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -78,21 +87,20 @@ void MainWindow::displayGifsOnStartMenu() {
         arro2->setScaledContents(true);
         arro2->setMovie(movie);
 
-    movie->start();
+        movie->start();
+
+    qDebug() << "Gifs working";
 }
 
-void MainWindow::clearGifs() {
-    if (arro) {
-        arro->movie()->stop();
-        delete arro;
-        arro = nullptr;
-    }
+void MainWindow::clearGifs()
+{
+    arro->movie()->stop();
+    delete arro;
+    arro = nullptr;
 
-    if (arro2) {
-        arro2->movie()->stop();
-        delete arro2;
-        arro2 = nullptr;
-    }
+    arro2->movie()->stop();
+    delete arro2;
+    arro2 = nullptr;
 }
 
 void MainWindow::loadPorts()
@@ -163,7 +171,11 @@ void MainWindow::onBtnOpenPortclicked()
     _serialPort->setParity(QSerialPort::NoParity);
     _serialPort->setStopBits(QSerialPort::OneStop);
     if (_serialPort->open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, "Result", "Portti avattu");
+        /*QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Result");
+        msgBox.setText("Port open");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();*/
         connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
     } else {
         QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
@@ -173,7 +185,12 @@ void MainWindow::onBtnOpenPortclicked()
 void MainWindow::readData()
 {
     if (!_serialPort->isOpen()) {
-        QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        //QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Port Error");
+        msgBox.setText("Port closed");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
         return;
     }
     auto data = _serialPort->readAll();
@@ -522,6 +539,84 @@ void MainWindow::onnextButtonclicked()
     qDebug()<<maxPage;
 
     checkPage();
+}
+
+/* Withdrawing funds
+ */
+
+
+//buttons
+void MainWindow::muuSummaClicked()
+{
+    clearSum();
+    ui->lessBtn->setVisible(true);
+    ui->moreBtn->setVisible(true);
+}
+
+void MainWindow::onN20Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(20);
+}
+
+void MainWindow::onN40Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(40);
+}
+
+void MainWindow::onN50Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(50);
+}
+
+void MainWindow::onN100Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelWithdrawSum(100);
+}
+
+void MainWindow::clearSum()
+{
+    ui->lessBtn->setVisible(false);
+    ui->moreBtn->setVisible(false);
+    ui->labelWithdrawSum->setText("0€");
+}
+
+void MainWindow::updateLabelWithdrawSum(int value)
+{
+    ui->labelWithdrawSum->setText(QString::number(value) + "€");
+}
+
+void MainWindow::hideLessAndMoreButtons()
+{
+    ui->lessBtn->setVisible(false);
+    ui->moreBtn->setVisible(false);
+}
+
+void MainWindow::onMoreButtonClicked()
+{
+    QString currentText = ui->labelWithdrawSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue + 10;
+
+    ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::onLessButtonClicked()
+{
+    QString currentText = ui->labelWithdrawSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue - 10;
+
+    // Ensure newValue doesn't go below 0
+    if(newValue < 0)
+        newValue = 0;
+
+    ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
 }
 
 
