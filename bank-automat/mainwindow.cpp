@@ -38,8 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
     connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
-    /*connect(ui->btn,SIGNAL(clicked(bool)),
-            this,SLOT(handleClick()));*/
     ui->stackedWidget->setCurrentIndex(0);
 
     displayGifsOnStartMenu();
@@ -63,7 +61,8 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie(this);
+    movie->setFileName("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
         arro = new QLabel(this);
         arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -77,7 +76,6 @@ void MainWindow::displayGifsOnStartMenu()
         arro2->setScaledContents(true);
         arro2->setMovie(movie);
 
-    movie->start();
     qDebug() << "Gifs working";
 }
 
