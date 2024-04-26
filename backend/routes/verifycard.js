@@ -7,8 +7,8 @@ pankin listoilla & käytettävissä, mukaan laitetaan kortin numero
 */
 router.post('/', function(request, response) {
     // Before proceeding, check that a card no was sent
-    if (!request.body.cardno) {
-        response.send("Ei kortin numeroa");
+    if (!request.body.card) {
+        response.send(false);
         return;
     } 
 
@@ -23,8 +23,10 @@ function verifyCard(request, response) {
     var cause = ": ";
 
     // Tarkistetaan, onko kortti olemassa tietokannassa
-    card.getCard(request.body.cardno, function(err, result) {
+    card.getCard(request.body.card, function(err, result) {
+        //console.log(result);
         let res = JSON.parse(JSON.stringify(result));
+        //console.log(res);
         
         // If database check leads to an error
         if (err) {
@@ -41,21 +43,20 @@ function verifyCard(request, response) {
         }
         else {
             cardStatus = true;
-        }
-
-        // Compare the current date to the card's expiration date
-        // Code below transforms card & current date to 'YYYY-MM-DD' formats
-        let cardDate = new Date(res[0]['expiration']).toISOString().split('T')[0];
-        let thisDate = new Date(Date.now()).toISOString().split('T')[0];
-        if (cardDate < thisDate) {
-            card.updateExpiration(res[0]['id_card']);
-            cardStatus = false;
-            cause = cause + "card expired"
+            // Compare the current date to the card's expiration date
+            // Code below transforms card & current date to 'YYYY-MM-DD' formats
+            let cardDate = new Date(res[0]['expiration']).toISOString().split('T')[0];
+            let thisDate = new Date(Date.now()).toISOString().split('T')[0];
+            if (cardDate < thisDate) {
+                card.updateExpiration(res[0]['id_card']);
+                cardStatus = false;
+                cause = cause + "card expired"
+            }
         }
 
         // True-false-response sent back, console gets message with id_card, success/failure & reason for failure if applicable
         response.send(cardStatus);
-        console.log("Card " + request.body['cardno'] + " verified, result " + cardStatus + (cardStatus ? "" : cause));
+        console.log("Card " + request.body['card'] + " verified, result " + cardStatus + (cardStatus ? "" : cause));
     });
 }
 
