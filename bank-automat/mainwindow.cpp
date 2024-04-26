@@ -1,15 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+/*Initial setup
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , _serialPort(nullptr)
 {
-    cardNo = "06000640F7";
+    cardNo = "";
+    accountNo = "";
     debitAccount = "";
     creditAccount = "";
+    token = "";
+    currentPage = 1;
+    maxPage = 1;
 
     ui->setupUi(this);
 
@@ -90,36 +95,231 @@ void MainWindow::clearGifs() {
     }
 }
 
-void MainWindow::profileDataSlot(QNetworkReply *reply)
+void MainWindow::loadPorts()
 {
-    QByteArray data = reply->readAll();
+    foreach (auto &port, QSerialPortInfo::availablePorts()) {
+        ui->cmbPorts->addItem(port.portName());
+    }
+}
+
+/* Misceallaneous UI buttons
+ */
+void MainWindow::onBtnValitseCreditClicked()
+{
+    //qDebug() << "Credit valittu";
+
+    accountNo = creditAccount;
+    creditAccount = "";
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnValitseDebitClicked()
+{
+    //qDebug() << "Debit valittu";
+
+    accountNo = debitAccount;
+    debitAccount = "";
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnNostaRahaaClicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::onBtnTakaisinClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnTakaisin2Clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onBtnTakaisin3Clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+/* Setting up the serial port to read incoming cards
+ */
+void MainWindow::onBtnSerialPortsInfoclicked()
+{
+
+}
+
+void MainWindow::onBtnOpenPortclicked()
+{
+    if (_serialPort != nullptr) {
+        _serialPort->close();
+        delete _serialPort;
+    }
+    _serialPort = new QSerialPort(this);
+    _serialPort->setPortName(ui->cmbPorts->currentText());
+    _serialPort->setBaudRate(QSerialPort::Baud9600);
+    _serialPort->setDataBits(QSerialPort::Data8);
+    _serialPort->setParity(QSerialPort::NoParity);
+    _serialPort->setStopBits(QSerialPort::OneStop);
+    if (_serialPort->open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, "Result", "Portti avattu");
+        connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
+    } else {
+        QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
+    }
+}
+
+void MainWindow::readData()
+{
+    if (!_serialPort->isOpen()) {
+        QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        return;
+    }
+    auto data = _serialPort->readAll();
+    data.replace("\r\n-", "");
+    data.replace("\r\n>", "");
+    //ui->labelKortinNumero->setText(QString(data));
+    qDebug() << data;
+    cardNo = data;
+
+    verifyCard();
+}
+
+
+/*
+ */
+void MainWindow::verifyCard()
+{
+    qDebug() << "verifyCard()";
+
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/verifycard";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    cardVerificationManager = new QNetworkAccessManager(this);
+    connect(cardVerificationManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(cardVerificationSlot(QNetworkReply*)));
+
+    accountCheckReply = cardVerificationManager->post(request, QJsonDocument(sentData).toJson());
+}
+
+void MainWindow::cardVerificationSlot(QNetworkReply *cardVerificationReply)
+{
+    qDebug() << "cardVerificationSlot()";
+    QByteArray data = cardVerificationReply->readAll();
     QMessageBox msgBox;
 
-    if (data.length() == 0 || data == "-4078") {
-        qDebug() << "Tietoliikenneyhteysvika";
+    if(data.length()==0 || data == "-4078"){
+        qDebug()<<"Tietoliikenneyhteysvika";
         msgBox.setText("Network error");
         setMessageBoxStyles(msgBox);
         msgBox.exec();
-        reply->deleteLater();
-        transferManager->deleteLater();
+        cardVerificationReply->deleteLater();
+        cardVerificationManager->deleteLater();
         return;
     }
 
     if (data == "false") {
-        qDebug() << "Virhe tietojen hankinnassa";
-        msgBox.setText("Data acquisition error");
+        qDebug() << "Tietoa ei saatu";
+        msgBox.setText("Invalid card");
         setMessageBoxStyles(msgBox);
         msgBox.exec();
-        reply->deleteLater();
-        transferManager->deleteLater();
+        cardVerificationReply->deleteLater();
+        cardVerificationManager->deleteLater();
         return;
     }
 
-    ui->stackedWidget->setCurrentIndex(5);
-    accountInfo->updateUserData(data);
+    handleClick();
 
+    cardVerificationReply->deleteLater();
+    cardVerificationManager->deleteLater();
+}
+
+
+/* Login
+ */
+void MainWindow::handleClick()
+{
+    ptr_dll->show();
+}
+
+void MainWindow::onBtnEnterPinClicked()
+{
+    qDebug()<<"enter clicked";
+
+    //ui->stackedWidget->setCurrentIndex(1);
+
+    QString pin = ptr_dll->getPincode();
+    QJsonObject jsonObj;
+    jsonObj.insert("card", cardNo);
+    jsonObj.insert("pincode", pin);
+
+    QString url = env::getUrl() + "/login";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
+    loginManager = new QNetworkAccessManager(this);
+    connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
+}
+
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    data = reply->readAll();
+    //qDebug()<<data;
+    QMessageBox msgBox;
+    if(data=="-4078" || data.length()==0){
+        msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
+    }
+    else{
+        if(data!="false"){
+            qDebug() << data;
+            token = data;
+            qDebug() << "loginSlot(), data wasn't false";
+            checkAttachedAccounts();
+            clearGifs();
+        }
+        else{
+            msgBox.setText("Incorrect password");
+            setMessageBoxStyles(msgBox);
+            msgBox.exec();
+        }
+    }
     reply->deleteLater();
-    transferManager->deleteLater();
+    loginManager->deleteLater();
+}
+
+/* Fetching data on the accounts attached to the card & if there are multiple,
+ * bringing up the credit-debit choice window
+ */
+void MainWindow::checkAttachedAccounts()
+{
+    qDebug() << "checkAttachedAccounts()";
+
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/getaccounts";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+
+    accountCheckManager = new QNetworkAccessManager(this);
+    connect(accountCheckManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(attachedAccountCheckSlot(QNetworkReply*)));
+
+    accountCheckReply = accountCheckManager->post(request, QJsonDocument(sentData).toJson());
 }
 
 void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
@@ -175,6 +375,87 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
     accountCheckManager->deleteLater();
 }
 
+
+/* Viewing the user's profile (card & account data + some of the latest transactions)
+ */
+void MainWindow::onBtnKatsoTiedotClicked()
+{
+    QJsonObject sentData;
+    sentData.insert("card", cardNo);
+    sentData.insert("account", accountNo);
+
+    QString url = env::getUrl() + "/viewprofile";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+
+    transferManager = new QNetworkAccessManager(this);
+    connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
+
+    reply = transferManager->post(request, QJsonDocument(sentData).toJson());
+}
+
+void MainWindow::profileDataSlot(QNetworkReply *reply)
+{
+    QByteArray data = reply->readAll();
+    QMessageBox msgBox;
+
+    if (data.length() == 0 || data == "-4078") {
+        qDebug() << "Tietoliikenneyhteysvika";
+        msgBox.setText("Network error");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
+    if (data == "false") {
+        qDebug() << "Virhe tietojen hankinnassa";
+        msgBox.setText("Data acquisition error");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
+        reply->deleteLater();
+        transferManager->deleteLater();
+        return;
+    }
+
+    ui->stackedWidget->setCurrentIndex(5);
+    accountInfo->updateUserData(data);
+
+    reply->deleteLater();
+    transferManager->deleteLater();
+}
+
+
+/* Viewing the entire transaction history of the current account
+ */
+void MainWindow::onBtnTilitapahtumatClicked()
+{
+    ui->previousButton->setVisible(false);
+    maxPage = 1;
+    currentPage = 1;
+    QJsonObject sentData;
+    sentData.insert("idaccount", accountNo);
+    sentData.insert("card", cardNo);
+
+    QString url = env::getUrl() + "/viewtransactions";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    //WEBTOKEN ALKU
+    QByteArray myToken="Bearer "+token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+    //WEBTOKEN LOPPU
+
+    transferManagerEvents = new QNetworkAccessManager(this);
+    connect(transferManagerEvents, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
+
+    replyEvents = transferManagerEvents->post(request, QJsonDocument(sentData).toJson());
+}
+
 void MainWindow::transactionEventsData(QNetworkReply *reply)
 {
     QByteArray data = reply->readAll();
@@ -204,182 +485,6 @@ void MainWindow::transactionEventsData(QNetworkReply *reply)
     transferManagerEvents->deleteLater();
 }
 
-void MainWindow::loginSlot(QNetworkReply *reply)
-{
-    data = reply->readAll();
-    //qDebug()<<data;
-    QMessageBox msgBox;
-    if(data=="-4078" || data.length()==0){
-        msgBox.setText("Network error");
-        setMessageBoxStyles(msgBox);
-        msgBox.exec();
-    }
-
-    else{
-        if(data!="false"){
-            token = data;
-            qDebug() << "loginSlot(), data wasn't false";
-            checkAttachedAccounts();
-            clearGifs();
-        }
-        else{
-            msgBox.setText("Incorrect password");
-            setMessageBoxStyles(msgBox);
-            msgBox.exec();
-        }
-    }
-    reply->deleteLater();
-    loginManager->deleteLater();
-}
-
-void MainWindow::onBtnEnterPinClicked()
-{
-    qDebug()<<"enter clicked";
-
-    //ui->stackedWidget->setCurrentIndex(1);
-
-    QString pin = ptr_dll->getPincode();
-    QJsonObject jsonObj;
-    jsonObj.insert("card", cardNo);
-    jsonObj.insert("pincode", pin);
-
-    QString url = env::getUrl() + "/login";
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    //WEBTOKEN ALKU
-    QByteArray myToken="Bearer "+token.toUtf8();
-    request.setRawHeader(QByteArray("Authorization"),(myToken));
-    //WEBTOKEN LOPPU
-
-    loginManager = new QNetworkAccessManager(this);
-    connect(loginManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
-    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
-}
-
-void MainWindow::onBtnValitseCreditClicked()
-{
-    //qDebug() << "Credit valittu";
-
-    accountNo = creditAccount;
-    creditAccount = "";
-    ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::onBtnValitseDebitClicked()
-{
-    //qDebug() << "Debit valittu";
-
-    accountNo = debitAccount;
-    debitAccount = "";
-    ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::onBtnKirjauduUlosClicked()
-{
-    //cardNo = "";
-    accountNo = "";
-    debitAccount = "";
-    creditAccount = "";
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
-void MainWindow::onBtnNostaRahaaClicked()
-{
-    ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::onBtnTilitapahtumatClicked()
-{
-    ui->previousButton->setVisible(false);
-    maxPage = 1;
-    currentPage = 1;
-    QJsonObject sentData;
-    sentData.insert("idaccount", accountNo);
-    sentData.insert("card", cardNo);
-
-    QString url = env::getUrl() + "/viewtransactions";
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    //WEBTOKEN ALKU
-    QByteArray myToken="Bearer "+token.toUtf8();
-    request.setRawHeader(QByteArray("Authorization"),(myToken));
-    //WEBTOKEN LOPPU
-
-    transferManagerEvents = new QNetworkAccessManager(this);
-    connect(transferManagerEvents, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionEventsData(QNetworkReply*)));
-
-    replyEvents = transferManagerEvents->post(request, QJsonDocument(sentData).toJson());
-
-}
-
-void MainWindow::onBtnTakaisinClicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::onBtnTakaisin2Clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::onBtnTakaisin3Clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::handleClick()
-{
-    ptr_dll->show();
-}
-
-void MainWindow::checkAttachedAccounts()
-{
-    qDebug() << "checkAttachedAccounts()";
-
-    QJsonObject sentData;
-    sentData.insert("card", cardNo);
-
-    QString url = env::getUrl() + "/getaccounts";
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QByteArray myToken="Bearer "+token.toUtf8();
-    request.setRawHeader(QByteArray("Authorization"),(myToken));
-
-    accountCheckManager = new QNetworkAccessManager(this);
-    connect(accountCheckManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(attachedAccountCheckSlot(QNetworkReply*)));
-
-    accountCheckReply = accountCheckManager->post(request, QJsonDocument(sentData).toJson());
-}
-
-void MainWindow::loadPorts()
-{
-    foreach (auto &port, QSerialPortInfo::availablePorts()) {
-        ui->cmbPorts->addItem(port.portName());
-    }
-}
-
-void MainWindow::onBtnKatsoTiedotClicked()
-{
-    QJsonObject sentData;
-    sentData.insert("card", cardNo);
-    sentData.insert("account", accountNo);
-
-    QString url = env::getUrl() + "/viewprofile";
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QByteArray myToken="Bearer "+token.toUtf8();
-    request.setRawHeader(QByteArray("Authorization"),(myToken));
-
-    transferManager = new QNetworkAccessManager(this);
-    connect(transferManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(profileDataSlot(QNetworkReply*)));
-
-    reply = transferManager->post(request, QJsonDocument(sentData).toJson());
-}
-
 void MainWindow::onpreviousButtonclicked()
 {
     if (currentPage > 1) {
@@ -407,7 +512,6 @@ void MainWindow::checkPage()
     }
 }
 
-
 void MainWindow::onnextButtonclicked()
 {
     if (currentPage <= maxPage) {
@@ -420,39 +524,17 @@ void MainWindow::onnextButtonclicked()
     checkPage();
 }
 
-void MainWindow::onBtnSerialPortsInfoclicked()
+
+/* Logout
+ */
+void MainWindow::onBtnKirjauduUlosClicked()
 {
-
+    cardNo = "";
+    accountNo = "";
+    debitAccount = "";
+    creditAccount = "";
+    token = "";
+    currentPage = 1;
+    maxPage = 1;
+    ui->stackedWidget->setCurrentIndex(0);
 }
-
-void MainWindow::onBtnOpenPortclicked()
-{
-    if (_serialPort != nullptr) {
-        _serialPort->close();
-        delete _serialPort;
-    }
-    _serialPort = new QSerialPort(this);
-    _serialPort->setPortName(ui->cmbPorts->currentText());
-    _serialPort->setBaudRate(QSerialPort::Baud9600);
-    _serialPort->setDataBits(QSerialPort::Data8);
-    _serialPort->setParity(QSerialPort::NoParity);
-    _serialPort->setStopBits(QSerialPort::OneStop);
-    if (_serialPort->open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, "Result", "Portti avattu");
-        connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
-    } else {
-        QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
-    }
-
-}
-
-void MainWindow::readData()
-{
-    if (!_serialPort->isOpen()) {
-        QMessageBox::critical(this, "Port Error", "Portti ei auki");
-        return;
-    }
-    auto data = _serialPort->readAll();
-    ui->labelKortinNumero->setText(QString(data));
-}
-
