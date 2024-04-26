@@ -41,11 +41,6 @@ int transactionHistory::addEvents(int pageNum)
             break;
         }
 
-        else if(json_array.isEmpty()) {
-            qDebug() << "No events found.";
-            break;
-        }
-
         //qDebug()<<row;
         QJsonObject events = json_array[row].toObject();
         QStandardItem *amount = new QStandardItem(events["amount"].toString());
