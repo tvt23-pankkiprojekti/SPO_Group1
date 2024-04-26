@@ -61,8 +61,8 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
         );
 }
 
-void MainWindow::displayGifsOnStartMenu() {
-
+void MainWindow::displayGifsOnStartMenu()
+{
     QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
         arro = new QLabel(this);
@@ -78,17 +78,18 @@ void MainWindow::displayGifsOnStartMenu() {
         arro2->setMovie(movie);
 
     movie->start();
+    qDebug() << "Gifs working";
 }
 
 void MainWindow::clearGifs()
 {
-        arro->movie()->stop();
-        delete arro;
-        arro = nullptr;
+    arro->movie()->stop();
+    delete arro;
+    arro = nullptr;
 
-        arro2->movie()->stop();
-        delete arro2;
-        arro2 = nullptr;
+    arro2->movie()->stop();
+    delete arro2;
+    arro2 = nullptr;
 }
 
 void MainWindow::loadPorts()
@@ -159,7 +160,11 @@ void MainWindow::onBtnOpenPortclicked()
     _serialPort->setParity(QSerialPort::NoParity);
     _serialPort->setStopBits(QSerialPort::OneStop);
     if (_serialPort->open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, "Result", "Portti avattu");
+        /*QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Result");
+        msgBox.setText("Port open");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();*/
         connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
     } else {
         QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
@@ -169,7 +174,12 @@ void MainWindow::onBtnOpenPortclicked()
 void MainWindow::readData()
 {
     if (!_serialPort->isOpen()) {
-        QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        //QMessageBox::critical(this, "Port Error", "Portti ei auki");
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Port Error");
+        msgBox.setText("Port closed");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
         return;
     }
     auto data = _serialPort->readAll();
@@ -533,4 +543,5 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
+    displayGifsOnStartMenu();
 }
