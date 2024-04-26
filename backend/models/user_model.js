@@ -31,6 +31,7 @@ const user={
         });
     }, //for admins
 
+
     deleteUser(id_user, callback){
         return db.query("DELETE FROM user WHERE id_user=?", [id_user], callback); //for admins
     },

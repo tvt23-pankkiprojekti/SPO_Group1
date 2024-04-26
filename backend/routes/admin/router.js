@@ -27,4 +27,7 @@ router.put('/updateuser', function(request, response) {
     usercontrols.updateUser(request, response);
 });
 
+router.put('/updatepincode', function(request, response) {
+    usercontrols.updatePinCode(request, response);
+});
 module.exports = router;
