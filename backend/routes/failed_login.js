@@ -27,7 +27,7 @@ function isCardBlocked(cardNumber, callback) {
                 } else {
                     const failedAttempts = results.length;
                     if(failedAttempts>=3) {
-                        card.updateExpiration(cardNumber, function(err, results){})
+                        card.addTempRestriction(cardNumber)
                     }
                     callback(false, (failedAttempts < 3) ? false : true);
                 }

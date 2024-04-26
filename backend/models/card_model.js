@@ -15,13 +15,13 @@ const card={
         return db.query("SELECT state, temp_restriction, expiration FROM card WHERE id_card = ?", [cVerify], callback);
     }, //card verifying
 
-    updateExpiration(card) {
-        return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
+    addTempRestriction(card) {
+        return db.query("UPDATE card SET temp_restriction = DATE_ADD(NOW(), INTERVAL 30 MINUTE) WHERE id_card = ?", [card]);
     }, // inserts an expiration notice onto a card's data
 
-    /*cardExpired(card) {
+    updateExpiration(card) {
         return db.query("UPDATE card SET state = 1 WHERE id_card = ?", [card]);
-    }*/
+    },
 
     login(uLogin, callback) {
         return db.query("SELECT pincode FROM card WHERE id_card = ?", [uLogin], callback);
