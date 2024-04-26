@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QSerialPort>  //Tuomas
+#include <QSerialPortInfo> //Tuomas
+#include <QDebug>   //Tuomas
 #include <QMessageBox>
 #include <QMovie>
 #include <QDialog>
@@ -33,10 +34,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
 private slots:
+    void cardVerificationSlot(QNetworkReply *reply);
     void profileDataSlot(QNetworkReply *reply);
     void attachedAccountCheckSlot(QNetworkReply *reply);
     void transactionEventsData(QNetworkReply *reply);
     void loginSlot(QNetworkReply *reply);
+
     void onBtnEnterPinClicked();
     void onBtnValitseCreditClicked();
     void onBtnValitseDebitClicked();
@@ -54,6 +57,9 @@ private slots:
     void onpreviousButtonclicked();
     void checkPage();
 
+    void onBtnSerialPortsInfoclicked();
+    void onBtnOpenPortclicked();
+    void readData();
 
 private:
     Ui::MainWindow *ui;
@@ -66,11 +72,15 @@ private:
 
     ProfileWindow *accountInfo;
     
+    QSerialPort *_serialPort;
+
+    QNetworkAccessManager *cardVerificationManager;
     QNetworkAccessManager *transferManager;
     QNetworkAccessManager *transferManagerEvents;
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *accountCheckManager;
     
+    QNetworkReply *cardVerificationReply;
     QNetworkReply *reply;
     QNetworkReply *accountCheckReply;
     QNetworkReply *replyEvents;
@@ -85,6 +95,8 @@ private:
     
     transactionHistory * eventData;
     
+    void verifyCard();
     void checkAttachedAccounts();
+    void loadPorts();
 };
 #endif // MAINWINDOW_H

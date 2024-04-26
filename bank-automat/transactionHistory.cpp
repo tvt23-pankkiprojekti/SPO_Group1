@@ -36,7 +36,7 @@ int transactionHistory::addEvents(int pageNum)
 
     //qDebug()<<"arrayn koko:" << json_array.size();
     //qDebug()<< "Viimeinen sivu: "<<maxNum;
-    for (int row = (pageNum-1)*eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
+    for (int row = (pageNum - 1) * eventsOnPage; row < (pageNum * eventsOnPage); ++row) {
         if (row >= json_array.size()) {
             break;
         }
