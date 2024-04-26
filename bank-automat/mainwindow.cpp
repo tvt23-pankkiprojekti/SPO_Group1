@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
     //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(0);
 
     //displayGifsOnStartMenu();
     hideLessAndMoreButtons();
@@ -304,7 +304,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             token = data;
             qDebug() << "loginSlot(), data wasn't false";
             checkAttachedAccounts();
-            clearGifs();
+            //clearGifs();
         }
         else{
             msgBox.setText("Incorrect password");
@@ -343,7 +343,7 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 {
     qDebug() << "attachedAccountCheckSlot()";
 
-    QByteArray data=reply->readAll();
+    QByteArray data = reply->readAll();
     QMessageBox msgBox;
 
     if (data=="-4078" || data.length()==0) {
@@ -388,7 +388,7 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         }
     }
 
-    accountCheckReply->deleteLater();
+    reply->deleteLater();
     accountCheckManager->deleteLater();
 }
 
