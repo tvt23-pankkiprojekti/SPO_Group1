@@ -23,7 +23,7 @@ router.post('/', function(request, response) {
                 }
 
                 let accountId = accountResult[0].id_account;
-                transaction.getBalance(accountId, function(err, accountBalance) {
+                account.getBalance(accountId, function(err, accountBalance) {
                     if (err) {
                         response.send(false);
                         return;
