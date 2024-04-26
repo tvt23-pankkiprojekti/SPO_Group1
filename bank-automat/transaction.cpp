@@ -25,8 +25,8 @@ void transaction::transactionSlot(QNetworkReply *reply){
 void transaction::deposit(){
     //json objectiin syöttö
     QJsonObject depositObj;
-    depositObj.insert("acc",id_account);
     depositObj.insert("am", amount);
+    depositObj.insert("acc",id_account);
     //urlin asettaminen ja headeri
     QString site_url=env::getUrl()+"/transaction/deposit";
     QNetworkRequest request(site_url);
@@ -39,8 +39,8 @@ void transaction::deposit(){
 void transaction::withdraw(){
     //json objectiin syöttö
     QJsonObject withdrawObj;
-    withdrawObj.insert("acc",id_account);
     withdrawObj.insert("am", amount);
+    withdrawObj.insert("acc",id_account);
     //urlin asettaminen ja headeri
     QString site_url=env::getUrl()+"/transaction/withdraw";
     QNetworkRequest request(site_url);
@@ -82,7 +82,7 @@ void transaction::addTransaction(){
     addObj.insert("am", amount);
     addObj.insert("des", description);
     //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/adddTransaction";
+    QString site_url=env::getUrl()+"/transaction/addTransaction";
     QNetworkRequest request(site_url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     //depositObj postaus
