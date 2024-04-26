@@ -1,8 +1,41 @@
 var express = require('express');
 var router = express.Router();
 var transaction = require('../models/transaction_model');
+var transaction = require('../models/account_model');
 const tokenCheck = require('./verifytoken');
 const { token } = require('morgan');
+
+router.post('/', function(request, response) {
+    console.log("Request for account balance for user with card " + request.body['card']);
+
+    tokenCheck.verify(request, request.body['card'], function(err) {
+        if (err) {
+            console.log(err);
+            response.send(false);
+        } else {
+            account.getAccount(request.body['account'], function(err, accountResult) {
+                if (err) {
+                    response.send(err);
+                    return;
+                } else if (!accountResult[0]) {
+                    response.send(false);
+                    return;
+                }
+
+                let accountId = accountResult[0].id_account;
+                transaction.getBalance(accountId, function(err, accountBalance) {
+                    if (err) {
+                        response.send(false);
+                        return;
+                    }
+
+                    response.send(accountBalance);
+                });
+            });
+        }
+    });
+});
+
 
 router.get('/transaction',function(request,response){
 

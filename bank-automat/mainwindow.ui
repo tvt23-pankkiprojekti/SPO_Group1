@@ -554,7 +554,7 @@
           </widget>
          </item>
          <item row="0" column="1" alignment="Qt::AlignLeft">
-          <widget class="QLabel" name="displayBalance_2">
+          <widget class="QLabel" name="displayBalance">
            <property name="font">
             <font>
              <family>Segoe UI</family>
