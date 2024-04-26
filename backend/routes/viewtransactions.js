@@ -5,10 +5,10 @@ const tokenCheck = require('./verifytoken');
 const { token } = require('morgan');
 
 router.post('/', function(request, response) {
-    /*if (!request.body.idaccount || isNaN(request.body.idaccount)) {
-        response.send('Invalid parameters');
+    if (!request.body.idaccount || !request.body.card) {
+        response.send(false);
         return;
-    }*/
+    }
 
     tokenCheck.verify(request, request.body.card, function(err) {
         if (err) {
@@ -21,7 +21,7 @@ router.post('/', function(request, response) {
             response.send(false);
             console.log(err);
         } else {
-            console.log(result);
+            //console.log(result);
             response.send(result);
         }
     });
