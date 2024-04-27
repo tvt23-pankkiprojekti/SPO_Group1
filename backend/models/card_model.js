@@ -4,7 +4,7 @@ const { updatePincode } = require('../routes/admin/usercontrols');
 
 const card={
     getCard(card, callback) {
-        return db.query("SELECT id_card, state, owner, expiration, temp_restriction FROM card WHERE id_card = ?", [card], callback);
+        return db.query("SELECT id_card, state, owner, expiration, temp_restriction, NOW() AS curr_time FROM card WHERE id_card = ?", [card], callback);
     }, //for admin
 
     getCardsByOwner(id_owner, callback) {

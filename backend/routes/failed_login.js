@@ -16,13 +16,13 @@ function deleteAttempt(callback){
 function isCardBlocked(cardNumber, callback) {
     deleteAttempt(function(err, results){
         if (err) {
-            console.error("Error deleting attempts", err);
+            console.error("Error deleting attempts: ", err);
             callback(err, false);
         }
         else {
             getFailedLoginAttempts(cardNumber, function(err, results) {
                 if (err) {
-                    console.error("Error checking if card is blocked:", err);
+                    console.error("Error checking if card is blocked: ", err);
                     callback(err, false);
                 } else {
                     const failedAttempts = results.length;
