@@ -95,7 +95,7 @@ html
                             td Debit
                         td #{cards[index].id_account}
                         td #{cards[index].expiration}    
-                        if cards[index].state == null && cards[index].temp_restriction == null 
+                        if cards[index].state == null && (cards[index].temp_restriction == null || cards[index].temp_restriction < cards[index].curr_time)
                             td OK 
                         else 
                             td Restricted            

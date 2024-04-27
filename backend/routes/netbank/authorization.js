@@ -72,7 +72,7 @@ function removeAuthorization(request, response) {
             response.render('authorization', {error: "Something went wrong with the database"});
         }
         else {
-            response.render('authorization', {success: "Authorization removed succesfully!"});
+            response.render('authorization', {success: "Authorization removed successfully!"});
         }
     })
 }
