@@ -11,6 +11,10 @@ const accountOwnership={
     }, //get the associated account of user
 
     removeAssociationUser(id_user, id_account, callback) {
+        //console.log(id_user + " " + id_account);
+        db.query("UPDATE card INNER JOIN card_attached_account ON card.id_card = card_attached_account.id_card SET state = 2 WHERE id_account = ? AND owner = ?", [id_account, id_user], function(err, result) {
+            if (err) console.log(err);
+        });
         return db.query("DELETE FROM account_ownership WHERE id_user = ? AND id_account = ?", [id_user, id_account], callback);
     }, //remove association between user and an account
 

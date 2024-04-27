@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->labelKortinTila->setText(QString("Insert your card"));
 
+    //verifyCard(); // Testaukseen ilman kortinlukijaa
 }
 
 void setMessageBoxStyles(QMessageBox& msgBox) {
@@ -457,6 +458,14 @@ void MainWindow::profileDataSlot(QNetworkReply *reply)
     }
 
     ui->stackedWidget->setCurrentIndex(5);
+
+    // Extracts account balance data from the package and saves it
+    QJsonDocument dataUnpacked = QJsonDocument::fromJson(data);
+    QJsonArray array = dataUnpacked.array();
+    QJsonObject info = array[0].toObject();
+    //qDebug() << info["balance"];
+    accountBalance = info["balance"].toString();
+
     accountInfo->updateUserData(data);
 
     reply->deleteLater();
@@ -560,8 +569,6 @@ void MainWindow::onnextButtonclicked()
 
 /* Withdrawing funds
  */
-
-
 //buttons
 void MainWindow::muuSummaClicked()
 {
