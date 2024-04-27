@@ -148,6 +148,9 @@
                                         "lname": {
                                             "type": "string"
                                         },
+                                        "id_card": {
+                                            "type": "string"
+                                        },
                                         "state": {
                                             "type": "string"
                                         }
