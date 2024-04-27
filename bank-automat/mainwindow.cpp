@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
     connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
     connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
-    connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
     connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
     //transaction window buttons
@@ -153,14 +152,6 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-
-/* Setting up the serial port to read incoming cards
- */
-void MainWindow::onBtnSerialPortsInfoclicked()
-{
-
-}
-
 void MainWindow::onBtnOpenPortclicked()
 {
     if (_serialPort != nullptr) {
@@ -198,15 +189,18 @@ void MainWindow::readData()
         msgBox.exec();
         return;
     }
-    auto data = _serialPort->readAll();
-    data.replace("\r\n-", "");
-    data.replace("\r\n>", "");
-    //ui->labelKortinNumero->setText(QString(data));
-    ui->labelKortinTila->setText(QString("Card read: " + data));
-    qDebug() << data;
-    cardNo = data;
 
-    verifyCard();
+    if (ui->stackedWidget->currentIndex() == 0) {
+        auto data = _serialPort->readAll();
+        data.replace("\r\n-", "");
+        data.replace("\r\n>", "");
+        //ui->labelKortinNumero->setText(QString(data));
+        ui->labelKortinTila->setText(QString("Card read: " + data));
+        qDebug() << data;
+        cardNo = data;
+
+        verifyCard();
+    }
 }
 
 
