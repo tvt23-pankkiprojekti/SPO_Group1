@@ -19,7 +19,7 @@ const cardVerificationRouter = require('./routes/verifycard');
 //verified bankomat
 const accountRouter = require('./routes/getaccounts');
 const viewCardRouter = require('./routes/viewcard');
-const transactionRouter = require('./routes/transaction');
+const transactionRouter = require('./routes/transactiontwo');
 const viewTransactionRouter = require('./routes/viewtransactions');
 
 const port = process.env.PORT || 3000;

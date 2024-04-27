@@ -12,13 +12,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     profilewindow.cpp \
-    transactionHistory.cpp
+    transactionHistory.cpp \
+    transactiontwo.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
     profilewindow.h \
-    transactionHistory.h
+    transactionHistory.h \
+    transactiontwo.h
 
 FORMS += \
     mainwindow.ui
