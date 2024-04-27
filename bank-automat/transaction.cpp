@@ -1,6 +1,6 @@
 #include "transaction.h"
 //#include "mainwindow.h"
-#include "mainwindow.cpp"
+//#include "mainwindow.cpp"
 #include "env.h"
 #include <QDialog>
 #include <qstring.h>
@@ -36,6 +36,7 @@ void transaction::deposit(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(depositObj).toJson());
 }
+
 void transaction::withdraw(){
     //json objectiin syöttö
     QJsonObject withdrawObj;
@@ -50,6 +51,7 @@ void transaction::withdraw(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(withdrawObj).toJson());
 }
+
 void transaction::balance(){
     //json objectiin syöttö
     QJsonObject balanceObj;
@@ -63,6 +65,7 @@ void transaction::balance(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(balanceObj).toJson());
 }
+/*
 void transaction::transactionHistory(){
     //json objectiin syöttö
     QJsonObject historyObj;
@@ -76,6 +79,7 @@ void transaction::transactionHistory(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(historyObj).toJson());
 }
+*/
 void transaction::addTransaction(){
     QJsonObject addObj;
     addObj.insert("acc", id_account);

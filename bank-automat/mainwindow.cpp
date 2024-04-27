@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stackedWidget->setCurrentIndex(0);
 
-    //displayGifsOnStartMenu();
+    displayGifsOnStartMenu();
     hideLessAndMoreButtons();
 
     accountInfo = new ProfileWindow;
@@ -76,7 +76,7 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie("C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
 
     arro = new QLabel(this);
     arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -190,7 +190,6 @@ void MainWindow::onBtnOpenPortclicked()
 void MainWindow::readData()
 {
     if (!_serialPort->isOpen()) {
-        //QMessageBox::critical(this, "Port Error", "Portti ei auki");
         QMessageBox msgBox(this);
         msgBox.setWindowTitle("Port Error");
         msgBox.setText("Port closed");
@@ -620,7 +619,6 @@ void MainWindow::onLessButtonClicked()
     int currentValue = currentText.replace("€", "").toInt();
     int newValue = currentValue - 10;
 
-    // Ensure newValue doesn't go below 0
     if(newValue < 0)
         newValue = 0;
 
@@ -640,4 +638,8 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
+
+    this->close();
+    MainWindow* parent = new MainWindow;
+    parent->show();
 }
