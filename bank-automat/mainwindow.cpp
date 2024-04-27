@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
     //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(0);
 
     displayGifsOnStartMenu();
     hideLessAndMoreButtons();

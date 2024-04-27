@@ -65,7 +65,21 @@ void transaction::balance(){
     connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
     reply = postManager->post(request, QJsonDocument(balanceObj).toJson());
 }
-
+/*
+void transaction::transactionHistory(){
+    //json objectiin syöttö
+    QJsonObject historyObj;
+    historyObj.insert("acc",id_account);
+    //urlin asettaminen ja headeri
+    QString site_url=env::getUrl()+"/transaction/history";
+    QNetworkRequest request(site_url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    //depositObj postaus
+    postManager = new QNetworkAccessManager(this);
+    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
+    reply = postManager->post(request, QJsonDocument(historyObj).toJson());
+}
+*/
 void transaction::addTransaction(){
     QJsonObject addObj;
     addObj.insert("acc", id_account);
