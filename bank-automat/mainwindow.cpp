@@ -76,7 +76,8 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+    QString gifs = env::gifFetch();
+    QMovie *movie = new QMovie(gifs);
 
     arro = new QLabel(this);
     arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -92,7 +93,7 @@ void MainWindow::displayGifsOnStartMenu()
 
     movie->start();
 
-    qDebug() << "Gifs working";
+    qDebug() << "Arrows working";
 }
 
 void MainWindow::clearGifs()
@@ -105,7 +106,21 @@ void MainWindow::clearGifs()
     delete arro2;
     arro2 = nullptr;
 }
+/*
+void MainWindow::displayMoneyGif()
+{
 
+    money = new QLabel(this);
+    money->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    money->setGeometry(145, 350, 250, 250);
+    money->setScaledContents(true);
+    money->setMovie(movie);
+
+    movie->start();
+
+    qDebug() << "Moneyyy";
+}
+*/
 void MainWindow::loadPorts()
 {
     foreach (auto &port, QSerialPortInfo::availablePorts()) {
@@ -179,6 +194,7 @@ void MainWindow::onBtnOpenPortclicked()
         msgBox.setText("Port open");
         setMessageBoxStyles(msgBox);
         msgBox.exec();*/
+
         connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
     } else {
         QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
