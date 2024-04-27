@@ -63,7 +63,7 @@ private slots:
     //void withdrawClickHandler();
     void clearGifs();
     void displayGifsOnStartMenu();
-    //void displayMoneyGif();
+    void displayMoneyGif();
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();
@@ -103,6 +103,7 @@ private:
     QLabel *arro = nullptr;
     QLabel *arro2 = nullptr;
     QLabel *money = nullptr;
+    QLabel *label = nullptr;
     
     transactionHistory * eventData;
     
