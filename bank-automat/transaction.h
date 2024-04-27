@@ -21,7 +21,6 @@ public:
     void deposit();
     void withdraw();
     void balance();
-    void transactionHistory();
     void addTransaction();
 private slots:
     //void depositSlot(QNetworkReply *reply);
