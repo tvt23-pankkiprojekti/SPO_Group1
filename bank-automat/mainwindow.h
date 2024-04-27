@@ -65,11 +65,11 @@ private slots:
     void withdrawReplySlot(QNetworkReply *reply);
     void clearGifs();
     void displayGifsOnStartMenu();
+    //void displayMoneyGif();
     void handleClick();
     void onnextButtonclicked();
     void onpreviousButtonclicked();
     void checkPage();
-    void onBtnSerialPortsInfoclicked();
     void onBtnOpenPortclicked();
     void readData();
 
@@ -104,6 +104,7 @@ private:
 
     QLabel *arro = nullptr;
     QLabel *arro2 = nullptr;
+    QLabel *money = nullptr;
     
     transactionHistory * eventData;
     transactiontwo *transaction;

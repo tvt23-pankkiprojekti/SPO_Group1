@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnKatsoTiedot, SIGNAL(clicked()), this, SLOT(onBtnKatsoTiedotClicked()));
     connect(ui->previousButton, SIGNAL(clicked()), this, SLOT(onpreviousButtonclicked()));
     connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(onnextButtonclicked()));
-    connect(ui->btnSerialPortsInfo, SIGNAL(clicked()), this, SLOT(onBtnSerialPortsInfoclicked()));
     connect(ui->btnOpenPort, SIGNAL(clicked()), this, SLOT(onBtnOpenPortclicked()));
 
     //transaction window buttons
@@ -60,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     eventData = new transactionHistory(this);
     eventData->attachWindow(ui->stackedWidget);
+
+    ui->labelKortinTila->setText(QString("Insert your card"));
+
 }
 
 void setMessageBoxStyles(QMessageBox& msgBox) {
@@ -74,7 +76,8 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie("C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif");
+    QString gifs = env::gifFetch();
+    QMovie *movie = new QMovie(gifs);
 
     arro = new QLabel(this);
     arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -90,7 +93,7 @@ void MainWindow::displayGifsOnStartMenu()
 
     movie->start();
 
-    qDebug() << "Gifs working";
+    qDebug() << "Arrows working";
 }
 
 void MainWindow::clearGifs()
@@ -103,7 +106,21 @@ void MainWindow::clearGifs()
     delete arro2;
     arro2 = nullptr;
 }
+/*
+void MainWindow::displayMoneyGif()
+{
 
+    money = new QLabel(this);
+    money->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    money->setGeometry(145, 350, 250, 250);
+    money->setScaledContents(true);
+    money->setMovie(movie);
+
+    movie->start();
+
+    qDebug() << "Moneyyy";
+}
+*/
 void MainWindow::loadPorts()
 {
     foreach (auto &port, QSerialPortInfo::availablePorts()) {
@@ -151,14 +168,6 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-
-/* Setting up the serial port to read incoming cards
- */
-void MainWindow::onBtnSerialPortsInfoclicked()
-{
-
-}
-
 void MainWindow::onBtnOpenPortclicked()
 {
     if (_serialPort != nullptr) {
@@ -177,16 +186,18 @@ void MainWindow::onBtnOpenPortclicked()
         msgBox.setText("Port open");
         setMessageBoxStyles(msgBox);
         msgBox.exec();*/
+
         connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
     } else {
         QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
     }
 }
 
+
+
 void MainWindow::readData()
 {
     if (!_serialPort->isOpen()) {
-        //QMessageBox::critical(this, "Port Error", "Portti ei auki");
         QMessageBox msgBox(this);
         msgBox.setWindowTitle("Port Error");
         msgBox.setText("Port closed");
@@ -194,14 +205,18 @@ void MainWindow::readData()
         msgBox.exec();
         return;
     }
-    auto data = _serialPort->readAll();
-    data.replace("\r\n-", "");
-    data.replace("\r\n>", "");
-    //ui->labelKortinNumero->setText(QString(data));
-    qDebug() << data;
-    cardNo = data;
 
-    verifyCard();
+    if (ui->stackedWidget->currentIndex() == 0) {
+        auto data = _serialPort->readAll();
+        data.replace("\r\n-", "");
+        data.replace("\r\n>", "");
+        //ui->labelKortinNumero->setText(QString(data));
+        ui->labelKortinTila->setText(QString("Card read: " + data));
+        qDebug() << data;
+        cardNo = data;
+
+        verifyCard();
+    }
 }
 
 
@@ -614,7 +629,6 @@ void MainWindow::onLessButtonClicked()
     int currentValue = currentText.replace("€", "").toInt();
     int newValue = currentValue - 10;
 
-    // Ensure newValue doesn't go below 0
     if(newValue < 0)
         newValue = 0;
 
@@ -650,4 +664,8 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
+
+    this->close();
+    MainWindow* parent = new MainWindow;
+    parent->show();
 }

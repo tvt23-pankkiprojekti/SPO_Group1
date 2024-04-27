@@ -42,7 +42,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageStartMenu">
        <widget class="QLabel" name="label_2">
@@ -86,9 +86,9 @@
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>340</x>
+          <x>198</x>
           <y>300</y>
-          <width>349</width>
+          <width>641</width>
           <height>80</height>
          </rect>
         </property>
@@ -110,27 +110,11 @@
             <enum>QFrame::Plain</enum>
            </property>
            <property name="text">
-            <string>INSERT YOUR CARD</string>
+            <string/>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-       <widget class="QPushButton" name="btnSerialPortsInfo">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>80</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 9pt &quot;Segoe UI&quot;;</string>
-        </property>
-        <property name="text">
-         <string>Serial Ports</string>
-        </property>
        </widget>
        <widget class="QComboBox" name="cmbPorts">
         <property name="geometry">
@@ -405,7 +389,7 @@
        <widget class="QPushButton" name="btnTakaisin">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>160</x>
           <y>530</y>
           <width>91</width>
           <height>31</height>
@@ -435,8 +419,8 @@
        <widget class="QPushButton" name="N20">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>220</y>
+          <x>160</x>
+          <y>230</y>
           <width>121</width>
           <height>81</height>
          </rect>
@@ -451,8 +435,8 @@
        <widget class="QPushButton" name="N50">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>310</y>
+          <x>160</x>
+          <y>320</y>
           <width>121</width>
           <height>81</height>
          </rect>
@@ -467,8 +451,8 @@
        <widget class="QPushButton" name="N40">
         <property name="geometry">
          <rect>
-          <x>260</x>
-          <y>220</y>
+          <x>290</x>
+          <y>230</y>
           <width>121</width>
           <height>81</height>
          </rect>
@@ -483,8 +467,8 @@
        <widget class="QPushButton" name="N100">
         <property name="geometry">
          <rect>
-          <x>260</x>
-          <y>310</y>
+          <x>290</x>
+          <y>320</y>
           <width>121</width>
           <height>81</height>
          </rect>
@@ -499,8 +483,8 @@
        <widget class="QPushButton" name="clearBtn">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>400</y>
+          <x>160</x>
+          <y>410</y>
           <width>251</width>
           <height>41</height>
          </rect>
@@ -515,7 +499,7 @@
        <widget class="QPushButton" name="withdrawBtn">
         <property name="geometry">
          <rect>
-          <x>610</x>
+          <x>650</x>
           <y>420</y>
           <width>201</width>
           <height>41</height>
@@ -528,8 +512,8 @@
        <widget class="QWidget" name="gridLayoutWidget_6">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>150</y>
+          <x>160</x>
+          <y>170</y>
           <width>371</width>
           <height>41</height>
          </rect>
@@ -576,8 +560,8 @@
        <widget class="QLabel" name="labelWithdrawSum">
         <property name="geometry">
          <rect>
-          <x>610</x>
-          <y>270</y>
+          <x>650</x>
+          <y>280</y>
           <width>201</width>
           <height>141</height>
          </rect>
@@ -592,8 +576,8 @@
        <widget class="QPushButton" name="muuSumma">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>450</y>
+          <x>160</x>
+          <y>460</y>
           <width>251</width>
           <height>41</height>
          </rect>
@@ -608,7 +592,7 @@
        <widget class="QPushButton" name="lessBtn">
         <property name="geometry">
          <rect>
-          <x>610</x>
+          <x>650</x>
           <y>470</y>
           <width>91</width>
           <height>29</height>
@@ -624,7 +608,7 @@
        <widget class="QPushButton" name="moreBtn">
         <property name="geometry">
          <rect>
-          <x>722</x>
+          <x>760</x>
           <y>470</y>
           <width>91</width>
           <height>29</height>
