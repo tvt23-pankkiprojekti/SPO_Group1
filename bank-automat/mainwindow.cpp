@@ -59,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     eventData = new transactionHistory(this);
     eventData->attachWindow(ui->stackedWidget);
+
+    ui->labelKortinTila->setText(QString("Insert your card"));
+
 }
 
 void setMessageBoxStyles(QMessageBox& msgBox) {
@@ -182,6 +185,8 @@ void MainWindow::onBtnOpenPortclicked()
     }
 }
 
+
+
 void MainWindow::readData()
 {
     if (!_serialPort->isOpen()) {
@@ -197,6 +202,7 @@ void MainWindow::readData()
     data.replace("\r\n-", "");
     data.replace("\r\n>", "");
     //ui->labelKortinNumero->setText(QString(data));
+    ui->labelKortinTila->setText(QString("Card read: " + data));
     qDebug() << data;
     cardNo = data;
 
