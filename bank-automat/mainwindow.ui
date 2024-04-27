@@ -42,7 +42,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageStartMenu">
        <widget class="QLabel" name="label_2">
@@ -86,9 +86,9 @@
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>340</x>
+          <x>198</x>
           <y>300</y>
-          <width>349</width>
+          <width>641</width>
           <height>80</height>
          </rect>
         </property>
@@ -110,7 +110,7 @@
             <enum>QFrame::Plain</enum>
            </property>
            <property name="text">
-            <string>INSERT YOUR CARD</string>
+            <string/>
            </property>
           </widget>
          </item>
