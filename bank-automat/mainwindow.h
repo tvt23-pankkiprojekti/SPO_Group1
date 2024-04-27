@@ -68,7 +68,6 @@ private slots:
     void onnextButtonclicked();
     void onpreviousButtonclicked();
     void checkPage();
-    void onBtnSerialPortsInfoclicked();
     void onBtnOpenPortclicked();
     void readData();
 
