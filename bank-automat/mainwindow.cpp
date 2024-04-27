@@ -48,9 +48,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
     //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(1);
 
-    displayGifsOnStartMenu();
+    //displayGifsOnStartMenu();
     hideLessAndMoreButtons();
 
     accountInfo = new ProfileWindow;
@@ -80,6 +80,7 @@ void MainWindow::displayGifsOnStartMenu()
 
     arro = new QLabel(this);
     arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    arro->setAlignment(Qt::AlignCenter);
     arro->setGeometry(145, 350, 250, 250);
     arro->setScaledContents(true);
     arro->setMovie(movie);
