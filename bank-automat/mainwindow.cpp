@@ -73,21 +73,21 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QMovie *movie = new QMovie("C:/Personal Files/School/Period 4/R1-pankkiprojekti/SPO_Group1/bank-automat/arrow.gif");
+    QMovie *movie = new QMovie("C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif");
 
-        arro = new QLabel(this);
-        arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        arro->setGeometry(145, 350, 250, 250);
-        arro->setScaledContents(true);
-        arro->setMovie(movie);
+    arro = new QLabel(this);
+    arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    arro->setGeometry(145, 350, 250, 250);
+    arro->setScaledContents(true);
+    arro->setMovie(movie);
 
-        arro2 = new QLabel(this);
-        arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        arro2->setGeometry(650, 355, 250, 250);
-        arro2->setScaledContents(true);
-        arro2->setMovie(movie);
+    arro2 = new QLabel(this);
+    arro2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    arro2->setGeometry(650, 355, 250, 250);
+    arro2->setScaledContents(true);
+    arro2->setMovie(movie);
 
-        movie->start();
+    movie->start();
 
     qDebug() << "Gifs working";
 }
@@ -304,7 +304,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             token = data;
             qDebug() << "loginSlot(), data wasn't false";
             checkAttachedAccounts();
-            //clearGifs();
+            if (arro && arro2) {
+                clearGifs();
+            }
         }
         else{
             msgBox.setText("Incorrect password");
