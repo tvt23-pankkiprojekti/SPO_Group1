@@ -23,22 +23,36 @@ function findTransactionCapableAccounts(request, response) {
 }
 
 function accountToAccountTransaction(request, response) {
-    console.log(request.body);
-    let data = {
-        'account_one': request.body['senderAccount'],
-        'account_two': request.body['receiverAccount'],
-        'amount': request.body['amount'],
-        'description_one': 'Transfer to account ' + request.body['receiverAccount'],
-        'description_two': 'Transfer from account ' + request.body['senderAccount']
-    };
-
-    procedure.accountToAccountTransaction(data, function(err, result) {
+    
+    account.getAccount(request.body['receiverAccount'], function(err, result) {
         if (err) {
             console.log(err);
             response.render('transaction', {error: "Something went wrong with the database"});
         }
         else {
-            response.render('transaction', {success: "Transfer completed successfully!"});
+            console.log(result.length);
+            if (result.length == 0) {
+                response.render('transaction', {error: "Invalid receiver account ID"});
+                return;
+            }
+            let data = {
+                'account_one': request.body['senderAccount'],
+                'account_two': request.body['receiverAccount'],
+                'amount': request.body['amount'],
+                'description_one': 'Transfer to account ' + request.body['receiverAccount'],
+                'description_two': 'Transfer from account ' + request.body['senderAccount']
+            };
+        
+            procedure.accountToAccountTransaction(data, function(err, result) {
+                if (err) {
+                    console.log(err);
+                    response.render('transaction', {error: "Something went wrong with the database"});
+                }
+                else {
+                    console.log(result);
+                    response.render('transaction', {success: "Transfer sent for processing"});
+                }
+            });
         }
     });
 }
