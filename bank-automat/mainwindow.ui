@@ -42,7 +42,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageStartMenu">
        <widget class="QLabel" name="label_2">
@@ -365,8 +365,8 @@
        <widget class="QLabel" name="label_13">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>40</y>
+          <x>360</x>
+          <y>80</y>
           <width>361</width>
           <height>41</height>
          </rect>
@@ -512,54 +512,6 @@
          <string>WITHDRAW</string>
         </property>
        </widget>
-       <widget class="QWidget" name="gridLayoutWidget_6">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>160</y>
-          <width>371</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="accountGrid_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="labelBalance">
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>11</pointsize>
-             <italic>false</italic>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="text">
-            <string>Account Balance:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" alignment="Qt::AlignLeft">
-          <widget class="QLabel" name="displayBalance">
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>11</pointsize>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="text">
-            <string>number</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QLabel" name="labelWithdrawSum">
         <property name="geometry">
          <rect>
@@ -589,7 +541,7 @@
          <string notr="true">font: 700;</string>
         </property>
         <property name="text">
-         <string>MUU SUMMA</string>
+         <string>OTHER</string>
         </property>
        </widget>
        <widget class="QPushButton" name="lessBtn">
@@ -624,6 +576,18 @@
          <string>More</string>
         </property>
        </widget>
+       <zorder>labelWithdrawSum</zorder>
+       <zorder>label_13</zorder>
+       <zorder>btnTakaisin</zorder>
+       <zorder>N20</zorder>
+       <zorder>N50</zorder>
+       <zorder>N40</zorder>
+       <zorder>N100</zorder>
+       <zorder>clearBtn</zorder>
+       <zorder>withdrawBtn</zorder>
+       <zorder>muuSumma</zorder>
+       <zorder>lessBtn</zorder>
+       <zorder>moreBtn</zorder>
       </widget>
       <widget class="QWidget" name="pageTiliTapahtumat">
        <widget class="QLabel" name="label_14">
@@ -796,7 +760,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>260</y>
+          <y>280</y>
           <width>511</width>
           <height>31</height>
          </rect>
@@ -936,7 +900,7 @@
           <x>160</x>
           <y>110</y>
           <width>371</width>
-          <height>119</height>
+          <height>150</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="accountGrid">
@@ -1126,7 +1090,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>300</y>
+          <y>320</y>
           <width>741</width>
           <height>201</height>
          </rect>

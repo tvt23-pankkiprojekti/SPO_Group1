@@ -348,6 +348,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             token = data;
             qDebug() << "loginSlot(), data wasn't false";
             checkAttachedAccounts();
+            qDebug() << "data";
             if (arro && arro2) {
                 clearGifs();
             }
@@ -388,6 +389,7 @@ void MainWindow::checkAttachedAccounts()
 void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 {
     qDebug() << "attachedAccountCheckSlot()";
+    qDebug() << ui->stackedWidget->widget(2);
 
     QByteArray data = reply->readAll();
     QMessageBox msgBox;
@@ -407,6 +409,7 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         //qDebug() << dataUnpacked;
 
         QJsonArray array = dataUnpacked.array();
+        qDebug() << array.size();
 
         if (array.size() < 1) {
             msgBox.setText("No accounts attached to this card");
@@ -430,7 +433,10 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         }
         else {
             accountNo = array[0].toObject()["id_account"].toString();
+            qDebug() << accountNo;
+            qDebug() << ui->stackedWidget->currentIndex();
             ui->stackedWidget->setCurrentIndex(2);
+            qDebug() << "Ei vaan suostu siirtymään";
         }
     }
 
@@ -704,7 +710,7 @@ void MainWindow::onBtnKirjauduUlosClicked()
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
 
-    this->close();
-    MainWindow* parent = new MainWindow;
+    //this->close();
+    MainWindow *parent = new MainWindow();
     parent->show();
 }
