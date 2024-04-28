@@ -75,7 +75,8 @@ router.post('/', function(request, response) {
                                     "id_account": accountData['id_account'],
                                     "id_account_owner": accountData['owner'],
                                     "account_owner": userData['fname'] + " " + userData['lname'],
-                                    "balance": accountData['balance']
+                                    "balance": accountData['balance'],
+                                    "credit_limit": accountData['credit_limit']
                                 },
                                     result[0], 
                                     result[1], 

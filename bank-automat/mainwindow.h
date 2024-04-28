@@ -19,6 +19,7 @@
 #include "env.h"
 #include <QList>
 #include "transactionHistory.h"
+#include "transactiontwo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -60,8 +61,10 @@ private slots:
     void updateLabelWithdrawSum(int);
     void onMoreButtonClicked();
     void onLessButtonClicked();
-    //void withdrawClickHandler();
+    void withdrawClickHandler();
+    void withdrawReplySlot(QNetworkReply *reply);
     void clearGifs();
+    void restartGifs();
     void displayGifsOnStartMenu();
     void displayMoneyGif();
     void handleClick();
@@ -107,6 +110,7 @@ private:
     QLabel *label = nullptr;
     
     transactionHistory * eventData;
+    transactiontwo *transaction;
     
     void verifyCard();
     void checkAttachedAccounts();

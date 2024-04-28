@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ptr_dll = new Dialog(this);
+    transaction = new transactiontwo(this);
 
     ui->setupUi(this);
     loadPorts();
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearBtn, SIGNAL(clicked()), this, SLOT(clearSum()));
     connect(ui->lessBtn, SIGNAL(clicked()), this, SLOT(onLessButtonClicked()));
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
-    //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
+    connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -100,14 +101,26 @@ void MainWindow::displayGifsOnStartMenu()
 
 void MainWindow::clearGifs()
 {
-    arro->movie()->stop();
-    delete arro;
-    arro = nullptr;
+    arro->movie()->setPaused(true);
+    arro->setVisible(false);
+    //delete arro;
+    //arro = nullptr;
 
-    arro2->movie()->stop();
-    delete arro2;
-    arro2 = nullptr;
+    arro2->movie()->setPaused(true);
+    arro2->setVisible(false);
+    //delete arro2;
+    //arro2 = nullptr;
 }
+
+void MainWindow::restartGifs()
+{
+    arro->setVisible(true);
+    arro->movie()->setPaused(false);
+    arro2->setVisible(true);
+    arro2->movie()->setPaused(false);
+}
+
+
 
 void MainWindow::displayMoneyGif()
 {
@@ -173,6 +186,7 @@ void MainWindow::onBtnValitseDebitClicked()
 void MainWindow::onBtnNostaRahaaClicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    clearSum();
 }
 
 void MainWindow::onBtnTakaisinClicked()
@@ -589,6 +603,7 @@ void MainWindow::onnextButtonclicked()
     checkPage();
 }
 
+
 /* Withdrawing funds
  */
 //buttons
@@ -664,6 +679,25 @@ void MainWindow::onLessButtonClicked()
     ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
 }
 
+void MainWindow::withdrawClickHandler()
+{
+    int amount = ui->labelWithdrawSum->text().replace("€", "").toInt();
+    qDebug() << amount;
+    transaction->withdrawFunds(amount, cardNo, accountNo, token);
+}
+
+void MainWindow::withdrawReplySlot(QNetworkReply *reply) {
+    QString message = transaction->withdrawReplySlot(reply);
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    setMessageBoxStyles(msgBox);
+    msgBox.exec();
+    if (message == "Money withdrawn successfully!") {
+        displayMoneyGif();
+    }
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
 
 /* Logout
  */
@@ -677,8 +711,10 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
+    restartGifs();
+    //displayGifsOnStartMenu();
 
-    this->close();
-    MainWindow* parent = new MainWindow;
-    parent->show();
+    //this->close();
+    //MainWindow* parent = new MainWindow;
+    //parent->show();
 }
