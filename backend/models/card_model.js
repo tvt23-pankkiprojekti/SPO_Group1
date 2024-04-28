@@ -1,6 +1,5 @@
 const db=require('../database');
 const bcrypt=require('bcryptjs');
-const { updatePincode } = require('../routes/admin/usercontrols');
 
 const card={
     getCard(card, callback) {
@@ -41,6 +40,10 @@ const card={
         bcrypt.hash(updatePincode,10,function(err,hashedPincode){
             return db.query("UPDATE card SET pincode = ? WHERE id_card = ?",[hashedPincode, cardNumber], callback)
         })
+    },
+
+    removeTempRestriction(id_card, callback){
+        return db.query("UPDATE card SET temp_restriction = null WHERE id_card = ?",[id_card], callback);
     }
 }
 module.exports=card;

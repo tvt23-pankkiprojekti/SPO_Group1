@@ -124,7 +124,30 @@ const usercontrols = {
                 response.send("200");
             }
         });
-    }
+    },
+
+    removeRestriction(request, response) {
+        
+        console.log("received");
+
+        console.log("2")
+        if (request.body.id_card== null) {
+            console.log("3");
+            response.send("400");
+            return;
+        }
+
+        card.removeTempRestriction(request.body.id_card, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.send("500");
+            }
+            else {
+                console.log("Temporary restriction removed succesfully");
+                response.send("200");
+            }
+        });
+    },
 }
 
 module.exports = usercontrols;
