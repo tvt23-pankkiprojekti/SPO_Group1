@@ -211,7 +211,12 @@ void MainWindow::onBtnOpenPortclicked()
 
         connect(_serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
     } else {
-        QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
+        //QMessageBox::critical(this, "Port Error", "Porttia ei voinut avata...");
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Port Error");
+        msgBox.setText("Port closed");
+        setMessageBoxStyles(msgBox);
+        msgBox.exec();
     }
 }
 
