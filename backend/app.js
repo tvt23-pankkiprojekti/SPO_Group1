@@ -1,40 +1,51 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const pug = require('pug');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var cardRouter = require('./routes/card');
-var accountRouter = require('./routes/account');
-var transactionRouter = require('./routes/transaction');
-var adminRouter = require('./routes/admin');
-var cardAttachedAccountRouter = require('./routes/card_attached_account');
-var userRouter = require('./routes/user');
-var accountOwnershipRouter = require('./routes/account_ownership');
+// netbank
+const netbankRouter = require('./routes/netbank/router');
+
+//admin
+const adminRouter = require('./routes/admin/router');
+const swagger = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
+
+// unverified bankomat
+const loginRouter = require('./routes/login');
+const cardVerificationRouter = require('./routes/verifycard');
+
+//verified bankomat
+const accountRouter = require('./routes/getaccounts');
+const viewCardRouter = require('./routes/viewcard');
+const transactionRouter = require('./routes/transactiontwo');
+const viewTransactionRouter = require('./routes/viewtransactions');
 
 const port = process.env.PORT || 3000;
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/swagger', swagger.serve, swagger.setup(swaggerDoc));
+app.set('view engine', 'pug');
 
 app.listen(port, function(request, response) {
-    console.log("Sovellus pyörii");
+    console.log("Server online");
 });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/card', cardRouter);
-app.use('/account', accountRouter);
-app.use('/transaction', transactionRouter);
+app.use('/netbank', netbankRouter);
 app.use('/admin', adminRouter);
-app.use('/cardattached', cardAttachedAccountRouter);
-app.use('/user', userRouter);
-app.use('/accountowner', accountOwnershipRouter);
-//app.use(authenticatetoken);
+app.use('/bankomat/verifycard', cardVerificationRouter);
+app.use('/bankomat/login', loginRouter);
+
+// Token-requiring routes
+app.use('/bankomat/getaccounts', accountRouter);
+app.use('/bankomat/viewprofile', viewCardRouter);
+app.use('/bankomat/transaction', transactionRouter);
+app.use('/bankomat/viewtransactions', viewTransactionRouter);
 
 module.exports = app;

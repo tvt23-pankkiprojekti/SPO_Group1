@@ -2,19 +2,17 @@ const db=require('../database');
 const bcrypt=require('bcryptjs');
 
 const admin={
-
-    adminLogin(adminLog, callback){
-        return db.query("SELECT admin_password FROM admin WHERE id_admin = ?", [adminLog], callback);
+    adminLogin(id_admin, callback){
+        return db.query("SELECT admin_password FROM admin WHERE id_admin = ?", [id_admin], callback);
     }, //verify correct password for admin
 
-    adminVerify(aVerify,  callback){
-        return db.query("SELECT temp_restriction FROM admin WHERE id_admin = ?", [aVerify], callback);
+    adminVerify(id_admin,  callback){
+        return db.query("SELECT temp_restriction FROM admin WHERE id_admin = ?", [id_admin], callback);
     }, //admin login verify
 
-    checkRights(aRights, callback){
-        return db.query("SELECT admin_rights FROM admin WHERE id_admin = ?", [aRights], callback);
+    checkRights(id_admin, callback){
+        return db.query("SELECT admin_rights FROM admin WHERE id_admin = ?", [id_admin], callback);
     }, // check admins rights
-
 }
 
 module.exports=admin;

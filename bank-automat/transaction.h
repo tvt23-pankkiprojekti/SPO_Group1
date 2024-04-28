@@ -1,35 +1,28 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
-#include <QDialog>
-#include <QString>
-#include <QJsonDocument>
-#include <QJsonObject>
+
+#include <QMainWindow>
 #include <QtNetwork>
-#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QMessageBox>
+#include "env.h"
 
-namespace Ui {
-class transaction;
-}
 
-class transaction : public QDialog{
-    Q_OBJECT
+class transactiontwo
+{
 public:
-    explicit transaction(QWidget *parent = nullptr);
-    ~transaction();
-    void setWebtoken(const QByteArray &newWebtoken);
-    void withdraw();
-    void deposit();
-    void balance();
-private slots:
-    void depositSlot(QNetworkReply *reply);
-    void withdrawSlot(QNetworkReply *reply);
-    void balanceSlot(QNetworkReply *reply);
+    transactiontwo(QMainWindow *mwindow);
+
+    void withdrawFunds(int amount, QString card, QString account, QString token);
+    QString withdrawReplySlot(QNetworkReply *reply);
+    void depositFunds(int amount, QString card, QString account, QString token);
+    QString depositReplySlot(QNetworkReply *reply);
+
 private:
-    QString id_account;
-    QByteArray webtoken;
-    QNetworkAccessManager *getManager;
+    QNetworkAccessManager *networkManager;
     QNetworkReply *reply;
-    QByteArray response_data;
+
+    QMainWindow *window;
 };
 
 #endif // TRANSACTION_H
