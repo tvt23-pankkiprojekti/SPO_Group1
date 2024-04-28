@@ -45,17 +45,23 @@ private slots:
     void onBtnValitseCreditClicked();
     void onBtnValitseDebitClicked();
     void onBtnKirjauduUlosClicked();
+
     void onBtnNostaRahaaClicked();
+
+    void onBtnPaneRahaaClicked();//tama uusi
+
     void onBtnTilitapahtumatClicked();
     void onBtnTakaisinClicked();
     void onBtnTakaisin2Clicked();
     void onBtnTakaisin3Clicked();
     void onBtnKatsoTiedotClicked();
     void muuSummaClicked();
+    void muuSumma_3Clicked();
     void onN20Clicked();
     void onN40Clicked();
     void onN50Clicked();
     void onN100Clicked();
+
     void clearSum();
     void hideLessAndMoreButtons();
     void updateLabelWithdrawSum(int);
@@ -63,6 +69,19 @@ private slots:
     void onLessButtonClicked();
     void withdrawClickHandler();
     void withdrawReplySlot(QNetworkReply *reply);
+
+    void onN20_3Clicked();
+    void onN40_3Clicked();
+    void onN50_3Clicked();
+    void onN100_3Clicked();
+    void onLessButtonClicked_3();
+    void onMoreButtonClicked_3();
+    void clearSum_3();
+    void onBtnTakaisinClicked_3();
+    void updateLabelDepositSum(int);
+    void depositClickHandler();//tama uusi
+    void depositReplySlot(QNetworkReply *reply);//tama uusi
+
     void clearGifs();
     void restartGifs();
     void displayGifsOnStartMenu();

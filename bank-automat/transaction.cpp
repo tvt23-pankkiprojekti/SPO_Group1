@@ -31,7 +31,8 @@ QString transactiontwo::withdrawReplySlot(QNetworkReply *reply)
     qDebug() << "withdrawReplySlot()";
 
     QByteArray data = reply->readAll();
-    qDebug() << data;
+
+    //qDebug() << data;
 
     QString message;
 
@@ -116,3 +117,4 @@ QString transactiontwo::depositReplySlot(QNetworkReply *reply)
 
     return message;
 }
+
