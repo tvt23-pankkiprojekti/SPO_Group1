@@ -3,7 +3,7 @@ const bcrypt=require('bcryptjs');
 
 const user={
     getUser(id_user, callback){
-        return db.query("SELECT fname, lname, state FROM user WHERE id_user = ?", [id_user], callback);
+        return db.query("SELECT u.fname, u.lname, u.state, c.id_card FROM user u INNER JOIN card c ON u.id_user = c.owner WHERE c.owner = ?", [id_user], callback);
     }, // for admins
 
     listAllUsers(callback){
