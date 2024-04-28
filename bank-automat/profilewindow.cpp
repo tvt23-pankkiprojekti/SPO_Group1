@@ -8,9 +8,10 @@ void ProfileWindow::attachWindow(QWidget *window)
     descriptionLabels[1] = window->findChild<QLabel*>("displayAccountID");
     descriptionLabels[2] = window->findChild<QLabel*>("displayAccountOwnerID");
     descriptionLabels[3] = window->findChild<QLabel*>("displayAccountBalance");
-    descriptionLabels[4] = window->findChild<QLabel*>("displayCardID");
-    descriptionLabels[5] = window->findChild<QLabel*>("displayCardOwner");
-    descriptionLabels[6] = window->findChild<QLabel*>("displayCardOwnerID");
+    descriptionLabels[4] = window->findChild<QLabel*>("displayAccountCreditLimit");
+    descriptionLabels[5] = window->findChild<QLabel*>("displayCardID");
+    descriptionLabels[6] = window->findChild<QLabel*>("displayCardOwner");
+    descriptionLabels[7] = window->findChild<QLabel*>("displayCardOwnerID");
 
     table = window->findChild<QTableWidget*>("transactionTable");
 
@@ -31,9 +32,10 @@ void ProfileWindow::updateUserData(QByteArray data)
     descriptionLabels[1]->setText(info["id_account"].toString());
     descriptionLabels[2]->setText(QString::number(info["id_account_owner"].toInt()));
     descriptionLabels[3]->setText(info["balance"].toString());
-    descriptionLabels[4]->setText(info["id_card"].toString());
-    descriptionLabels[5]->setText(info["card_owner"].toString());
-    descriptionLabels[6]->setText(QString::number(info["id_card_owner"].toInt()));
+    descriptionLabels[4]->setText(info["credit_limit"].toString());
+    descriptionLabels[5]->setText(info["id_card"].toString());
+    descriptionLabels[6]->setText(info["card_owner"].toString());
+    descriptionLabels[7]->setText(QString::number(info["id_card_owner"].toInt()));
 
     for (int i = 0; i < 5; i++) {
         QJsonObject transaction = array[i + 1].toObject();

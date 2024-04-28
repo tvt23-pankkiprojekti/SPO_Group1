@@ -937,8 +937,8 @@
          </rect>
         </property>
         <layout class="QGridLayout" name="accountGrid">
-         <item row="1" column="0">
-          <widget class="QLabel" name="labelAccountOwnerID">
+         <item row="4" column="0">
+          <widget class="QLabel" name="labelAccountBalance">
            <property name="font">
             <font>
              <family>Segoe UI</family>
@@ -951,7 +951,25 @@
             <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
-            <string>Account owner ID:</string>
+            <string>Account balance:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="labelAccountID">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Account ID:</string>
            </property>
           </widget>
          </item>
@@ -1009,6 +1027,24 @@
            </property>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelAccountOwnerID">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Account owner ID:</string>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="1" alignment="Qt::AlignLeft">
           <widget class="QLabel" name="displayAccountID">
            <property name="font">
@@ -1027,8 +1063,8 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="labelAccountID">
+         <item row="5" column="0">
+          <widget class="QLabel" name="labelAccountCreditLimit">
            <property name="font">
             <font>
              <family>Segoe UI</family>
@@ -1041,20 +1077,7 @@
             <string notr="true">font: 700 11pt &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
-            <string>Account ID:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="labelAccountBalance">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Account balance:</string>
+            <string>Account credit limit:</string>
            </property>
           </widget>
          </item>
@@ -1062,8 +1085,32 @@
           <widget class="QLabel" name="displayAccountBalance">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>number</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLabel" name="displayAccountCreditLimit">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
             <string>number</string>

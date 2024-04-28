@@ -19,7 +19,7 @@ public:
     void updateUserData(QByteArray data);
 
 private:
-    QLabel *descriptionLabels[7];
+    QLabel *descriptionLabels[8];
     QTableWidgetItem *transactions[3][5];
     QTableWidget *table;
     //QByteArray data;
