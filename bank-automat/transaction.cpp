@@ -1,92 +1,119 @@
 #include "transaction.h"
-//#include "mainwindow.h"
-#include "mainwindow.cpp"
-#include "env.h"
-#include <QDialog>
-#include <qstring.h>
-#include <QtNetwork>
-#include <QNetworkAccessManager>
-#include <QWidget>
 
-transaction::~transaction(){
+transactiontwo::transactiontwo(QMainWindow *mwindow) {
+    window = mwindow;
 }
 
-void transaction::setWebtoken(const QByteArray &newWebtoken){
-    webtoken = newWebtoken;
+void transactiontwo::withdrawFunds(int amount, QString card, QString account, QString token)
+{
+    qDebug() << "withdrawFunds()";
+
+    QJsonObject sentData;
+    sentData.insert("card", card);
+    sentData.insert("account", account);
+    sentData.insert("amount", amount);
+
+    QString url = env::getUrl() + "/transaction/withdraw";
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray myToken="Bearer " + token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+
+    networkManager = new QNetworkAccessManager(window);
+    QAbstractEventDispatcher::connect(networkManager, SIGNAL(finished(QNetworkReply*)), window, SLOT(withdrawReplySlot(QNetworkReply*)));
+
+    reply = networkManager->post(request, QJsonDocument(sentData).toJson());
 }
 
-void transaction::transactionSlot(QNetworkReply *reply){
-    response_data=reply->readAll();
-    qDebug()<<response_data;
-    qDebug()<<"transaction_response_data";
-    //if tarkastukset aka yhteysvika ja tietoa ei saatu viat tähän väliin
+QString transactiontwo::withdrawReplySlot(QNetworkReply *reply)
+{
+    qDebug() << "withdrawReplySlot()";
+
+    QByteArray data = reply->readAll();
+    //qDebug() << data;
+
+    QString message;
+
+    if (data.length() == 0 || data == "-4078") {
+        qDebug() << "Tietoliikenneyhteysvika";
+        message = "Network error";
+        reply->deleteLater();
+        networkManager->deleteLater();
+        return message;
+    }
+
+    if (data == "false") {
+        qDebug() << "Virhe tietojen hankinnassa";
+        message = "Transaction unsuccesful";
+        reply->deleteLater();
+        networkManager->deleteLater();
+        return message;
+    }
+
+    qDebug() << "Money withdrawn successfully";
+
+    reply->deleteLater();
+    networkManager->deleteLater();
+
+    message = "Money withdrawn successfully!";
+
+    return message;
 }
 
-void transaction::deposit(){
-    //json objectiin syöttö
-    QJsonObject depositObj;
-    depositObj.insert("am", amount);
-    depositObj.insert("acc",id_account);
-    //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/deposit";
-    QNetworkRequest request(site_url);
+void transactiontwo::depositFunds(int amount, QString card, QString account, QString token)
+{
+    qDebug() << "depositFunds()";
+    QJsonObject sentData;
+    sentData.insert("card", card);
+    sentData.insert("account", account);
+    sentData.insert("amount", amount);
+
+    QString url = env::getUrl() + "/transaction/deposit";
+    QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //depositObj postaus
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
-    reply = postManager->post(request, QJsonDocument(depositObj).toJson());
+
+    QByteArray myToken="Bearer " + token.toUtf8();
+    request.setRawHeader(QByteArray("Authorization"),(myToken));
+
+    networkManager = new QNetworkAccessManager(window);
+    QAbstractEventDispatcher::connect(networkManager, SIGNAL(finished(QNetworkReply*)), window, SLOT(depositReplySlot(QNetworkReply*)));
+
+    reply = networkManager->post(request, QJsonDocument(sentData).toJson());
 }
-void transaction::withdraw(){
-    //json objectiin syöttö
-    QJsonObject withdrawObj;
-    withdrawObj.insert("am", amount);
-    withdrawObj.insert("acc",id_account);
-    //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/withdraw";
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //depositObj postaus
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
-    reply = postManager->post(request, QJsonDocument(withdrawObj).toJson());
+
+QString transactiontwo::depositReplySlot(QNetworkReply *reply)
+{
+    qDebug() << "depositReplySlot()";
+
+    QByteArray data = reply->readAll();
+    //qDebug() << data;
+
+    QString message;
+
+    if (data.length() == 0 || data == "-4078") {
+        qDebug() << "Tietoliikenneyhteysvika";
+        message = "Network error";
+        reply->deleteLater();
+        networkManager->deleteLater();
+        return message;
+    }
+
+    if (data == "false") {
+        qDebug() << "Virhe tietojen hankinnassa";
+        message = "Transaction unsuccesful";
+        reply->deleteLater();
+        networkManager->deleteLater();
+        return message;
+    }
+
+    qDebug() << "Money deposited successfully";
+
+    reply->deleteLater();
+    networkManager->deleteLater();
+
+    message = "Money deposited successfully!";
+
+    return message;
 }
-void transaction::balance(){
-    //json objectiin syöttö
-    QJsonObject balanceObj;
-    balanceObj.insert("acc",id_account);
-    //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/balance";
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //depositObj postaus
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
-    reply = postManager->post(request, QJsonDocument(balanceObj).toJson());
-}
-void transaction::transactionHistory(){
-    //json objectiin syöttö
-    QJsonObject historyObj;
-    historyObj.insert("acc",id_account);
-    //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/history";
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //depositObj postaus
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
-    reply = postManager->post(request, QJsonDocument(historyObj).toJson());
-}
-void transaction::addTransaction(){
-    QJsonObject addObj;
-    addObj.insert("acc", id_account);
-    addObj.insert("am", amount);
-    addObj.insert("des", description);
-    //urlin asettaminen ja headeri
-    QString site_url=env::getUrl()+"/transaction/addTransaction";
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //depositObj postaus
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
-    reply = postManager->post(request, QJsonDocument(addObj).toJson());
-}
+

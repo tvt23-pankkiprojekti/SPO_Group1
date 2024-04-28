@@ -1,5 +1,4 @@
 QT += gui core serialport widgets
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += network
 
 CONFIG += c++17
@@ -12,14 +11,16 @@ SOURCES += \
     env.cpp \
     main.cpp \
     mainwindow.cpp \
+    profilewindow.cpp \
     transaction.cpp \
-    profilewindow.cpp
+    transactionHistory.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
     profilewindow.h \
     transaction.h \
+    transactionHistory.h
 
 FORMS += \
     mainwindow.ui
@@ -32,7 +33,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     myStyle.qss \
     styles/myStyle.qss \
-    backG.jpg
+    logo.png
+    deco.png
+    card.png
 
 RESOURCES += \
     Retest.qrc

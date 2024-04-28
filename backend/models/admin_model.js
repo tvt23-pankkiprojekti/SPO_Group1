@@ -13,7 +13,6 @@ const admin={
     checkRights(id_admin, callback){
         return db.query("SELECT admin_rights FROM admin WHERE id_admin = ?", [id_admin], callback);
     }, // check admins rights
-
 }
 
 module.exports=admin;

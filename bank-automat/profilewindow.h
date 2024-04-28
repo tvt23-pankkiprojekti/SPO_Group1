@@ -16,10 +16,10 @@ class ProfileWindow : public QWidget
 public:
     ProfileWindow();
     void attachWindow(QWidget *window);
-    void updateUserData(QByteArray *data);
+    void updateUserData(QByteArray data);
 
 private:
-    QLabel *descriptionLabels[6];
+    QLabel *descriptionLabels[8];
     QTableWidgetItem *transactions[3][5];
     QTableWidget *table;
     //QByteArray data;

@@ -4,16 +4,23 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const pug = require('pug');
 
+// netbank
 const netbankRouter = require('./routes/netbank/router');
-const cardVerificationRouter = require('./routes/verifycard');
-const adminRouter = require('./routes/admin/router');
-const viewCardRouter = require('./routes/viewcard');
-const loginRouter = require('./routes/login');
-const transactionRouter = require('./routes/transaction');
-const viewTransactionRouter = require('./routes/viewtransactions');
 
+//admin
+const adminRouter = require('./routes/admin/router');
 const swagger = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
+
+// unverified bankomat
+const loginRouter = require('./routes/login');
+const cardVerificationRouter = require('./routes/verifycard');
+
+//verified bankomat
+const accountRouter = require('./routes/getaccounts');
+const viewCardRouter = require('./routes/viewcard');
+const transactionRouter = require('./routes/transactiontwo');
+const viewTransactionRouter = require('./routes/viewtransactions');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -33,10 +40,12 @@ app.listen(port, function(request, response) {
 app.use('/netbank', netbankRouter);
 app.use('/admin', adminRouter);
 app.use('/bankomat/verifycard', cardVerificationRouter);
-app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/login', loginRouter);
+
+// Token-requiring routes
+app.use('/bankomat/getaccounts', accountRouter);
+app.use('/bankomat/viewprofile', viewCardRouter);
 app.use('/bankomat/transaction', transactionRouter);
 app.use('/bankomat/viewtransactions', viewTransactionRouter);
-//app.use(authenticatetoken);
 
 module.exports = app;

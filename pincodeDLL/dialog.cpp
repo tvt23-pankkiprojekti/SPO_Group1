@@ -7,7 +7,9 @@ Dialog::Dialog(QWidget *parent)
     , ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    ui->line->setMaxLength(3);
+    ui->line->setMaxLength(4);
+
+    ui->line->setEchoMode(QLineEdit::Password); //hides password
 
     connect(ui->enterBtn,SIGNAL(clicked(bool)),
             this,SLOT(clickHandler()));
@@ -22,11 +24,17 @@ Dialog::Dialog(QWidget *parent)
     connect(ui->N8, SIGNAL(clicked()), this, SLOT(onN8Clicked()));
     connect(ui->N9, SIGNAL(clicked()), this, SLOT(onN9Clicked()));
     connect(ui->N0, SIGNAL(clicked()), this, SLOT(onN0Clicked()));
+    connect(this, SIGNAL(finished(int)), this, SLOT(clearLineEdit()));
 }
 
 Dialog::~Dialog()
 {
     delete ui;
+}
+
+QString Dialog::getPincode() const
+{
+    return pincode;
 }
 
 void Dialog::numberClickedHandler()
@@ -111,7 +119,8 @@ void Dialog::onN0Clicked()
     numberClickedHandler();
 }
 
-QString Dialog::getPincode() const
+void Dialog::clearLineEdit()
 {
-    return pincode;
+    ui->line->clear();
 }
+

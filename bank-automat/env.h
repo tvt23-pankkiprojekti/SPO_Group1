@@ -9,6 +9,8 @@ public:
     env();
 
     static QString getUrl();
+    static QString gifFetchArrows();
+    static QString gifFetchMoney();
 };
 
 #endif // ENV_H

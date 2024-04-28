@@ -14,7 +14,7 @@ const transaction={
         return db.query("UPDATE account SET balance = balance + ? WHERE id_account = ?", [am, acc], callback);
     }, //update the account balance by adding the deposited amount
 
-    withdrawFromAccount(acc, am, callback) {
+    withdrawFromAccount(acc, am, callback) {  
         return db.query("UPDATE account SET balance = balance - ? WHERE id_account = ?", [am, acc], callback);
     }, //update the account balance by subtracting the withdrawn amount
 }

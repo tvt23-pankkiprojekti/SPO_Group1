@@ -17,6 +17,7 @@ script.
 html
     head
         title SimulBank
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
     body
         button(type="button" onclick='window.location.href = window.location.href=window.location.origin + "/netbank"') Back
         br
@@ -30,10 +31,10 @@ html
             input(type="text", name="lname", minlength="1", maxlength="45", required)
             br
             label(for="password1") Password: 
-            input(type="password", id="password1", name="password", onkeyup="checkPasswordMatch()", required)
+            input(type="password", id="password1", name="password", onkeyup="checkPasswordMatch()", minlength="8" required)
             br
             label(for="password2") Enter the password again: 
-            input(type="password", id="password2", name="password2", onkeyup="checkPasswordMatch()", required)
+            input(type="password", id="password2", name="password2", onkeyup="checkPasswordMatch()", minlength="8" required)
             br
             button(type="submit", id="submit") Submit
             label(for="submit", id="error")
