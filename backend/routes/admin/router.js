@@ -30,4 +30,8 @@ router.put('/updateuser', function(request, response) {
 router.put('/updatepincode', function(request, response) {
     usercontrols.updatePinCode(request, response);
 });
+
+router.put('/removeTempRestriction', function(request, response) {
+    usercontrols.removeRestriction(request, response);
+});
 module.exports = router;
