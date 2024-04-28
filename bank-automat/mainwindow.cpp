@@ -101,14 +101,26 @@ void MainWindow::displayGifsOnStartMenu()
 
 void MainWindow::clearGifs()
 {
-    arro->movie()->stop();
-    delete arro;
-    arro = nullptr;
+    arro->movie()->setPaused(true);
+    arro->setVisible(false);
+    //delete arro;
+    //arro = nullptr;
 
-    arro2->movie()->stop();
-    delete arro2;
-    arro2 = nullptr;
+    arro2->movie()->setPaused(true);
+    arro2->setVisible(false);
+    //delete arro2;
+    //arro2 = nullptr;
 }
+
+void MainWindow::restartGifs()
+{
+    arro->setVisible(true);
+    arro->movie()->setPaused(false);
+    arro2->setVisible(true);
+    arro2->movie()->setPaused(false);
+}
+
+
 
 void MainWindow::displayMoneyGif()
 {
@@ -174,6 +186,7 @@ void MainWindow::onBtnValitseDebitClicked()
 void MainWindow::onBtnNostaRahaaClicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    clearSum();
 }
 
 void MainWindow::onBtnTakaisinClicked()
@@ -698,8 +711,10 @@ void MainWindow::onBtnKirjauduUlosClicked()
     currentPage = 1;
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
+    restartGifs();
+    //displayGifsOnStartMenu();
 
-    this->close();
-    MainWindow* parent = new MainWindow;
-    parent->show();
+    //this->close();
+    //MainWindow* parent = new MainWindow;
+    //parent->show();
 }

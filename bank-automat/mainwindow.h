@@ -64,6 +64,7 @@ private slots:
     void withdrawClickHandler();
     void withdrawReplySlot(QNetworkReply *reply);
     void clearGifs();
+    void restartGifs();
     void displayGifsOnStartMenu();
     void displayMoneyGif();
     void handleClick();
