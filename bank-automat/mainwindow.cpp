@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->labelKortinTila->setText(QString("Insert your card"));
 
+    //displayMoneyGif();
     //verifyCard(); // Testaukseen ilman kortinlukijaa
 }
 
@@ -77,11 +78,12 @@ void setMessageBoxStyles(QMessageBox& msgBox) {
 
 void MainWindow::displayGifsOnStartMenu()
 {
-    QString gifs = env::gifFetch();
+    QString gifs = env::gifFetchArrows();
     QMovie *movie = new QMovie(gifs);
 
     arro = new QLabel(this);
     arro->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    arro->setAlignment(Qt::AlignCenter);
     arro->setGeometry(145, 350, 250, 250);
     arro->setScaledContents(true);
     arro->setMovie(movie);
@@ -107,21 +109,41 @@ void MainWindow::clearGifs()
     delete arro2;
     arro2 = nullptr;
 }
-/*
+
 void MainWindow::displayMoneyGif()
 {
+    QString gifs = env::gifFetchMoney();
+    QMovie *movie = new QMovie(gifs);
 
     money = new QLabel(this);
-    money->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    money->setGeometry(145, 350, 250, 250);
     money->setScaledContents(true);
     money->setMovie(movie);
 
+    //label = new QLabel("Transaction Successful", this);
+
     movie->start();
+
+    QMessageBox messageBox(this);
+    messageBox.setWindowTitle("Transaction Successful!");
+    //messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.setDefaultButton(QMessageBox::Ok);
+
+    QGridLayout* layout = dynamic_cast<QGridLayout*>(messageBox.layout());
+    if (layout)
+        layout->addWidget(money, 0, 0, 1, layout->columnCount(), Qt::AlignCenter);
+        //layout->addWidget(label, 1, 0, 1, layout->columnCount(), Qt::AlignCenter);
+
+    setMessageBoxStyles(messageBox);
+    messageBox.exec();
+
+    movie->stop();
+    delete movie;
+    delete money;
+    //delete label;
 
     qDebug() << "Moneyyy";
 }
-*/
+
 void MainWindow::loadPorts()
 {
     foreach (auto &port, QSerialPortInfo::availablePorts()) {
@@ -657,6 +679,9 @@ void MainWindow::withdrawReplySlot(QNetworkReply *reply) {
     msgBox.setText(message);
     setMessageBoxStyles(msgBox);
     msgBox.exec();
+    if (message == "Money withdrawn successfully!") {
+        displayMoneyGif();
+    }
     ui->stackedWidget->setCurrentIndex(2);
 }
 

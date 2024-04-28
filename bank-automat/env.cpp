@@ -8,7 +8,12 @@ QString env::getUrl()
     return "https://simulation-bank.onrender.com/bankomat";
 }
 
-QString env::gifFetch()
+QString env::gifFetchArrows()
 {
     return "C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/arrow.gif";
+}
+
+QString env::gifFetchMoney()
+{
+    return "C:/Users/jlesa/OneDrive/School content/Y1/Ohjelmistokehityksen projekti/SPO_Group1/bank-automat/money.gif";
 }
