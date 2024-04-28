@@ -39,6 +39,8 @@ const user={
     getAccountAndCardData(id, callback) {
         return db.query("SELECT id_account AS 'data', 'accounts' AS 'description' FROM account_ownership WHERE id_user = ? UNION SELECT id_card, 'cards' FROM card WHERE owner = ?", [id, id], callback);
     },
+
+    
 }
     
 module.exports=user;

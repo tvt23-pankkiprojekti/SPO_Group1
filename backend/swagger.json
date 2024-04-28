@@ -245,8 +245,44 @@
                     }
                 }
             }
-        }    
-    }
-}
+        },
+            "/admin/removeTempRestriction": {
+              "put": {
+                "description": "Remove temp restriction from card",
+                "produces": "application/json",
+                "consumes": "application/json",
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "id_card": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Temporary restriction removed successfully"
+                  },
+                  "400": {
+                    "description": "Invalid ID supplied"
+                  },
+                  "404": {
+                    "description": "Card not found"
+                  },
+                  "500": {
+                    "description": "Internal server error"
+                  }
+                }
+              }
+            }
+          }   
+        }
+
 
           
