@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var transaction = require('../models/transaction_model');
-var transaction = require('../models/account_model');
+var account = require('../models/account_model');
 const tokenCheck = require('./verifytoken');
 const { token } = require('morgan');
 
@@ -45,17 +45,17 @@ router.get('/transaction',function(request,response){
             response.send(false);
         }
         else {
-    transaction.getTransactionHistory(request.params.transaction, function(err, result){
-        if(err) {
-          response.send(err);
-        }
-        else {
-          console.log(result);
-          response.json(result[0]);
+            transaction.getTransactionHistory(request.params.transaction, function(err, result){
+                if(err) {
+                response.send(err);
+                }
+                else {
+                console.log(result);
+                response.json(result[0]);
+                }
+            });
         }
     });
-}
-});
 });
 
 router.post('/withdraw',function(request, response){
@@ -68,17 +68,17 @@ router.post('/withdraw',function(request, response){
             response.send(false);
         }
         else {
-    transaction.addTransaction(request.body.account, request.body.amount, message, function(err, result){
-        if(err){
-            response.send(err);
-        }
-        else {
-            console.log(result);
-            response.json(result[0]);
+            transaction.addTransaction(request.body.account, request.body.amount, message, function(err, result){
+                if(err){
+                    response.send(err);
+                }
+                else {
+                    console.log(result);
+                    response.json(result[0]);
+                }
+            });
         }
     });
-}
-});
 });
 
 router.post('/deposit',function(request, response){
@@ -91,17 +91,17 @@ router.post('/deposit',function(request, response){
             response.send(false);
         }
         else {
-    transaction.addTransaction(request.body.account, request.body.amount, message, function(err, result){
-        if(err) {
-            response.send(err);
-        }
-        else {
-            console.log(result);
-            response.json(result[0]);
+            transaction.addTransaction(request.body.account, request.body.amount, message, function(err, result){
+                if(err) {
+                    response.send(err);
+                }
+                else {
+                    console.log(result);
+                    response.json(result[0]);
+                }
+            });
         }
     });
-}
-});
 });
 
 router.post('/addtobalance', function(request, response) {
@@ -112,27 +112,27 @@ router.post('/addtobalance', function(request, response) {
             response.send(false);
         }
         else {
-    transaction.addTransaction(request.body.account, request.body.amount,function(err, result) {
-        if (err) {
-            response.send(err);
-        }
-        else{
-            console.log(result);
-            response.json(result[0]);
-        }
+            transaction.addTransaction(request.body.account, request.body.amount,function(err, result) {
+                if (err) {
+                    response.send(err);
+                }
+                else{
+                    console.log(result);
+                    response.json(result[0]);
+                }
 
-        transaction.depositToAccount(request.body.account, request.body.amount, function(err, result) {
-            if (err) {
-                response.send(err);
-            }
-            else{
-                console.log(result);
-                response.json(result[0]);
-            }
-        });
+                transaction.depositToAccount(request.body.account, request.body.amount, function(err, result) {
+                    if (err) {
+                        response.send(err);
+                    }
+                    else{
+                        console.log(result);
+                        response.json(result[0]);
+                    }
+                });
+            });
+        }
     });
-}
-});
 });
 
 

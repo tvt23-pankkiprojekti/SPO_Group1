@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ptr_dll = new Dialog(this);
+    transaction = new transactiontwo(this);
 
     ui->setupUi(this);
     loadPorts();
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearBtn, SIGNAL(clicked()), this, SLOT(clearSum()));
     connect(ui->lessBtn, SIGNAL(clicked()), this, SLOT(onLessButtonClicked()));
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
-    //connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
+    connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -594,6 +595,7 @@ void MainWindow::onnextButtonclicked()
     checkPage();
 }
 
+
 /* Withdrawing funds
  */
 //buttons
@@ -667,6 +669,25 @@ void MainWindow::onLessButtonClicked()
         newValue = 0;
 
     ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::withdrawClickHandler()
+{
+    int amount = ui->labelWithdrawSum->text().replace("€", "").toInt();
+    qDebug() << amount;
+    transaction->withdrawFunds(amount, cardNo, accountNo, token);
+}
+
+void MainWindow::withdrawReplySlot(QNetworkReply *reply) {
+    QString message = transaction->withdrawReplySlot(reply);
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    setMessageBoxStyles(msgBox);
+    msgBox.exec();
+    if (message == "Money withdrawn successfully!") {
+        displayMoneyGif();
+    }
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 

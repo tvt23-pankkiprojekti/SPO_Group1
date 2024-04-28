@@ -56,12 +56,23 @@ function verifyCard(request, response) {
                 cardStatus = false;
             }
             else {
+                if (res[0]['temp_restriction'] != null) {
+                    card.removeTempRestriction(request.body['card'], function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                }
                 // Compare the current date to the card's expiration date
                 // Code below transforms card & current date to 'YYYY-MM-DD' formats
                 let cardDate = new Date(res[0]['expiration']).toISOString().split('T')[0];
                 let thisDate = new Date(Date.now()).toISOString().split('T')[0];
                 if (cardDate < thisDate) {
-                    card.updateExpiration(res[0]['id_card']);
+                    card.cardExpired(res[0]['id_card'], function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
                     cause = cause + "card expired";
                     cardStatus = false;
                 }

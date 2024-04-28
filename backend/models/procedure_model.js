@@ -46,6 +46,14 @@ function addAuthorizedCard(data, callback) {
     });
 }
 
+/* Does:
+    - deduct/add the amount to the account
+    - create a transaction record 
+*/
+function bankomatTransaction(data, callback) {
+    return db.query("CALL bankomatTransaction(?, ?, ?, ?)", [data.id_account, data.credit_limit, data.amount, data.description], callback);
+}
+
 /*  Does:
     - deduct the amount from account one
     - add the amount to account two
@@ -60,5 +68,6 @@ module.exports = {
     newAccount,
     newCard,
     addAuthorizedCard,
+    bankomatTransaction,
     accountToAccountTransaction
 }
