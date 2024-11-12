@@ -19,6 +19,9 @@ Me: Backend servers, display of user data, general digestion of what is supposed
 The frontend was written in C++ and used Qt Creator's UI tools. The backend was Node.js-enabled JavaScript and hosted on Render for 24/7 access. The database utilised MySQL and was put into the cloud service provider Aiven for the final product and ease of access.
 
 ## Samples
+#### The card reader and "cards" used
+![Faux cards](readme_images/bankomat_cards.png?raw=true "Faux cards")
+
 #### Starting window with PIN entry
 ![PIN request](readme_images/bankomat_pin.png?raw=true "PIN request")
 
