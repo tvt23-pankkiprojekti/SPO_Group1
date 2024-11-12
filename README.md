@@ -1,11 +1,11 @@
 # The SimulBank Project
 
-A year 1 group project with the goal was to create a mock ATM. This included reading data from a serial port connected to a card reader, creating the bankomat program, connecting the bankomat to a backend server and connecting that server to a database with user information.
+A year 1 group project with the goal was to create a mock ATM. This included reading data from a serial port connected to a card reader, creating the bankomat program, connecting the bankomat to a backend server and connecting that server to a database with user information. As bonuses we also added a Swagger interface for documentation and admin controls, and a netbank component.
 
 ## Participants and credits
-Everyone was involved in all sections and/or tools of the specified product, but specializations and extras include:
+Everyone was involved in all sections and/or tools of the base product, but specializations and extras include:
 
-Me: Backend servers, display of user data, general digestion of what is supposed to be done, netbank (with user and card creation options).
+Me: Backend servers, display of user data, general digestion of what is supposed to be done, netbank.
 
 [@KarolusPaulus](https://github.com/KarolusPaulus): PIN code module and its conversion into a separate library, visuals.
 
@@ -30,6 +30,9 @@ The frontend was written in C++ and used Qt Creator's UI tools. The backend was 
 
 #### User profile window
 ![Bankomat user details](readme_images/bankomat_user.png?raw=true "Bankomat user details")
+
+#### Snippet from the Swagger page
+![Swagger page](readme_images/swagger.png?raw=true "Swagger page")
 
 #### The structure of the system
 ![General structure](readme_images/structure.png?raw=true "General structure")
