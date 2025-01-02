@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnValitseDebit, SIGNAL(clicked()), this, SLOT(onBtnValitseDebitClicked()));
     connect(ui->btnKirjauduUlos, SIGNAL(clicked()), this, SLOT(onBtnKirjauduUlosClicked()));
     connect(ui->btnNostaRahaa, SIGNAL(clicked()), this, SLOT(onBtnNostaRahaaClicked()));
+    connect(ui->btnPaneRahaa, SIGNAL(clicked()), this, SLOT(onBtnPaneRahaaClicked()));//uusi
     connect(ui->btnTilitapahtumat, SIGNAL(clicked()), this, SLOT(onBtnTilitapahtumatClicked()));
     connect(ui->btnTakaisin, SIGNAL(clicked()), this, SLOT(onBtnTakaisinClicked()));
     connect(ui->btnTakaisin2, SIGNAL(clicked()), this, SLOT(onBtnTakaisin2Clicked()));
@@ -49,6 +50,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moreBtn, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked()));
     connect(ui->withdrawBtn,SIGNAL(clicked(bool)), this,SLOT(withdrawClickHandler()));
 
+//uutta deposittia
+    connect(ui->btnTakaisin_3, SIGNAL(clicked()), this, SLOT(onBtnTakaisinClicked_3()));
+    connect(ui->muuSumma, SIGNAL(clicked()), this, SLOT(muuSummaClicked()));
+    connect(ui->N20_3, SIGNAL(clicked()), this, SLOT(onN20_3Clicked()));
+    connect(ui->N40_3, SIGNAL(clicked()), this, SLOT(onN40_3Clicked()));
+    connect(ui->N50_3, SIGNAL(clicked()), this, SLOT(onN50_3Clicked()));
+    connect(ui->N100_3, SIGNAL(clicked()), this, SLOT(onN100_3Clicked()));
+    connect(ui->clearBtn_3, SIGNAL(clicked()), this, SLOT(clearSum_3()));
+    connect(ui->lessBtn_3, SIGNAL(clicked()), this, SLOT(onLessButtonClicked_3()));
+    connect(ui->moreBtn_3, SIGNAL(clicked()), this, SLOT(onMoreButtonClicked_3()));
+    connect(ui->depositBtn,SIGNAL(clicked(bool)), this,SLOT(depositClickHandler()));
+
     ui->stackedWidget->setCurrentIndex(0);
 
     displayGifsOnStartMenu();
@@ -61,7 +74,6 @@ MainWindow::MainWindow(QWidget *parent)
     eventData->attachWindow(ui->stackedWidget);
 
     ui->labelKortinTila->setText(QString("Insert your card"));
-    //verifyCard(); // Testaukseen ilman kortinlukijaa
 }
 
 void setMessageBoxStyles(QMessageBox& msgBox) {
@@ -101,13 +113,9 @@ void MainWindow::clearGifs()
 {
     arro->movie()->setPaused(true);
     arro->setVisible(false);
-    //delete arro;
-    //arro = nullptr;
 
     arro2->movie()->setPaused(true);
     arro2->setVisible(false);
-    //delete arro2;
-    //arro2 = nullptr;
 }
 
 void MainWindow::restartGifs()
@@ -119,7 +127,8 @@ void MainWindow::restartGifs()
 }
 
 
-
+/* Sets up a box that displays a gif (shown after you withdraw money)
+ */
 void MainWindow::displayMoneyGif()
 {
     QString gifs = env::gifFetchMoney();
@@ -154,6 +163,8 @@ void MainWindow::displayMoneyGif()
     qDebug() << "Moneyyy";
 }
 
+
+// Sets up data about the ports available for the card reader(?)
 void MainWindow::loadPorts()
 {
     foreach (auto &port, QSerialPortInfo::availablePorts()) {
@@ -181,9 +192,17 @@ void MainWindow::onBtnValitseDebitClicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+// Specifically the "nosta rahaa" button which takes you to the withdrawal window
+// (not the one that actually activates the transfer)
 void MainWindow::onBtnNostaRahaaClicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    clearSum();
+}
+
+void MainWindow::onBtnPaneRahaaClicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
     clearSum();
 }
 
@@ -202,6 +221,10 @@ void MainWindow::onBtnTakaisin3Clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::onBtnTakaisinClicked_3()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
 void MainWindow::onBtnOpenPortclicked()
 {
     if (_serialPort != nullptr) {
@@ -230,6 +253,10 @@ void MainWindow::onBtnOpenPortclicked()
         setMessageBoxStyles(msgBox);
         msgBox.exec();
     }
+
+    // Debug
+    //cardNo = "060006E2E7";
+    //verifyCard();
 }
 
 
@@ -259,7 +286,9 @@ void MainWindow::readData()
 }
 
 
-/*
+
+/*  Sends the card number back to the server & asks whether the card is good for use
+ *  at the bankomat (check includes making sure the card is in the database and unrestricted)
  */
 void MainWindow::verifyCard()
 {
@@ -313,11 +342,13 @@ void MainWindow::cardVerificationSlot(QNetworkReply *cardVerificationReply)
 
 /* Login
  */
+// Brings up the pin code window
 void MainWindow::handleClick()
 {
     ptr_dll->show();
 }
 
+// Once you've entered a pin and clicked "enter" to login
 void MainWindow::onBtnEnterPinClicked()
 {
     qDebug()<<"enter clicked";
@@ -359,7 +390,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             token = data;
             qDebug() << "loginSlot(), data wasn't false";
             checkAttachedAccounts();
-            qDebug() << "data";
+
             if (arro && arro2) {
                 clearGifs();
             }
@@ -400,7 +431,6 @@ void MainWindow::checkAttachedAccounts()
 void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
 {
     qDebug() << "attachedAccountCheckSlot()";
-    qDebug() << ui->stackedWidget->widget(2);
 
     QByteArray data = reply->readAll();
     QMessageBox msgBox;
@@ -420,7 +450,6 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         //qDebug() << dataUnpacked;
 
         QJsonArray array = dataUnpacked.array();
-        qDebug() << array.size();
 
         if (array.size() < 1) {
             msgBox.setText("No accounts attached to this card");
@@ -444,10 +473,8 @@ void MainWindow::attachedAccountCheckSlot(QNetworkReply *reply)
         }
         else {
             accountNo = array[0].toObject()["id_account"].toString();
-            qDebug() << accountNo;
-            qDebug() << ui->stackedWidget->currentIndex();
+
             ui->stackedWidget->setCurrentIndex(2);
-            qDebug() << "Ei vaan suostu siirtymään";
         }
     }
 
@@ -647,6 +674,37 @@ void MainWindow::onN100Clicked()
     updateLabelWithdrawSum(100);
 }
 
+void MainWindow::muuSumma_3Clicked()
+{
+    clearSum();
+    ui->lessBtn->setVisible(true);
+    ui->moreBtn->setVisible(true);
+}
+
+void MainWindow::onN20_3Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelDepositSum(20);
+}
+
+void MainWindow::onN40_3Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelDepositSum(40);
+}
+
+void MainWindow::onN50_3Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelDepositSum(50);
+}
+
+void MainWindow::onN100_3Clicked()
+{
+    hideLessAndMoreButtons();
+    updateLabelDepositSum(100);
+}
+
 void MainWindow::clearSum()
 {
     ui->lessBtn->setVisible(false);
@@ -654,9 +712,21 @@ void MainWindow::clearSum()
     ui->labelWithdrawSum->setText("0€");
 }
 
+void MainWindow::clearSum_3()
+{
+    ui->lessBtn->setVisible(false);
+    ui->moreBtn->setVisible(false);
+    ui->labelDepositSum->setText("0€");
+}
+
 void MainWindow::updateLabelWithdrawSum(int value)
 {
     ui->labelWithdrawSum->setText(QString::number(value) + "€");
+}
+
+void MainWindow::updateLabelDepositSum(int value)
+{
+    ui->labelDepositSum->setText(QString::number(value) + "€");
 }
 
 void MainWindow::hideLessAndMoreButtons()
@@ -686,6 +756,48 @@ void MainWindow::onLessButtonClicked()
         newValue = 0;
 
     ui->labelWithdrawSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::onMoreButtonClicked_3()
+{
+    QString currentText = ui->labelDepositSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue + 10;
+
+    ui->labelDepositSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::onLessButtonClicked_3()
+{
+    QString currentText = ui->labelDepositSum->text();
+
+    int currentValue = currentText.replace("€", "").toInt();
+    int newValue = currentValue - 10;
+
+    if(newValue < 0)
+        newValue = 0;
+
+    ui->labelDepositSum->setText(QString::number(newValue) + "€");
+}
+
+void MainWindow::depositClickHandler()
+{
+    int amount = ui->labelDepositSum->text().replace("€", "").toInt();
+    qDebug() << amount;
+    transaction->depositFunds(amount, cardNo, accountNo, token);
+}
+
+void MainWindow::depositReplySlot(QNetworkReply *reply) {
+    QString message = transaction->depositReplySlot(reply);
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    setMessageBoxStyles(msgBox);
+    msgBox.exec();
+    if (message == "Money deposited successfully!") {
+        displayMoneyGif();
+    }
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::withdrawClickHandler()
@@ -721,9 +833,4 @@ void MainWindow::onBtnKirjauduUlosClicked()
     maxPage = 1;
     ui->stackedWidget->setCurrentIndex(0);
     restartGifs();
-    //displayGifsOnStartMenu();
-
-    //this->close();
-    //MainWindow* parent = new MainWindow;
-    //parent->show();
 }

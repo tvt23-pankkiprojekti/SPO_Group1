@@ -35,13 +35,13 @@ router.post('/withdraw', function (request, response) {
                         }
                         else {
                             //console.log(result);
-                            if (result['affectedRows'] > 0) {
+                            if (result['affectedRows'] == 0) {
                                 console.log("Withdrawal attempted from account " + request.body['account'] + ", balance too low.")
-                                response.send(true);
+                                response.send(false);
                             }
                             else {
                                 console.log("Withdrawal from account " + request.body['account'] + ", amount" + request.body['amount'])
-                                response.send(false);
+                                response.send(true);
                             }
                         }
                     });

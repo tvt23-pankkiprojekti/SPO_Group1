@@ -1,5 +1,5 @@
-#ifndef TRANSACTIONTWO_H
-#define TRANSACTIONTWO_H
+#ifndef TRANSACTION_H
+#define TRANSACTION_H
 
 #include <QMainWindow>
 #include <QtNetwork>
@@ -15,6 +15,8 @@ public:
 
     void withdrawFunds(int amount, QString card, QString account, QString token);
     QString withdrawReplySlot(QNetworkReply *reply);
+    void depositFunds(int amount, QString card, QString account, QString token);
+    QString depositReplySlot(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *networkManager;
@@ -23,4 +25,4 @@ private:
     QMainWindow *window;
 };
 
-#endif // TRANSACTIONTWO_H
+#endif // TRANSACTION_H

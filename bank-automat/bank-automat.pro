@@ -1,4 +1,5 @@
-QT += gui core serialport widgets
+QT       += core gui serialport widgets
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += network
 
 CONFIG += c++17
@@ -8,19 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    env.cpp \
     main.cpp \
     mainwindow.cpp \
+    env.cpp \
+    transaction.cpp \
     profilewindow.cpp \
-    transactionHistory.cpp \
-    transactiontwo.cpp
+    transactionHistory.cpp
 
 HEADERS += \
     mainwindow.h \
     env.h \
+    transaction.h \
     profilewindow.h \
-    transactionHistory.h \
-    transactiontwo.h
+    transactionHistory.h
 
 FORMS += \
     mainwindow.ui
